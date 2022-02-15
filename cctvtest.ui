@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>cctvTest</class>
+ <widget class="QWidget" name="cctvTest">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>cctvTest</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#cctvTest { 
+background-image: url(:/res/bg_system0.png);} 
+#cctvTest * { 
+border-image:url(); 
+}</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>832</x>
+     <y>0</y>
+     <width>192</width>
+     <height>624</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/res/br1.png);
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="monitorpushButton">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>220</y>
+     <width>191</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+
+QPushButton{
+background-color: rgb(53, 186, 180);
+font: 16pt &quot;Ubuntu&quot;;
+color: rgb(255, 255, 255);
+}
+
+QPushButton:pressed{
+font: 16pt &quot;Ubuntu&quot;;
+color: rgb(255, 255, 255);
+background-color: rgb(16, 231, 231);
+}
+
+
+</string>
+   </property>
+   <property name="text">
+    <string>监控管理</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="signalBUtton">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>350</y>
+     <width>96</width>
+     <height>73</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/btn_02_nor.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="fourpushButton">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>350</y>
+     <width>96</width>
+     <height>73</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/btn_01_nor.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="startpushButton">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>440</y>
+     <width>96</width>
+     <height>73</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/btn_03_nor.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="stoppushButton">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>440</y>
+     <width>96</width>
+     <height>73</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/btn_04_nor.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>624</y>
+     <width>1024</width>
+     <height>144</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/res/bg_bottom_2.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_1_5">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/27_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_1_7">
+   <property name="geometry">
+    <rect>
+     <x>75</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/29_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_1_6">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/1_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_1_8">
+   <property name="geometry">
+    <rect>
+     <x>75</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/31_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_1_4">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/5_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_1_3">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/4_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_1_1">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/2_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_1_2">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/3_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2_4">
+   <property name="geometry">
+    <rect>
+     <x>325</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/9_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2_3">
+   <property name="geometry">
+    <rect>
+     <x>325</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/8_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2_1">
+   <property name="geometry">
+    <rect>
+     <x>265</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/6_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2_2">
+   <property name="geometry">
+    <rect>
+     <x>265</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/7_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3_4">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/13_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3_3">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/12_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3_2">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/11_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3_1">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/10_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4_3">
+   <property name="geometry">
+    <rect>
+     <x>575</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/16_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4_1">
+   <property name="geometry">
+    <rect>
+     <x>515</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/14_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4_2">
+   <property name="geometry">
+    <rect>
+     <x>515</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/15_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4_4">
+   <property name="geometry">
+    <rect>
+     <x>575</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/17_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5_4">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/21_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5_1">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/18_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5_3">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/20_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5_2">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/19_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6_1">
+   <property name="geometry">
+    <rect>
+     <x>765</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/22_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6_2">
+   <property name="geometry">
+    <rect>
+     <x>765</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/23_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6_4">
+   <property name="geometry">
+    <rect>
+     <x>825</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/25_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6_3">
+   <property name="geometry">
+    <rect>
+     <x>825</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/24_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6_6">
+   <property name="geometry">
+    <rect>
+     <x>955</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/26_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6_8">
+   <property name="geometry">
+    <rect>
+     <x>895</x>
+     <y>700</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/32_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6_7">
+   <property name="geometry">
+    <rect>
+     <x>895</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/30_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6_5">
+   <property name="geometry">
+    <rect>
+     <x>955</x>
+     <y>650</y>
+     <width>55</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/res/28_act.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="datelabel">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>90</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="weeklabel">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>120</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="timelabel">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>150</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>monitorpushButton</zorder>
+  <zorder>fourpushButton</zorder>
+  <zorder>signalBUtton</zorder>
+  <zorder>startpushButton</zorder>
+  <zorder>stoppushButton</zorder>
+  <zorder>label_2</zorder>
+  <zorder>pushButton_1_5</zorder>
+  <zorder>pushButton_1_7</zorder>
+  <zorder>pushButton_1_6</zorder>
+  <zorder>pushButton_1_8</zorder>
+  <zorder>pushButton_1_4</zorder>
+  <zorder>pushButton_1_3</zorder>
+  <zorder>pushButton_1_1</zorder>
+  <zorder>pushButton_1_2</zorder>
+  <zorder>pushButton_2_4</zorder>
+  <zorder>pushButton_2_3</zorder>
+  <zorder>pushButton_2_1</zorder>
+  <zorder>pushButton_2_2</zorder>
+  <zorder>pushButton_3_4</zorder>
+  <zorder>pushButton_3_3</zorder>
+  <zorder>pushButton_3_2</zorder>
+  <zorder>pushButton_3_1</zorder>
+  <zorder>pushButton_4_3</zorder>
+  <zorder>pushButton_4_1</zorder>
+  <zorder>pushButton_4_2</zorder>
+  <zorder>pushButton_4_4</zorder>
+  <zorder>pushButton_5_4</zorder>
+  <zorder>pushButton_5_1</zorder>
+  <zorder>pushButton_5_3</zorder>
+  <zorder>pushButton_5_2</zorder>
+  <zorder>pushButton_6_1</zorder>
+  <zorder>pushButton_6_2</zorder>
+  <zorder>pushButton_6_4</zorder>
+  <zorder>pushButton_6_3</zorder>
+  <zorder>pushButton_6_6</zorder>
+  <zorder>pushButton_6_8</zorder>
+  <zorder>pushButton_6_7</zorder>
+  <zorder>pushButton_6_5</zorder>
+  <zorder>datelabel</zorder>
+  <zorder>weeklabel</zorder>
+  <zorder>timelabel</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

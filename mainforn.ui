@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mainforn</class>
+ <widget class="QWidget" name="mainforn">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="sysyPushButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>511</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background-color: rgb(23, 119, 244);
+
+}
+
+QPushButton:pressed{
+	background-color: rgb(252, 233, 79);
+}</string>
+   </property>
+   <property name="text">
+    <string>系统管理</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="recpushButton">
+   <property name="geometry">
+    <rect>
+     <x>512</x>
+     <y>0</y>
+     <width>512</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+background-color: rgb(23, 119, 244);
+
+}
+
+QPushButton:pressed{
+	background-color: rgb(252, 233, 79);
+}</string>
+   </property>
+   <property name="text">
+    <string>录像管理</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
