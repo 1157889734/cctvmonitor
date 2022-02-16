@@ -20,9 +20,9 @@
 
 #include "pmsgproc.h"
 #include "multicast.h"
-#include "state.h"
-#include "log.h"
-#include "debug.h"
+#include "state/state.h"
+#include "log/log.h"
+#include "debugout/debug.h"
 
 
 
@@ -196,7 +196,7 @@ int ParseBroadcastSysData(char *pcBuf, int iLen)
 	   }
 	   else
 	   {
-	   		SetPecuFirstWarnVideoIdx(-1);   //没有报警	
+	   		SetPecuFirstWarnVideoIdx(-1);   //没有报警	
 	   }
 	   SetPecuWarnInfo(iPecu);
        DebugPrint(DEBUG_PIS_WARN,"SetPecuWarnInfo:iPecu =%d",iPecu);

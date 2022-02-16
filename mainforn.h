@@ -21,6 +21,10 @@ public:
 public slots:
     void showMainfornPage();
     void menuButtonClick();
+    void hidePageSlots();
+
+signals:
+    void sendhidesignal();
 
 
 private:

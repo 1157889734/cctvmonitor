@@ -14,6 +14,8 @@ class sysManage : public QWidget
 public:
     explicit sysManage(QWidget *parent = nullptr);
     ~sysManage();
+    void getTrainConfig();     //获取车型配置信息
+
 
 public slots:
     void hideSysPageSlots();

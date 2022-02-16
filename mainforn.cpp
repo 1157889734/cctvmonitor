@@ -14,10 +14,13 @@ mainforn::mainforn(QWidget *parent) :
     g_sysManage->setGeometry(0,60,g_sysManage->width(),g_sysManage->height());
 
     g_recordManage->hide();
-    g_sysManage->hide();
+    g_sysManage->show();
 
     connect(ui->sysyPushButton,SIGNAL(clicked()),this,SLOT(menuButtonClick()));
     connect(ui->recpushButton,SIGNAL(clicked()),this,SLOT(menuButtonClick()));
+    connect(g_recordManage,SIGNAL(hideRecSysPage()),this,SLOT(hidePageSlots()));
+    connect(g_sysManage,SIGNAL(hideSysPage()),this,SLOT(hidePageSlots()));
+
 
 
     ui->sysyPushButton->setChecked(true);
@@ -28,11 +31,27 @@ mainforn::mainforn(QWidget *parent) :
 
 mainforn::~mainforn()
 {
+    delete g_recordManage;
+    g_recordManage =  NULL;
+
+    delete g_sysManage;
+    g_sysManage = NULL;
+
     delete ui;
 }
 
+void mainforn::hidePageSlots()
+{
+    this->hide();
+    emit  sendhidesignal();
+}
+
+
 void mainforn::showMainfornPage()
 {
+    ui->sysyPushButton->setStyleSheet("background-color: rgb(252, 233, 79)");
+    ui->recpushButton->setStyleSheet("background-color: rgb(23, 119, 244)");
+    g_sysManage->show();
     this->show();
 }
 
@@ -47,14 +66,19 @@ void mainforn::menuButtonClick()
     }
     if (Sender->objectName() == "sysyPushButton")     //受电弓监控按钮被按，则切换到受电弓监控页面
     {
-        g_sysManage->hide();
-        g_recordManage->show();
+        ui->sysyPushButton->setStyleSheet("background-color: rgb(252, 233, 79)");
+        ui->recpushButton->setStyleSheet("background-color: rgb(23, 119, 244)");
+
+        g_sysManage->show();
+        g_recordManage->hide();
 
     }
     else
     {
-        g_sysManage->show();
-        g_recordManage->hide();
+        ui->sysyPushButton->setStyleSheet("background-color: rgb(23, 119, 244)");
+        ui->recpushButton->setStyleSheet("background-color: rgb(252, 233, 79)");
+        g_sysManage->hide();
+        g_recordManage->show();
     }
 
 }

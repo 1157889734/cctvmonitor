@@ -14,8 +14,8 @@
 #include "types.h"
 #include "pmsgcli.h"
 #include "./include/mutex.h"
-#include "debug.h"
-#include "state.h"
+#include "debugout/debug.h"
+#include "state/state.h"
 
 
 typedef struct _T_PMSG_CONN_INFO

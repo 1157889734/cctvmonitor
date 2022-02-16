@@ -6,6 +6,7 @@
 #include "QTimer"
 #include <QButtonGroup>
 #include <QWidget>
+#include "playwind.h"
 #include "playwidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -25,6 +26,11 @@ public:
     void PlayCtrlFun();
     int FindCameBtnInfo(QAbstractButton* pbtn,int &iGroup,int &iNo);
     void PlayStyleChanged();
+    void FourPlayStyle();
+    void SinglePlayStyle();
+    void UpdateWarnBtn();
+    bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
+
 
 
     playwidget *m_playWidget[4];
@@ -39,8 +45,8 @@ public:
 
     QIcon  pImageBtn[32][5];
 
-    QPushButton *m_buttonFire[6];//烟火报警的图标
-    QPushButton *m_buttonDoor[24];//门禁报警的图标
+    QPushButton *m_pBoxFire[6];//烟火报警的图标
+    QPushButton *m_pBoxDoor[24];//门禁报警的图标
     QPushButton *m_pBoxDoorClip[24];//门夹报警的图标
     QPushButton *m_pBoxPecu[24];//PECU报警的图标
     char			m_acFireWarnInfo[6];	//烟火报警的值
@@ -61,17 +67,20 @@ public:
     time_t 			m_tLastTime;		//播放按钮点击的最后时间  避免视频切换太快
     struct timeval  m_tPrevClickTime;   //全屏切换上次点击的时间 避免全屏非全屏切换太快
     unsigned int    m_iPecuInfo;		//Pecu报警的值
-
+    int m_iMousePosX;
+    int m_iMousePosY;
 
 
 public slots:
+    void showcctvPage();
     void showMonitorPage();
     void sigalePageSlot();
     void fourPageSlot();
     void cycleSlot();
     void timeupdateSlot();
     void updatePlaySlot();
-    void PlayWidCicked(QPoint pos);
+    void updateWarnInfoSLot();
+    void PlayWidCicked(int index);
     void GroupButtonClickSlot(QAbstractButton* btn);
     void GroupButtonFireSlot(int index);
     void GroupButtonDoorSlot(int index);
@@ -81,10 +90,12 @@ public slots:
 
 signals:
     void showMonitorSignal();
+    void sendWindIndexSignal(int index);
 private:
     Ui::cctvTest *ui;
     QTimer *UpdateTimer;
     QTimer *updatePlayTimer;
+    QTimer *updateWarnTimer;
 
 };
 #endif // CCTVTEST_H

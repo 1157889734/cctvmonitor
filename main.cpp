@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     int iRet = 0;
     T_LOG_INFO tLog;
+    LOG_Init(LOG_FILE_DIR);    //本地日志模块初始化
 
     GetTLCDSoftVersion(g_acCCTVVersion,sizeof(g_acCCTVVersion));
     memset(&tLog,0,sizeof(tLog));
@@ -60,23 +61,22 @@ int main(int argc, char *argv[])
     LOG_WriteLog(&tLog);
 
     DebugInit(DEBUG_PORT);    //调试信息模块初始化
-    LOG_Init(LOG_FILE_DIR);    //本地日志模块初始化
 
     iRet = STATE_Init();
     if(0 != iRet)
     {
-        g_cctvtest = new cctvTest();
-        g_cctvtest->show();
-
 
     }
+    g_cctvtest = new cctvTest();
+    g_cctvtest->show();
 
     g_mainforn = new mainforn();
+//    g_mainforn->setStyleSheet("border-image: url();background-image:url(:/res/bg_system0.png)");
     g_mainforn->hide();
 
 
     NVR_init();
-    InitPmsgproc();
+//    InitPmsgproc();
 
     g_hResUpdate = PMSG_CreateResConn(12016);
 
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     }
 
     QObject::connect(g_cctvtest,SIGNAL(showMonitorSignal()),g_mainforn,SLOT(showMainfornPage()));
-
+    QObject::connect(g_mainforn,SIGNAL(sendhidesignal()),g_cctvtest,SLOT(showcctvPage()));
 
     return a.exec();
 

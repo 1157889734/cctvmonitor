@@ -2,20 +2,22 @@
 #define PLAYWIDGET_H
 
 #include <QWidget>
+#include <QLabel>
+#include <QObject>
 
-class playwidget:public QWidget
+class playwidget:public QLabel
 {
     Q_OBJECT
 
 
 public:
-    playwidget(QWidget *parent = 0);
+    playwidget(QLabel *parent = 0);
     ~playwidget();
 
 
 signals:
 //    void clicked();
-    void sendClickSignal(QPoint mousePos);
+    void sendClickSignal(QObject* sender);
 
 public slots:
 //    void mouseClicked();

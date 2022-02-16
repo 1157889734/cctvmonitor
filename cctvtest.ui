@@ -14,11 +14,7 @@
    <string>cctvTest</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#cctvTest { 
-background-image: url(:/res/bg_system0.png);} 
-#cctvTest * { 
-border-image:url(); 
-}</string>
+   <string notr="true"/>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -40,7 +36,7 @@ border-image:url();
   <widget class="QPushButton" name="monitorpushButton">
    <property name="geometry">
     <rect>
-     <x>830</x>
+     <x>831</x>
      <y>220</y>
      <width>191</width>
      <height>81</height>
@@ -669,8 +665,15 @@ background-color: rgb(16, 231, 231);
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);
+font: 12pt &quot;Ubuntu&quot;;</string>
+   </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="weeklabel">
@@ -682,8 +685,15 @@ background-color: rgb(16, 231, 231);
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);
+font: 12pt &quot;Ubuntu&quot;;</string>
+   </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="timelabel">
@@ -695,8 +705,15 @@ background-color: rgb(16, 231, 231);
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);
+font: 12pt &quot;Ubuntu&quot;;</string>
+   </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <zorder>label</zorder>

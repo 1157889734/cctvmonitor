@@ -11,17 +11,17 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 
 
-QMAKE_CFLAGS += $(STRIP) $(TAR_FILE)
-QMAKE_CXXFLAGS += $(STRIP) $(TAR_FILE)
+#QMAKE_CFLAGS += $(STRIP) $(TAR_FILE)
+#QMAKE_CXXFLAGS += $(STRIP) $(TAR_FILE)
 
 #QMAKE_CFLAGS += -g
 #QMAKE_CXXFLAGS += -g
 
-INCLUDEPATH += $$PWD/include
-INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/rockchip/
-#INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/libdrm
-INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/rga/
-LIBS += -L$$PWD/lib/  -ldl -lz -lbz2 -lrockchip_mpp -lrga -lpthread -lwayland-client
+#INCLUDEPATH += $$PWD/include
+#INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/rockchip/
+##INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/libdrm
+#INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/rga/
+#LIBS += -L$$PWD/lib/  -ldl -lz -lbz2 -lrockchip_mpp -lrga -lpthread -lwayland-client
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -38,7 +38,9 @@ SOURCES += \
     cctvtest.cpp \
     mainforn.cpp \
     mutex.cpp \
+    myslider.cpp \
     playwidget.cpp \
+#    playwind.cpp \
     pmsg/multicast.c \
     pmsg/pmsgcli.c \
     pmsg/pmsgproc.c \
@@ -54,10 +56,11 @@ SOURCES += \
     state/fileConfig.c \
     state/state.c \
     sysmanage.cpp \
-    vdec/cmplayer.cpp \
-    vdec/rgaapi.cpp \
-    vdec/shm.cpp \
-    vdec/vdec.cpp
+#    vdec/cmplayer.cpp \
+#    vdec/rgaapi.cpp \
+#    vdec/shm.cpp \
+ \#    vdec/vdec.cpp
+    timeset.cpp
 
 HEADERS += \
     NVRMsgProc.h \
@@ -68,7 +71,9 @@ HEADERS += \
     log/log.h \
     mainforn.h \
     mutex.h \
+    myslider.h \
     playwidget.h \
+#    playwind.h \
     pmsg/multicast.h \
     pmsg/pmsgcli.h \
     pmsg/pmsgproc.h \
@@ -86,18 +91,21 @@ HEADERS += \
     state/fileConfig.h \
     state/state.h \
     sysmanage.h \
+    timeset.h \
     types.h \
-    vdec/cmplayer.h \
-    vdec/rga_api.h \
-    vdec/rgaapi.h \
-    vdec/shm.h \
-    vdec/vdec.h
+#    vdec/cmplayer.h \
+#    vdec/rga_api.h \
+#    vdec/rgaapi.h \
+#    vdec/shm.h \
+#    vdec/vdec.h
 
 FORMS += \
     cctvtest.ui \
     mainforn.ui \
+#    playwind.ui \
     recordmanage.ui \
-    sysmanage.ui
+    sysmanage.ui \
+    timeset.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

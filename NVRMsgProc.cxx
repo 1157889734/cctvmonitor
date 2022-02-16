@@ -11,10 +11,10 @@
 #include <dirent.h>
 
 #include "NVRMsgProc.h"
-#include "state.h"
-#include "pmsgcli.h"
+#include "state/state.h"
+#include "pmsg/pmsgcli.h"
 #include <list>
-#include "log.h"
+#include "log/log.h"
 
 using namespace std;
 
@@ -211,7 +211,8 @@ int PmsgProc(PMSG_HANDLE PHandle, unsigned char ucMsgCmd, char *pcMsgData, int i
 		for(int i=0; i<iNum;i++)
 		{
 			int iIndex = GetNvrVideoIdx(iNvrNo, i);
-			SetVideoOnlineState(iIndex,pcMsgData[2+iIndex]); //前面iIndex个为在线状态
+			SetVideoOnlineState(iIndex,
+pcMsgData[2+iIndex]); //前面iIndex个为在线状态
 			SetVideoWarnState(iIndex, pcMsgData[2 +iIndex +iIPCNum]);//后面为遮挡状态
 		}
 		break;
@@ -250,7 +251,8 @@ void *CmdProcessThread(void *arg)
 			memset(&tPkt, 0, sizeof(tPkt));
 			while(GetNodeFromCmdQueue(ptNvrInfo->PtCmdQueue, &tPkt))
 			{
-				PMSG_SendPmsgData(ptNvrInfo->NVRMsgHandle,tPkt.iMsgCmd,tPkt.pData,tPkt.iDataLen);
+				PMSG_SendPmsgData(
+ptNvrInfo->NVRMsgHandle,tPkt.iMsgCmd,tPkt.pData,tPkt.iDataLen);
 				if(tPkt.iDataLen >0)
 				{
 					free(tPkt.pData);

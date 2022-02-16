@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#sysManage { 
-background-image: url(:/res/bg_system.png);} 
+border-image: url(:/res/bg_system.png);} 
 #sysManage * { 
 border-image:url(); 
 }
@@ -95,6 +95,45 @@ background-color: rgb(70, 173, 223);</string>
    </property>
    <property name="text">
     <string>返回</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="devStatusTableWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>360</y>
+     <width>482</width>
+     <height>200</height>
+    </rect>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>true</bool>
+   </attribute>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>20</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>日志管理</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="devLogTableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>42</y>
+     <width>713</width>
+     <height>251</height>
+    </rect>
    </property>
   </widget>
  </widget>

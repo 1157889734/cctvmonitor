@@ -9,18 +9,26 @@
 #include "NVRMsgProc.h"
 #include <sys/time.h>
 #include <QIcon>
-#include "CMPlayer.h"
+#include <QDebug>
+#include <QMouseEvent>
+#include <QEvent>
+//#include "vdec/cmplayer.h"
 
+
+typedef  void*  CMPHandle;
+static   CMPHandle	g_pHplay[8] = {0};	  //最多只能同时存在4个播放句柄，多了会出问题
 
 static E_PLAY_STYLE g_eCurPlayStyle = E_FOUR_VPLAY;   //当前播放风格
 static E_PLAY_STYLE g_eNextPlayStyle = g_eCurPlayStyle;
 static int	g_iWarn = 0;			//是否有报警
+static int  g_iCurSingleVideoIdx = -1;
 static int  g_iVideoCycleFlag = 1;  //轮询标志
 static int  g_iNextSingleVideoIdx = -1;
 static int g_iCycTime = 30;
 static int  g_iWarnFreshed = 0;  //避免报警信息画面还未刷新，就被别的指令破坏
 
 static CMPHandle	g_hSinglePlay = 0;
+static CMPHandle	g_hBackSinglePlay = 0;
 
 static int  g_aiCurFourVideoIdx[4] = {-1,-1,-1,-1};
 static int  g_aiNextFourVideoIdx[4] = {-1,-1,-1,-1};
@@ -111,6 +119,49 @@ void cctvTest::UpdateCamState()
     }
 
 }
+
+void cctvTest::UpdateWarnBtn()
+{
+    for(int i=0;i<m_iFireCount;i++)
+    {
+        m_pBoxFire[i]->hide();
+        m_pBoxFire[i]->show();
+    }
+    for(int i=0;i<m_iDoorCount;i++)
+    {
+        m_pBoxDoor[i]->hide();
+        m_pBoxDoor[i]->show();
+    }
+
+    for(int i=0;i<m_iDoorClipCount;i++)
+    {
+        m_pBoxDoorClip[i]->hide();
+        m_pBoxDoorClip[i]->show();
+    }
+
+    for(int i=0;i<m_iPecuCount;i++)
+    {
+        m_pBoxPecu[i]->hide();
+        m_pBoxPecu[i]->show();
+    }
+
+
+}
+
+void cctvTest::SinglePlayStyle()
+{
+
+
+
+
+}
+void cctvTest::FourPlayStyle()
+{
+
+
+
+
+}
 void cctvTest::PlayStyleChanged()
 {
 
@@ -129,8 +180,20 @@ void cctvTest::PlayCtrlFun()
         g_iNeedUpdateWarnIcon = 1;
     }
 
-
-
+    if(E_FOUR_VPLAY == g_eCurPlayStyle)
+    {
+        FourPlayStyle();
+    }
+    else
+    {
+        SinglePlayStyle();
+    }
+    if(g_iNeedUpdateWarnIcon)  //界面切换时,有可能将报警图标给挡住，所以最好是重新显示一次
+    {
+        g_iNeedUpdateWarnIcon =0;
+        UpdateWarnBtn();
+    }
+    g_iWarnFreshed = 0;
 
 }
 
@@ -156,9 +219,12 @@ cctvTest::cctvTest(QWidget *parent)
     g_iCycTime = GetCycTime();
 
     connect(ui->monitorpushButton,SIGNAL(clicked()),this,SLOT(showMonitorPage()));
-    connect(ui->signalBUtton,SIGNAL(clicked()),this,SLOT(sigalePageSlot()));    connect(ui->fourpushButton,SIGNAL(clicked()),this,SLOT(fourPageSlot()));
+    connect(ui->signalBUtton,SIGNAL(clicked()),this,SLOT(sigalePageSlot()));
+    connect(ui->fourpushButton,SIGNAL(clicked()),this,SLOT(fourPageSlot()));
     connect(ui->startpushButton,SIGNAL(clicked()),this,SLOT(cycleSlot()));
     connect(ui->stoppushButton,SIGNAL(clicked()),this,SLOT(cycleSlot()));
+
+   connect(this,SIGNAL(sendWindIndexSignal(int)),this,SLOT(PlayWidCicked(int)));
 
     UpdateTimer = new QTimer(this);
     UpdateTimer->start(1000);
@@ -167,6 +233,11 @@ cctvTest::cctvTest(QWidget *parent)
     updatePlayTimer = new QTimer(this);
     updatePlayTimer->start(150);
     connect(updatePlayTimer,SIGNAL(timeout()),this,SLOT(updatePlaySlot()));
+
+    updateWarnTimer = new QTimer(this);
+    updateWarnTimer->start(400);
+    connect(updateWarnTimer,SIGNAL(timeout()),this,SLOT(updateWarnInfoSLot()));
+
 
 }
 
@@ -214,8 +285,67 @@ int cctvTest::FindCameBtnInfo(QAbstractButton* pbtn,int &iGroup,int &iNo)
     return 0;
 }
 
-void cctvTest::PlayWidCicked(QPoint pos)
+bool cctvTest::eventFilter(QObject *target, QEvent *event) //事件过滤器
 {
+    if (event->type()==QEvent::MouseButtonPress || event->type()==QEvent::MouseMove) //判断界面操作
+    {
+//            DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] a mousemove or movebuttonpress or a keypress is checked!\n", __FUNCTION__);
+            if (event->type()==QEvent::MouseMove)
+            {
+                QMouseEvent *mEvent = (QMouseEvent *)event;
+
+                if ((m_iMousePosX != mEvent->globalPos().x()) || (m_iMousePosY != mEvent->globalPos().y()))    //防止实际没动鼠标而系统生成了mouseMove事件
+                {
+                    m_iMousePosX = mEvent->globalPos().x();
+                    m_iMousePosY = mEvent->globalPos().y();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+//            qDebug()<<"******m_iMousePosX="<<m_iMousePosX<<"*************m_iMousePosY="<<m_iMousePosY<<__LINE__;
+
+            if(event->type()==QEvent::MouseButtonPress)
+            {
+//                qDebug()<<"*****************"<<__LINE__;
+                if(target == m_playWidget[0])
+                {
+                    emit sendWindIndexSignal(0);
+                }
+                else if(target == m_playWidget[1])
+                {
+                    emit sendWindIndexSignal(1);
+                }
+                else if(target == m_playWidget[2])
+                {
+                    emit sendWindIndexSignal(2);
+                }
+                else if(target == m_playWidget[3])
+                {
+                    emit sendWindIndexSignal(3);
+                }
+                else if(target == m_playSingleWidget)
+                {
+                    emit sendWindIndexSignal(4);
+                }
+
+            }
+
+    }
+
+    return QWidget::eventFilter(target, event);
+
+
+}
+
+void cctvTest::PlayWidCicked(int index)
+{
+
+//    if(send == "m_playWidget[0]")
+    qDebug()<<"*************"<<index<<__LINE__;
+
     static struct timeval tNow ;
     gettimeofday(&tNow, NULL);
     int idiff = (tNow.tv_sec - m_tPrevClickTime.tv_sec)*1000000
@@ -226,11 +356,21 @@ void cctvTest::PlayWidCicked(QPoint pos)
     }
     if((idiff < 600000 && idiff > -600000) && (E_FOUR_VPLAY == g_eCurPlayStyle))
     {
-
-
+        int iPlayWidIndex = index;
+        if(-1 != g_iCurSingleVideoIdx)  //当前如果为四画面播放
+        {
+            g_iNextSingleVideoIdx = -1;
+        }
+        else if(iPlayWidIndex >=0 && iPlayWidIndex <4)
+        {
+            if(g_pHplay[iPlayWidIndex] /*&& CMP_GetStreamState(g_pHplay[iPlayWidIndex])*/)
+            {
+                g_iNextSingleVideoIdx = g_aiCurFourVideoIdx[iPlayWidIndex];
+            }
+        }
 
     }
-
+    m_tPrevClickTime = tNow;
 
 }
 
@@ -355,9 +495,7 @@ void cctvTest::setUi()
     char acDoorClipImage[56] = {0};
     char acPecuImage[56] = {0};
     QIcon icon;
-//    QIcon playIcon[32][5];
 
-//    pImageBtn[32][5]= (char *)malloc(sizeof(32*5));
 
 
     for(int i=0;i<32;i++)
@@ -368,12 +506,6 @@ void cctvTest::setUi()
         snprintf(szData[2],sizeof(szData[0])-1,":/res/%d_noact.png",i+1);
         snprintf(szData[3],sizeof(szData[0])-1,":/res/%d_no.png",i+1);
         snprintf(szData[4],sizeof(szData[0])-1,":/res/%d_dis.png",i+1);
-
-//        pImageBtn[i][0]=szData[0];
-//        pImageBtn[i][1]=szData[1];
-//        pImageBtn[i][2]=szData[2];
-//        pImageBtn[i][3]=szData[3];
-//        pImageBtn[i][4]=szData[4];
 
         pImageBtn[i][0].addFile(QString::fromUtf8(szData[0]),QSize(),QIcon::Normal,QIcon::Off);
         pImageBtn[i][1].addFile(QString::fromUtf8(szData[1]),QSize(),QIcon::Normal,QIcon::Off);
@@ -419,8 +551,8 @@ void cctvTest::setUi()
     videoGroupBtn[6][3] = ui->pushButton_6_4;
     videoGroupBtn[7][0] = ui->pushButton_6_5;
     videoGroupBtn[7][1] = ui->pushButton_6_6;
-    videoGroupBtn[7][2] = ui->pushButton_6_6;
-    videoGroupBtn[7][3] = ui->pushButton_6_7;
+    videoGroupBtn[7][2] = ui->pushButton_6_7;
+    videoGroupBtn[7][3] = ui->pushButton_6_8;
 
     g_buttonGroup = new QButtonGroup;
 
@@ -436,20 +568,22 @@ void cctvTest::setUi()
         {
             g_buttonGroup->addButton(videoGroupBtn[i][j]);
 
-            int iIndex = GetVideoIdxAccordBtnPose(i, j);
-            int iImgIndex = GetVideoImgIdx(iIndex);
-            if(iIndex >= 0 && iImgIndex <=32 && iImgIndex >=1)
+//            int iIndex = GetVideoIdxAccordBtnPose(i, j);
+//            int iImgIndex = GetVideoImgIdx(iIndex);
+//            if(iIndex >= 0 && iImgIndex <=32 && iImgIndex >=1)
             {
 
 //                icon.addFile(QString::fromUtf8(pImageBtn[iImgIndex-1][3]),QSize(),QIcon::Normal,QIcon::Off);
-                videoGroupBtn[i][j]->setIcon(pImageBtn[iImgIndex-1][3]);
+                videoGroupBtn[i][j]->setIcon(pImageBtn[i][3]);
+//                videoGroupBtn[i][j]->setIcon(pImageBtn[iImgIndex-1][3]);
+                videoGroupBtn[i][j]->show();
 
             }
-            else
-            {
-                videoGroupBtn[i][j]->hide();
+//            else
+//            {
+//                videoGroupBtn[i][j]->hide();
 
-            }
+//            }
 
         }
 
@@ -461,28 +595,45 @@ void cctvTest::setUi()
 
     }
 
-    m_playWidget[0] = new playwidget(this);
+
+
+    m_playWidget[0] = new playwidget();
+    m_playWidget[0]->setParent(this);
     m_playWidget[0]->setGeometry(0,0,416,312);
+    m_playWidget[0]->setObjectName("m_playWidget0");
 
-    m_playWidget[1] = new playwidget(this);
-    m_playWidget[1]->setGeometry(0,312,416,312);
 
-    m_playWidget[2] = new playwidget(this);
-    m_playWidget[2]->setGeometry(416,0,416,312);
+    m_playWidget[1] = new playwidget();
+    m_playWidget[1]->setParent(this);
+    m_playWidget[1]->setGeometry(0,313,416,312);
+    m_playWidget[1]->setObjectName("m_playWidget1");
 
-    m_playWidget[3] = new playwidget(this);
-    m_playWidget[3]->setGeometry(416,312,416,312);
 
-    m_playSingleWidget =new playwidget(this);
+    m_playWidget[2] = new playwidget();
+    m_playWidget[2]->setParent(this);
+    m_playWidget[2]->setGeometry(417,0,416,312);
+    m_playWidget[2]->setObjectName("m_playWidget2");
+
+
+    m_playWidget[3] = new playwidget();
+    m_playWidget[3]->setParent(this);
+    m_playWidget[3]->setGeometry(417,313,416,312);
+    m_playWidget[3]->setObjectName("m_playWidget3");
+
+
+    m_playSingleWidget =new playwidget();
+    m_playSingleWidget->setParent(this);
     m_playSingleWidget->setGeometry(0,0,832,624);
+    m_playSingleWidget->setObjectName("m_playWidget");
 
 
-    for(int i=0;i<4;i++)
-    {
-       connect(m_playWidget[i],SIGNAL(sendClickSignal(QPoint)),this,SLOT(PlayWidCicked(QPoint)));
 
-    }
-    connect(m_playSingleWidget,SIGNAL(sendClickSignal(QPoint)),this,SLOT(PlayWidCicked(QPoint)));
+//    for(int i=0;i<4;i++)
+//    {
+//       connect(m_playWidget[i],SIGNAL(sendClickSignal(QObject*)),this,SLOT(PlayWidCicked(QObject*)));
+
+//    }
+//    connect(m_playSingleWidget,SIGNAL(sendClickSignal(QPoint)),this,SLOT(PlayWidCicked(QPoint)));
 
 
 
@@ -491,7 +642,9 @@ void cctvTest::setUi()
         m_playWidget[i]->setStyleSheet("QWidget{background-color: rgb(0, 0, 0);}");     //设置播放窗口背景色为黑色
         m_playWidget[i]->installEventFilter(this);     //播放窗体注册进事件过滤器
         m_playWidget[i]->setMouseTracking(true);
+        m_playWidget[i]->show();
     }
+
     m_playSingleWidget->setStyleSheet("QWidget{background-color: rgb(0, 0, 0);}");
     m_playSingleWidget->installEventFilter(this);     //播放窗体注册进事件过滤器
     m_playSingleWidget->setMouseTracking(true);
@@ -504,13 +657,13 @@ void cctvTest::setUi()
 
     for (int i = 0; i < 6; i++)
     {
-        m_buttonFire[i]= new QPushButton(this);
-        m_buttonFire[i]->setGeometry(20,10+50+i,100,45);
+        m_pBoxFire[i]= new QPushButton(this);
+        m_pBoxFire[i]->setGeometry(20,10+50+i,100,45);
         icon.addFile(QString::fromUtf8(acImgFullName),QSize(),QIcon::Normal,QIcon::Off);
-        m_buttonFire[i]->setIcon(icon);
-        m_buttonFire[i]->hide();
+        m_pBoxFire[i]->setIcon(icon);
+        m_pBoxFire[i]->hide();
 
-        g_fileButtonGroup->addButton(m_buttonFire[i]);
+        g_fileButtonGroup->addButton(m_pBoxFire[i]);
     }
 
 
@@ -533,11 +686,11 @@ void cctvTest::setUi()
     {
         for(int j=0;j<12;j++)
         {
-            m_buttonDoor[i*12+j] = new QPushButton(this);
-            m_buttonDoor[i*12+j]->setGeometry(130+i*115,10+50*j,100,45);
+            m_pBoxDoor[i*12+j] = new QPushButton(this);
+            m_pBoxDoor[i*12+j]->setGeometry(130+i*115,10+50*j,100,45);
             icon.addFile(QString::fromUtf8(acImgFullName),QSize(),QIcon::Normal,QIcon::Off);
-            m_buttonDoor[i*12+j]->setIcon(icon);
-            m_buttonDoor[i*12+j]->hide();
+            m_pBoxDoor[i*12+j]->setIcon(icon);
+            m_pBoxDoor[i*12+j]->hide();
 
             m_pBoxDoorClip[i*12+j] = new QPushButton(this);
             m_pBoxDoorClip[i*12+j]->setGeometry(130+i*115,10+50*j,100,45);
@@ -552,7 +705,7 @@ void cctvTest::setUi()
             m_pBoxPecu[i*12+j]->hide();
 
 
-            g_doorButtonGroup->addButton(m_buttonDoor[i*12+j]);
+            g_doorButtonGroup->addButton(m_pBoxDoor[i*12+j]);
             g_doorclipButtonGroup->addButton(m_pBoxDoorClip[i*12+j]);
             g_PecuButtonGroup->addButton(m_pBoxPecu[i*12+j]);
         }
@@ -578,6 +731,269 @@ void cctvTest::updatePlaySlot()
 
 }
 
+void cctvTest::updateWarnInfoSLot()
+{
+    char acFireWarnInfo[6] = {0};
+    char acDoorWarnInfo[6] = {0};
+    char acDoorClipWarnInfo[6] = {0};
+    u32int	 iPecuWarnInfo = 0;
+    int	 iPecuFirstWarnVideoIdx = -1;
+    int  iWarnNum = 0;
+    int  aiWarnVideoIdx[36] ={0};  //报警相机的序号  因为不同的报警类型 相机序号有重复所以要判断是否已存在啦
+    int  iChanged = 0;
+    char aiDoorWarnVideoIdx[48];
+    char aiDoorClipWarnVideoIdx[48];
+
+    GetAllDoorWarnInfo(acDoorWarnInfo, 6);
+    GetAllFireWarnInfo(acFireWarnInfo, 6);
+    GetAllDoorClipInfo(acDoorClipWarnInfo, 6);
+    iPecuWarnInfo = GetPecuWarnInfo();
+    iPecuFirstWarnVideoIdx = GetPecuFirstWarnVideoIdx();
+
+    memset(aiDoorWarnVideoIdx,0xff,sizeof(aiDoorWarnVideoIdx));
+    memset(aiDoorClipWarnVideoIdx,0xff,sizeof(aiDoorClipWarnVideoIdx));
+
+    if(memcmp(acFireWarnInfo,m_acFireWarnInfo,sizeof(acFireWarnInfo))
+        || memcmp(acDoorWarnInfo,m_acDoorWarnInfo,sizeof(acDoorWarnInfo))
+        || memcmp(acDoorClipWarnInfo,m_acDoorClipWarnInfo,6)
+        || iPecuWarnInfo != m_iPecuInfo)
+    {
+        iChanged = 1;
+        memcpy(m_acFireWarnInfo,acFireWarnInfo,sizeof(acFireWarnInfo));
+        memcpy(m_acDoorWarnInfo,acDoorWarnInfo,sizeof(acDoorWarnInfo));
+        memcpy(m_acDoorClipWarnInfo,acDoorClipWarnInfo,sizeof(acDoorClipWarnInfo));
+        m_iPecuInfo = iPecuWarnInfo;
+    }
+    if(iChanged)
+    {
+        int iCount = 0;
+        int iDoorClipCount = 0;
+        int iFirst = 1;
+        g_iWarnFreshed = 1;
+
+        if(iPecuFirstWarnVideoIdx >=0)
+        {
+            aiWarnVideoIdx[iWarnNum] = iPecuFirstWarnVideoIdx;	//最先PECU报警的放最前
+            iWarnNum ++;
+        }
+
+        for(int i=0;i<24;i++)
+            {
+                m_pBoxPecu[i]->hide();
+                m_pBoxDoor[i]->hide();  //门禁的也在这里影藏掉
+                m_pBoxDoorClip[i]->hide();
+                if(iPecuWarnInfo & (0x1 << i))
+                {
+                    char acBuf[8] = {0};
+                    int iVideoIdx = GetPecuVideoIndex(i);
+                    int iHaveExist = 0;  //避免报警相机重复
+
+                    GetVideoName(iVideoIdx, acBuf, sizeof(acBuf));
+
+                    for(int j=0;j<iWarnNum;j++)
+                    {
+                        if(aiWarnVideoIdx[j] == iVideoIdx)
+                        {
+                            iHaveExist =1;
+                            break;
+                        }
+                    }
+                    if(!iHaveExist)  //之前没有重复的
+                    {
+                        m_aiPecuIdx[iCount] = iVideoIdx;
+                        aiWarnVideoIdx[iWarnNum] = iVideoIdx;
+                        iWarnNum ++;
+//                        m_pBoxPecu[iCount]->copy_label(acBuf);
+                        m_pBoxPecu[iCount]->setText(acBuf);
+                        m_pBoxPecu[iCount]->show();
+                        iCount ++; //pecu报警数加1
+
+                    }
+                    //最前的PECU报警也要加进来
+                    else if(iVideoIdx == iPecuFirstWarnVideoIdx && iFirst)
+                    {
+                        m_aiPecuIdx[iCount] = iVideoIdx;
+//                        m_pBoxPecu[iCount]->copy_label(acBuf);
+                        m_pBoxPecu[iCount]->setText(acBuf);
+                        m_pBoxPecu[iCount]->show();
+                        iCount ++;
+                        iFirst = 0;
+                    }
+                }
+            }
+            m_iPecuCount = iCount;
+
+            iCount = 0;
+            for(int i=0;i<6;i++)
+                for(int j=0;j<8;j++)
+            {
+                if(acDoorWarnInfo[i] & (0x01<<j))
+                {
+                    char acBuf[8] = {0};
+                    int iHaveExist = 0;
+                    int iVideoIdx = GetDoorWarnVideoIdx(i,j);
+
+                    for(int i=0;i<iCount;i++)
+                    {
+                        if(aiDoorWarnVideoIdx[i] == iVideoIdx)
+                        {
+                            iHaveExist =1;
+                            break;
+                        }
+                    }
+                    if(!iHaveExist)
+                    {
+                        GetVideoName(iVideoIdx, acBuf, sizeof(acBuf));
+//                        m_pBoxDoor[iCount]->copy_label(acBuf);
+                         m_pBoxDoor[iCount]->setText(acBuf);
+                        m_pBoxDoor[iCount]->show();
+                        aiDoorWarnVideoIdx[iCount] = iVideoIdx;
+                        m_aiDoorIdx[iCount] = iVideoIdx;
+                        iCount ++;
+
+                        for(int i=0;i<iWarnNum;i++)
+                        {
+                            if(aiWarnVideoIdx[i] == iVideoIdx)
+                            {
+                                iHaveExist =1;
+                                break;
+                            }
+                        }
+                        if(!iHaveExist)
+                        {
+                            aiWarnVideoIdx[iWarnNum] = iVideoIdx;
+                            iWarnNum ++;
+                        }
+                    }
+                }
+
+                if(acDoorClipWarnInfo[i] & (0x01<<j))
+                {
+                    char acBuf[8] = {0};
+                    int iHaveExist = 0;
+                    int iVideoIdx = GetDoorWarnVideoIdx(i,j);
+
+                    for(int i=0;i<iDoorClipCount;i++)
+                    {
+                        if(aiDoorClipWarnVideoIdx[i] == iVideoIdx)
+                        {
+                            iHaveExist =1;
+                            break;
+                        }
+                    }
+                    if(!iHaveExist)
+                    {
+                        GetVideoName(iVideoIdx, acBuf, sizeof(acBuf));
+//                        m_pBoxDoorClip[iDoorClipCount]->copy_label(acBuf);
+                        m_pBoxDoor[iCount]->setText(acBuf);
+                        m_pBoxDoorClip[iDoorClipCount]->show();
+                        aiDoorClipWarnVideoIdx[iDoorClipCount] = iVideoIdx;
+                        m_aiDoorClipIdx[iDoorClipCount] = iVideoIdx;
+                        iDoorClipCount ++;
+
+                        for(int i=0;i<iWarnNum;i++)
+                        {
+                            if(aiWarnVideoIdx[i] == iVideoIdx)
+                            {
+                                iHaveExist =1;
+                                break;
+                            }
+                        }
+                        if(!iHaveExist)
+                        {
+                            aiWarnVideoIdx[iWarnNum] = iVideoIdx;
+                            iWarnNum ++;
+                        }
+                    }
+                }
+            }
+            m_iDoorCount = iCount;
+            m_iDoorClipCount = iDoorClipCount;
+            if(iWarnNum >1)
+            {
+                int iFreshed = 0;
+
+                if(g_iVideoCycleFlag)
+                {
+//                    CloseVideoCyc(arg);
+                }
+                if(E_SINGLE_VPLAY == g_eCurPlayStyle)
+                {
+                    ui->signalBUtton->setStyleSheet("QPushButton{border-image: url(:/res/btn_02_hig.png)}");
+                    ui->fourpushButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_01_nor.png)}");
+
+//                    pCCTVWid->m_pBtn2[0]->image(m_pImgBtn1[0]);
+//                    pCCTVWid->m_pBtn2[0]->redraw();
+//                    pCCTVWid->m_pBtn2[1]->image(m_pImgBtn1[3]);
+//                    pCCTVWid->m_pBtn2[1]->redraw();
+                    g_eNextPlayStyle = E_FOUR_VPLAY;
+                    g_iNextSingleVideoIdx  = -1;
+                }
+
+                //先找出不需要动的
+                for(int i=0;i<4;i++)
+                {
+                    int iStillWarn = 0;
+                    int iChanged = 0;
+
+                    if(g_aiCurFourVideoIdx[i] != -1)
+                    {
+                        for(int j=0;j<iWarnNum;j++)
+                        {
+                            if(aiWarnVideoIdx[j] == g_aiCurFourVideoIdx[i])
+                            {
+                                g_aiNextFourVideoIdx[i] = aiWarnVideoIdx[j];
+                                aiWarnVideoIdx[j] = -1;
+                                iStillWarn =1;
+                                break;
+                            }
+                        }
+                    }
+                    if(0 == iStillWarn)
+                    {
+                        g_aiNextFourVideoIdx[i] = -1;
+                    }
+
+                }
+
+                //再将剩下的报警相机放到队列中
+                for(int i=0;i<4;i++)
+                {
+                    if(-1 == g_aiNextFourVideoIdx[i])
+                    {
+                        for(int j=0;j<iWarnNum;j++)
+                        {
+                            if(-1 != aiWarnVideoIdx[j])
+                            {
+                                g_aiNextFourVideoIdx[i] =  aiWarnVideoIdx[j];
+                                aiWarnVideoIdx[j] = -1;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(g_aiNextFourVideoIdx[i] != g_aiCurFourVideoIdx[i])
+                    {
+                        iFreshed = 1;
+                    }
+                }
+
+                if(-1 != aiWarnVideoIdx[0])
+                {
+                    g_aiNextFourVideoIdx[0] = aiWarnVideoIdx[0];
+                    iFreshed = 1;
+                }
+
+                //只要有一个发生了变化 都需要重新调出四界面
+                if(iFreshed)
+                {
+                    g_iNextSingleVideoIdx = -1;
+                }
+            }
+
+    }
+
+}
 
 void cctvTest::timeupdateSlot()
 {
@@ -644,6 +1060,11 @@ void cctvTest::timeupdateSlot()
     }
     return;
 
+}
+
+void cctvTest::showcctvPage()
+{
+    this->show();
 }
 
 
