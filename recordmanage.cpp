@@ -97,6 +97,11 @@ recordManage::recordManage(QWidget *parent) :
 
     }
 
+    playWidget = new QWidget(this);
+    playWidget->setGeometry(340,10,680,570);
+    playWidget->setStyleSheet("QWidget{background-color: rgb(0, 0, 0);}");     //设置播放窗口背景色为黑色
+    playWidget->show();
+
     timeSetWidget = new timeset(this);
     timeSetWidget->setWindowFlags(timeSetWidget->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
     timeSetWidget->hide();
@@ -110,12 +115,22 @@ recordManage::recordManage(QWidget *parent) :
     connect(ui->carSeletionComboBox, SIGNAL(currentIndexChanged(int)),this,SLOT(carNoChangeSlot()));
     connect(ui->searchloadButton,SIGNAL(clicked()),this,SLOT(SearchBtnClicked()));
     connect(ui->downloadButton,SIGNAL(clicked()),this,SLOT(DownBtnClicked()));
+    connect(ui->playLastOnePushButton,SIGNAL(clicked()),this,SLOT(PrevBtnClicked()));
+    connect(ui->slowForwardPushButton,SIGNAL(clicked()),this,SLOT(SlowBtnClicked()));
+    connect(ui->playPushButton,SIGNAL(clicked()),this,SLOT(PlayBtnClicked()));
+    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(PauesBtnClicked()));
+    connect(ui->stopPushButton,SIGNAL(clicked()),this,SLOT(StopBtnClicked()));
+    connect(ui->fastForwardPushButton,SIGNAL(clicked()),this,SLOT(QuickBtnClicked()));
+    connect(ui->playNextOnePushButton,SIGNAL(clicked()),this,SLOT(NextBtnClicked()));
 
 
 }
 
 recordManage::~recordManage()
 {
+    delete  playWidget;
+    playWidget = NULL;
+
     delete ui;
 }
 
@@ -137,6 +152,81 @@ void PftpProc(PFTP_HANDLE PHandle, int iPos)
     }
 }
 
+static char *parseFileName(char *pcSrcStr)     //根据录像文件路径全名解析得到单纯的录像文件名
+{
+    char *pcTmp = NULL;
+    if (NULL == pcSrcStr)
+    {
+        return NULL;
+    }
+
+    pcTmp = strrchr(pcSrcStr, '/');
+    if (NULL == pcTmp)
+    {
+        return pcSrcStr;
+    }
+
+    if (0 == *(pcTmp+1))
+    {
+        return NULL;
+    }
+    return pcTmp+1;
+}
+
+
+void recordManage::NextBtnClicked()
+{
+
+
+
+
+}
+
+void recordManage::QuickBtnClicked()
+{
+
+
+
+}
+
+void recordManage::StopBtnClicked()
+{
+
+
+
+
+}
+
+void recordManage::PauesBtnClicked()
+{
+
+
+
+
+}
+
+void recordManage::PlayBtnClicked()
+{
+
+
+
+}
+
+void recordManage::SlowBtnClicked()
+{
+
+
+
+}
+
+void recordManage::PrevBtnClicked()
+{
+
+
+
+
+
+}
 
 void recordManage::DownBtnClicked()
 {
@@ -199,8 +289,12 @@ void recordManage::DownBtnClicked()
             DebugPrint(DEBUG_FTP_PRINT, "[%s] connect to ftp server:%s error!\n", __FUNCTION__, acIpAddr);
             return;
         }
-        for (row = 0; row < iSize; row++)
-        {
+
+
+
+
+//        for (row = 0; row < iSize; row++)
+//        {
 //            if (pTable->GetFileSelectState(row))
 //            {
 //                memset(acFullFileName,0,sizeof(acFullFileName));
@@ -220,7 +314,7 @@ void recordManage::DownBtnClicked()
 //                    }
 //                }
 //            }
-        }
+//        }
         iRet = FTP_FileDownLoad(g_ftpHandle);
         if (iRet < 0)
         {
@@ -555,7 +649,7 @@ void recordManage::getTrainConfig()
     for(i = 0; i < 8; i++)
     {
         item = "";
-        item = QString::number(i+1);
+        item = QString::number(j+1);
         if(i == 0)
             item += tr("F");
         else if(i == 1)
@@ -566,7 +660,7 @@ void recordManage::getTrainConfig()
         {
             item = "";
             item += tr("G");
-            item += QString::number(i+1);
+            item += QString::number(j+1);
         }
         else if(i == 4)
             item += tr("A");

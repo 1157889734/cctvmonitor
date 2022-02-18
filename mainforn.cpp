@@ -6,6 +6,11 @@ mainforn::mainforn(QWidget *parent) :
     ui(new Ui::mainforn)
 {
     ui->setupUi(this);
+    this->setWindowFlags(Qt::FramelessWindowHint);
+
+    QPalette palette;
+    palette.setBrush(QPalette::Background,QBrush(QPixmap(":/res/bg_system0.png")));
+    this->setPalette(palette);
 
     g_recordManage = new recordManage(this);
     g_recordManage->setGeometry(0,60,g_recordManage->width(),g_recordManage->height());
@@ -14,7 +19,7 @@ mainforn::mainforn(QWidget *parent) :
     g_sysManage->setGeometry(0,60,g_sysManage->width(),g_sysManage->height());
 
     g_recordManage->hide();
-    g_sysManage->show();
+    g_sysManage->hide();
 
     connect(ui->sysyPushButton,SIGNAL(clicked()),this,SLOT(menuButtonClick()));
     connect(ui->recpushButton,SIGNAL(clicked()),this,SLOT(menuButtonClick()));

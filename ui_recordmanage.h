@@ -39,7 +39,6 @@ public:
     QTableWidget *recordFileTableWidget;
     QPushButton *downloadButton;
     QPushButton *searchloadButton;
-    QWidget *widget;
     QPushButton *playLastOnePushButton;
     QPushButton *slowForwardPushButton;
     QPushButton *playPushButton;
@@ -187,10 +186,6 @@ public:
         searchloadButton->setFont(font);
         searchloadButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "background-color: rgb(70, 173, 223);"));
-        widget = new QWidget(recordManage);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(340, 10, 681, 571));
-        widget->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
         playLastOnePushButton = new QPushButton(recordManage);
         playLastOnePushButton->setObjectName(QString::fromUtf8("playLastOnePushButton"));
         playLastOnePushButton->setGeometry(QRect(330, 620, 70, 35));

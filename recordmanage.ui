@@ -423,19 +423,6 @@ background-color: rgb(70, 173, 223);</string>
     <string>查询</string>
    </property>
   </widget>
-  <widget class="QWidget" name="widget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>10</y>
-     <width>681</width>
-     <height>571</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(0, 0, 0);</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="playLastOnePushButton">
    <property name="geometry">
     <rect>

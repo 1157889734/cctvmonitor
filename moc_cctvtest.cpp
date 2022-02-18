@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_cctvTest_t {
-    QByteArrayData data[21];
-    char stringdata0[310];
+    QByteArrayData data[20];
+    char stringdata0[295];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,27 +43,25 @@ QT_MOC_LITERAL(7, 83, 14), // "sigalePageSlot"
 QT_MOC_LITERAL(8, 98, 12), // "fourPageSlot"
 QT_MOC_LITERAL(9, 111, 9), // "cycleSlot"
 QT_MOC_LITERAL(10, 121, 14), // "timeupdateSlot"
-QT_MOC_LITERAL(11, 136, 14), // "updatePlaySlot"
-QT_MOC_LITERAL(12, 151, 18), // "updateWarnInfoSLot"
-QT_MOC_LITERAL(13, 170, 13), // "PlayWidCicked"
-QT_MOC_LITERAL(14, 184, 20), // "GroupButtonClickSlot"
-QT_MOC_LITERAL(15, 205, 16), // "QAbstractButton*"
-QT_MOC_LITERAL(16, 222, 3), // "btn"
-QT_MOC_LITERAL(17, 226, 19), // "GroupButtonFireSlot"
-QT_MOC_LITERAL(18, 246, 19), // "GroupButtonDoorSlot"
-QT_MOC_LITERAL(19, 266, 23), // "GroupButtonDoorclipSlot"
-QT_MOC_LITERAL(20, 290, 19) // "GroupButtonPecuSlot"
+QT_MOC_LITERAL(11, 136, 18), // "updateWarnInfoSLot"
+QT_MOC_LITERAL(12, 155, 13), // "PlayWidCicked"
+QT_MOC_LITERAL(13, 169, 20), // "GroupButtonClickSlot"
+QT_MOC_LITERAL(14, 190, 16), // "QAbstractButton*"
+QT_MOC_LITERAL(15, 207, 3), // "btn"
+QT_MOC_LITERAL(16, 211, 19), // "GroupButtonFireSlot"
+QT_MOC_LITERAL(17, 231, 19), // "GroupButtonDoorSlot"
+QT_MOC_LITERAL(18, 251, 23), // "GroupButtonDoorclipSlot"
+QT_MOC_LITERAL(19, 275, 19) // "GroupButtonPecuSlot"
 
     },
     "cctvTest\0showMonitorSignal\0\0"
     "sendWindIndexSignal\0index\0showcctvPage\0"
     "showMonitorPage\0sigalePageSlot\0"
     "fourPageSlot\0cycleSlot\0timeupdateSlot\0"
-    "updatePlaySlot\0updateWarnInfoSLot\0"
-    "PlayWidCicked\0GroupButtonClickSlot\0"
-    "QAbstractButton*\0btn\0GroupButtonFireSlot\0"
-    "GroupButtonDoorSlot\0GroupButtonDoorclipSlot\0"
-    "GroupButtonPecuSlot"
+    "updateWarnInfoSLot\0PlayWidCicked\0"
+    "GroupButtonClickSlot\0QAbstractButton*\0"
+    "btn\0GroupButtonFireSlot\0GroupButtonDoorSlot\0"
+    "GroupButtonDoorclipSlot\0GroupButtonPecuSlot"
 };
 #undef QT_MOC_LITERAL
 
@@ -73,7 +71,7 @@ static const uint qt_meta_data_cctvTest[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -81,24 +79,23 @@ static const uint qt_meta_data_cctvTest[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   94,    2, 0x06 /* Public */,
-       3,    1,   95,    2, 0x06 /* Public */,
+       1,    0,   89,    2, 0x06 /* Public */,
+       3,    1,   90,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    0,   98,    2, 0x0a /* Public */,
-       6,    0,   99,    2, 0x0a /* Public */,
-       7,    0,  100,    2, 0x0a /* Public */,
-       8,    0,  101,    2, 0x0a /* Public */,
-       9,    0,  102,    2, 0x0a /* Public */,
-      10,    0,  103,    2, 0x0a /* Public */,
-      11,    0,  104,    2, 0x0a /* Public */,
-      12,    0,  105,    2, 0x0a /* Public */,
-      13,    1,  106,    2, 0x0a /* Public */,
-      14,    1,  109,    2, 0x0a /* Public */,
-      17,    1,  112,    2, 0x0a /* Public */,
-      18,    1,  115,    2, 0x0a /* Public */,
-      19,    1,  118,    2, 0x0a /* Public */,
-      20,    1,  121,    2, 0x0a /* Public */,
+       5,    0,   93,    2, 0x0a /* Public */,
+       6,    0,   94,    2, 0x0a /* Public */,
+       7,    0,   95,    2, 0x0a /* Public */,
+       8,    0,   96,    2, 0x0a /* Public */,
+       9,    0,   97,    2, 0x0a /* Public */,
+      10,    0,   98,    2, 0x0a /* Public */,
+      11,    0,   99,    2, 0x0a /* Public */,
+      12,    1,  100,    2, 0x0a /* Public */,
+      13,    1,  103,    2, 0x0a /* Public */,
+      16,    1,  106,    2, 0x0a /* Public */,
+      17,    1,  109,    2, 0x0a /* Public */,
+      18,    1,  112,    2, 0x0a /* Public */,
+      19,    1,  115,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -112,9 +109,8 @@ static const uint qt_meta_data_cctvTest[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    4,
-    QMetaType::Void, 0x80000000 | 15,   16,
+    QMetaType::Void, 0x80000000 | 14,   15,
     QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void, QMetaType::Int,    4,
@@ -137,20 +133,19 @@ void cctvTest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 5: _t->fourPageSlot(); break;
         case 6: _t->cycleSlot(); break;
         case 7: _t->timeupdateSlot(); break;
-        case 8: _t->updatePlaySlot(); break;
-        case 9: _t->updateWarnInfoSLot(); break;
-        case 10: _t->PlayWidCicked((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 11: _t->GroupButtonClickSlot((*reinterpret_cast< QAbstractButton*(*)>(_a[1]))); break;
-        case 12: _t->GroupButtonFireSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 13: _t->GroupButtonDoorSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 14: _t->GroupButtonDoorclipSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 15: _t->GroupButtonPecuSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 8: _t->updateWarnInfoSLot(); break;
+        case 9: _t->PlayWidCicked((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 10: _t->GroupButtonClickSlot((*reinterpret_cast< QAbstractButton*(*)>(_a[1]))); break;
+        case 11: _t->GroupButtonFireSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 12: _t->GroupButtonDoorSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 13: _t->GroupButtonDoorclipSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 14: _t->GroupButtonPecuSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 11:
+        case 10:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -206,13 +201,13 @@ int cctvTest::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 16)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 15;
     }
     return _id;
 }

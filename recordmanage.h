@@ -18,13 +18,13 @@ class recordManage : public QWidget
     Q_OBJECT
 
 public:
-    explicit recordManage(QWidget *parent = nullptr);
+    explicit recordManage(QWidget *parent = 0);
     ~recordManage();
 
     void getTrainConfig();
-    mySlider *m_playSlider;    //播放进度条
-    QStyle *m_tableWidgetStyle;
-    timeset *timeSetWidget;    //时间设置控制窗体
+    mySlider    *m_playSlider;    //播放进度条
+    QStyle      *m_tableWidgetStyle;
+    timeset     *timeSetWidget;    //时间设置控制窗体
 
     T_TIME_INFO m_tStartTime;
     T_TIME_INFO m_tEndTime;
@@ -33,7 +33,9 @@ public:
     double		m_dbSpeed;
     int			m_iTotolTime;
     int			m_iTimeCount;
-    QTimer  *FileSearchTimer;
+    QTimer      *FileSearchTimer;
+    QWidget     *playWidget;
+
 
 public slots:
     void hideRecPageSlots();
@@ -44,6 +46,14 @@ public slots:
     void SearchBtnClicked();
     void recordQueryEndSlot();
     void DownBtnClicked();
+    void PrevBtnClicked();
+    void SlowBtnClicked();
+    void PlayBtnClicked();
+    void PauesBtnClicked();
+    void StopBtnClicked();
+    void QuickBtnClicked();
+    void NextBtnClicked();
+
 
 signals:
     void hideRecSysPage();

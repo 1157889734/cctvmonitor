@@ -8,6 +8,7 @@
 #include <QWidget>
 #include "playwind.h"
 #include "playwidget.h"
+#include "types.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class cctvTest; }
@@ -22,14 +23,17 @@ public:
     ~cctvTest();
     void closeVideoCyc();
     void setUi();
-    void UpdateCamState();
-    void PlayCtrlFun();
+    void cmplayInit(QWidget *g_widget);
+
+//    void UpdateCamState();
+//    void PlayCtrlFun();
     int FindCameBtnInfo(QAbstractButton* pbtn,int &iGroup,int &iNo);
-    void PlayStyleChanged();
-    void FourPlayStyle();
-    void SinglePlayStyle();
-    void UpdateWarnBtn();
+//    void PlayStyleChanged();
+//    void FourPlayStyle();
+//    void SinglePlayStyle();
+//    void UpdateWarnBtn();
     bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
+    pthread_t m_playthreadId;      //
 
 
 
@@ -69,6 +73,7 @@ public:
     unsigned int    m_iPecuInfo;		//Pecu报警的值
     int m_iMousePosX;
     int m_iMousePosY;
+    T_WND_INFO                     m_RealMonitorVideos;
 
 
 public slots:
@@ -78,7 +83,7 @@ public slots:
     void fourPageSlot();
     void cycleSlot();
     void timeupdateSlot();
-    void updatePlaySlot();
+//    void updatePlaySlot();
     void updateWarnInfoSLot();
     void PlayWidCicked(int index);
     void GroupButtonClickSlot(QAbstractButton* btn);
@@ -96,6 +101,7 @@ private:
     QTimer *UpdateTimer;
     QTimer *updatePlayTimer;
     QTimer *updateWarnTimer;
+
 
 };
 #endif // CCTVTEST_H

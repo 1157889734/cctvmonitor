@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_recordManage_t {
-    QByteArrayData data[17];
-    char stringdata0[209];
+    QByteArrayData data[24];
+    char stringdata0[316];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -48,7 +48,14 @@ QT_MOC_LITERAL(12, 138, 3), // "sec"
 QT_MOC_LITERAL(13, 142, 15), // "carNoChangeSlot"
 QT_MOC_LITERAL(14, 158, 16), // "SearchBtnClicked"
 QT_MOC_LITERAL(15, 175, 18), // "recordQueryEndSlot"
-QT_MOC_LITERAL(16, 194, 14) // "DownBtnClicked"
+QT_MOC_LITERAL(16, 194, 14), // "DownBtnClicked"
+QT_MOC_LITERAL(17, 209, 14), // "PrevBtnClicked"
+QT_MOC_LITERAL(18, 224, 14), // "SlowBtnClicked"
+QT_MOC_LITERAL(19, 239, 14), // "PlayBtnClicked"
+QT_MOC_LITERAL(20, 254, 15), // "PauesBtnClicked"
+QT_MOC_LITERAL(21, 270, 14), // "StopBtnClicked"
+QT_MOC_LITERAL(22, 285, 15), // "QuickBtnClicked"
+QT_MOC_LITERAL(23, 301, 14) // "NextBtnClicked"
 
     },
     "recordManage\0hideRecSysPage\0\0"
@@ -56,7 +63,10 @@ QT_MOC_LITERAL(16, 194, 14) // "DownBtnClicked"
     "openStopTimeSetWidgetSlot\0timeSetRecvMsg\0"
     "year\0month\0day\0hour\0min\0sec\0carNoChangeSlot\0"
     "SearchBtnClicked\0recordQueryEndSlot\0"
-    "DownBtnClicked"
+    "DownBtnClicked\0PrevBtnClicked\0"
+    "SlowBtnClicked\0PlayBtnClicked\0"
+    "PauesBtnClicked\0StopBtnClicked\0"
+    "QuickBtnClicked\0NextBtnClicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -66,7 +76,7 @@ static const uint qt_meta_data_recordManage[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -74,17 +84,24 @@ static const uint qt_meta_data_recordManage[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   59,    2, 0x06 /* Public */,
+       1,    0,   94,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   60,    2, 0x0a /* Public */,
-       4,    0,   61,    2, 0x0a /* Public */,
-       5,    0,   62,    2, 0x0a /* Public */,
-       6,    6,   63,    2, 0x0a /* Public */,
-      13,    0,   76,    2, 0x0a /* Public */,
-      14,    0,   77,    2, 0x0a /* Public */,
-      15,    0,   78,    2, 0x0a /* Public */,
-      16,    0,   79,    2, 0x0a /* Public */,
+       3,    0,   95,    2, 0x0a /* Public */,
+       4,    0,   96,    2, 0x0a /* Public */,
+       5,    0,   97,    2, 0x0a /* Public */,
+       6,    6,   98,    2, 0x0a /* Public */,
+      13,    0,  111,    2, 0x0a /* Public */,
+      14,    0,  112,    2, 0x0a /* Public */,
+      15,    0,  113,    2, 0x0a /* Public */,
+      16,    0,  114,    2, 0x0a /* Public */,
+      17,    0,  115,    2, 0x0a /* Public */,
+      18,    0,  116,    2, 0x0a /* Public */,
+      19,    0,  117,    2, 0x0a /* Public */,
+      20,    0,  118,    2, 0x0a /* Public */,
+      21,    0,  119,    2, 0x0a /* Public */,
+      22,    0,  120,    2, 0x0a /* Public */,
+      23,    0,  121,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -94,6 +111,13 @@ static const uint qt_meta_data_recordManage[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString,    7,    8,    9,   10,   11,   12,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -117,6 +141,13 @@ void recordManage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         case 6: _t->SearchBtnClicked(); break;
         case 7: _t->recordQueryEndSlot(); break;
         case 8: _t->DownBtnClicked(); break;
+        case 9: _t->PrevBtnClicked(); break;
+        case 10: _t->SlowBtnClicked(); break;
+        case 11: _t->PlayBtnClicked(); break;
+        case 12: _t->PauesBtnClicked(); break;
+        case 13: _t->StopBtnClicked(); break;
+        case 14: _t->QuickBtnClicked(); break;
+        case 15: _t->NextBtnClicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -160,13 +191,13 @@ int recordManage::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 16;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 16)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 16;
     }
     return _id;
 }

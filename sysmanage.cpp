@@ -2,6 +2,8 @@
 #include "ui_sysmanage.h"
 #include <QAbstractItemView>
 #include <QTableWidget>
+#include <QDebug>
+#include "comm.h"
 
 sysManage::sysManage(QWidget *parent) :
     QWidget(parent),
@@ -9,11 +11,23 @@ sysManage::sysManage(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAutoFillBackground(true);
+    struct tm *pLocalTime;
+    time_t tTime;
+    time(&tTime);
+    pLocalTime = localtime(&tTime);
+    m_iYear = pLocalTime->tm_year +1900;
+    m_iMonth = pLocalTime->tm_mon +1;
+    m_iDay = pLocalTime->tm_mday;
 
-//    QPalette palette;
-//    palette.setBrush(QPalette::Background,QBrush(QPixmap(":/res/bg_system.png")));
-//    this->setPalette(palette);
-    this->setStyleSheet("QWidget{background-image: url(:/res/bg_system.png)}");
+    ui->yearLabel->setText(QString::number(m_iYear,10));
+    ui->monthLabel->setText(QString::number(m_iMonth,10));
+    ui->dayLabel->setText(QString::number(m_iDay,10));
+
+
+    QPalette palette;
+    palette.setBrush(QPalette::Background,QBrush(QPixmap(":/res/bg_system.png")));
+    this->setPalette(palette);
+//    this->setStyleSheet("QWidget{background-image: url(:/res/bg_system.png)}");
 
     connect(ui->backButton,SIGNAL(clicked()),this,SLOT(hideSysPageSlots()));
 
@@ -60,12 +74,26 @@ sysManage::sysManage(QWidget *parent) :
     ui->devLogTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);  //整行选中的方式
     ui->devLogTableWidget->setSelectionMode(QAbstractItemView::SingleSelection); //设置只能选择一行，不能多行选中
 
-    ui->devLogTableWidget->horizontalHeader()->resizeSection(1,10);
+    ui->devLogTableWidget->horizontalHeader()->resizeSection(1,40);
     ui->devLogTableWidget->horizontalHeader()->resizeSection(2,70);
     ui->devLogTableWidget->horizontalHeader()->resizeSection(3,170);
     ui->devLogTableWidget->horizontalHeader()->resizeSection(4,430);
 
 
+    g_buttonGroup = new QButtonGroup();
+    g_buttonGroup->addButton(ui->LastYearButton,1);
+    g_buttonGroup->addButton(ui->NextYearButton,2);
+    g_buttonGroup->addButton(ui->LastMonButton,3);
+    g_buttonGroup->addButton(ui->NextMonButton,4);
+    g_buttonGroup->addButton(ui->LastDayButton,5);
+    g_buttonGroup->addButton(ui->NextDayButton,6);
+
+    connect(g_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(GroupButtonClickSlot(int)));     //预置点按钮组按键信号连接响应槽函数
+
+    connect(ui->searchSystermLogButton,SIGNAL(clicked()),this,SLOT(searchSystermLog()));
+    connect(ui->searchWorkLogButton,SIGNAL(clicked()),this,SLOT(searchSystermLog()));
+    connect(ui->LastPageButton,SIGNAL(clicked()),this,SLOT(lastpageSlot()));
+    connect(ui->NextPageButton,SIGNAL(clicked()),this,SLOT(nextPageSlot()));
 
     getTrainConfig();
 
@@ -76,12 +104,197 @@ sysManage::~sysManage()
     delete ui;
 }
 
+void sysManage::searchSystermLog()
+{
+
+
+
+
+
+}
+
+void sysManage::searchWorkLog()
+{
+
+
+
+
+}
+
+void sysManage::lastpageSlot()
+{
+
+
+
+
+
+}
+
+void sysManage::nextPageSlot()
+{
+
+
+
+}
+
+
+
+
+void sysManage::GroupButtonClickSlot(int index)
+{
+    int buttonIndex = index;
+    int iYear = getYear();
+    int iMonth = getMonth();
+    int iDay = getDay();
+    int iMaxDay = 28;
+
+    qDebug()<<"*******buttonIndex="<<buttonIndex<<__LINE__;
+    if(buttonIndex == 1)
+    {
+        iYear--;
+        if(iYear <1970)
+        {
+            return ;
+        }
+        setYear(iYear);
+        iMaxDay = GetMaxDay(iYear,iMonth);
+        if(iDay > iMaxDay)
+        {
+            setDay(iMaxDay);
+        }
+
+    }
+    else if(buttonIndex == 2)
+    {
+        iYear++;
+        if(iYear >2100)
+        {
+            return ;
+        }
+        setYear(iYear);
+        iMaxDay = GetMaxDay(iYear,iMonth);
+        if(iDay > iMaxDay)
+        {
+            setDay(iMaxDay);
+        }
+
+    }
+    else if(buttonIndex == 3)
+    {
+        iMonth--;
+        if(iMonth <1)
+        {
+            iMonth = 12;
+        }
+        setMonth(iMonth);
+        iMaxDay = GetMaxDay(iYear,iMonth);
+        if(iDay > iMaxDay)
+        {
+            setDay(iMaxDay);
+        }
+    }
+    else if(buttonIndex == 4)
+    {
+        iMonth ++;
+        if(iMonth >12)
+        {
+            iMonth = 1;
+        }
+        setMonth(iMonth);
+        iMaxDay = GetMaxDay(iYear,iMonth);
+        if(iDay > iMaxDay)
+        {
+            setDay(iMaxDay);
+        }
+
+    }
+    else if(buttonIndex == 5 || buttonIndex == 6)
+    {
+        iMaxDay =GetMaxDay(iYear,iMonth);
+        if(buttonIndex == 6)
+        {
+            iDay ++;
+        }
+        else
+        {
+            iDay --;
+        }
+        if(iDay >iMaxDay)
+        {
+            iDay = 1;
+        }
+        if(iDay <1)
+        {
+            iDay = iMaxDay;
+        }
+        setDay(iDay);
+    }
+
+}
+
 
 void sysManage::hideSysPageSlots()
 {
     this->hide();
     emit hideSysPage();
 }
+
+void sysManage::setYear(int iYear)
+{
+    if(m_iYear != iYear)
+    {
+        char acData[12] = {0};
+        sprintf(acData,"%d",iYear);
+        m_iYear = iYear;
+        ui->yearLabel->setText(QString::number(m_iYear,10));
+
+    }
+
+}
+
+void sysManage::setMonth(int iMonth)
+{
+    if(m_iMonth != iMonth)
+    {
+        char acData[12] = {0};
+        sprintf(acData,"%d",iMonth);
+        m_iMonth = iMonth;
+        ui->monthLabel->setText(QString::number(m_iMonth,10));
+
+    }
+
+}
+
+void sysManage::setDay(int iDay)
+{
+    if(m_iDay != iDay)
+    {
+        char acData[12] = {0};
+        sprintf(acData,"%d",iDay);
+        m_iDay = iDay;
+        ui->dayLabel->setText(QString::number(m_iDay,10));
+
+    }
+
+}
+
+
+int sysManage::getYear()
+{
+    return m_iYear;
+}
+
+int sysManage::getMonth()
+{
+    return m_iMonth;
+}
+int sysManage::getDay()
+{
+    return m_iDay;
+}
+
+
+
 void sysManage::getTrainConfig()     //获取车型配置信息
 {
     int i = 0, j = 0, row = 0;

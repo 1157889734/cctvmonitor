@@ -52,7 +52,7 @@ static char		g_cResUpdateState;      //资源的更新状态 0:未连接 1:开�
 static char		g_cResUpdateProgress;	//素材更新进度
 static char		g_acCCTVRunDir[256] = {0};
 static int 		g_iDispState = DISP_STATE_UNKOWN;
-static char     g_acConfigFileDir[]="/mnt/confs";
+static char     g_acConfigFileDir[]="/home/data";
 static char		g_acBroadcastConfFile[]="BroadcastInfoConfig.ini";
 static char		g_acCCTVConfigFile[]="CCTVConfig.ini";
 static char     g_acIpAddr[16] = {0};
