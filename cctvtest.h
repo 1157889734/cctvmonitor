@@ -34,8 +34,7 @@ public:
 //    void FourPlayStyle();
 //    void SinglePlayStyle();
 //    void UpdateWarnBtn();
-    bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
-    pthread_t m_playthreadId;      //
+//    bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
     pthread_t m_backVideothreadId;      //
     pthread_t m_requesIpcthreadId;      //
 
@@ -82,7 +81,11 @@ public:
     int m_iMousePosY;
     T_WND_INFO                     m_RealMonitorVideos;
 
-
+    void UpdateCamState();
+    void UpdateWarnBtn();
+    void PlayStyleChangedfunc();
+    void SinglePlayStylefunc();
+    void FourPlayStylefunc();
 public slots:
     void showcctvPage();
     void showMonitorPage();
@@ -90,7 +93,6 @@ public slots:
     void fourPageSlot();
     void cycleSlot();
     void timeupdateSlot();
-//    void updatePlaySlot();
     void updateWarnInfoSLot();
     void PlayWidCicked(int index);
     void GroupButtonClickSlot(QAbstractButton* btn);
@@ -99,7 +101,7 @@ public slots:
     void GroupButtonDoorclipSlot(int index);
     void GroupButtonPecuSlot(int index);
 //    void GetBackVideoTImerSlot();
-
+    void playSlot();
 
 signals:
     void showMonitorSignal();
@@ -109,6 +111,7 @@ private:
     QTimer *UpdateTimer;
     QTimer *updatePlayTimer;
     QTimer *updateWarnTimer;
+    QTimer *playTimer;
 
 
 };
