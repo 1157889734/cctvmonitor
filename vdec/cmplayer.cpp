@@ -939,10 +939,15 @@ CMPPlayer_API int CMP_SetPlayEnable(CMPHandle hPlay, int enable)
 
     if(enable)
     {
+        printf("*****************%s---%d\n",__FUNCTION__,__LINE__);
         SHM_AttchWnd(ptCmpPlayer->ptWndInfo.pRenderHandle);
+        printf("*****************%s---%d\n",__FUNCTION__,__LINE__);
         if(ptCmpPlayer->VHandle)
         {
+            printf("*****************%s---%d\n",__FUNCTION__,__LINE__);
             VDEC_DisplayEnable(ptCmpPlayer->VHandle, enable);
+            printf("*****************%s---%d\n",__FUNCTION__,__LINE__);
+
         }
     }
     else

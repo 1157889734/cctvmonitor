@@ -96,7 +96,7 @@ public:
         signalBUtton = new QPushButton(cctvTest);
         signalBUtton->setObjectName(QString::fromUtf8("signalBUtton"));
         signalBUtton->setGeometry(QRect(830, 350, 96, 73));
-        signalBUtton->setStyleSheet(QString::fromUtf8("border-image: url(:/res/btn_02_nor.png);"));
+        signalBUtton->setStyleSheet(QString::fromUtf8("border-image: url(:/res/btn_02_hig.png);"));
         fourpushButton = new QPushButton(cctvTest);
         fourpushButton->setObjectName(QString::fromUtf8("fourpushButton"));
         fourpushButton->setGeometry(QRect(930, 350, 96, 73));
@@ -108,7 +108,7 @@ public:
         stoppushButton = new QPushButton(cctvTest);
         stoppushButton->setObjectName(QString::fromUtf8("stoppushButton"));
         stoppushButton->setGeometry(QRect(930, 440, 96, 73));
-        stoppushButton->setStyleSheet(QString::fromUtf8("border-image: url(:/res/btn_04_nor.png);"));
+        stoppushButton->setStyleSheet(QString::fromUtf8("border-image: url(:/res/btn_04_hig.png);"));
         label_2 = new QLabel(cctvTest);
         label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setGeometry(QRect(0, 624, 1024, 144));
@@ -116,7 +116,7 @@ public:
         pushButton_1_5 = new QPushButton(cctvTest);
         pushButton_1_5->setObjectName(QString::fromUtf8("pushButton_1_5"));
         pushButton_1_5->setGeometry(QRect(15, 650, 55, 45));
-        pushButton_1_5->setStyleSheet(QString::fromUtf8("border-image: url(:/res/27_act.png);"));
+        pushButton_1_5->setStyleSheet(QString::fromUtf8("border-image: url(:/res/1_act.png);"));
         pushButton_1_7 = new QPushButton(cctvTest);
         pushButton_1_7->setObjectName(QString::fromUtf8("pushButton_1_7"));
         pushButton_1_7->setGeometry(QRect(75, 650, 55, 45));

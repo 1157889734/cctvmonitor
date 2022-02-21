@@ -213,14 +213,17 @@ int SHM_AttchWnd(SHM_HANDLE hShmHandle)
     {
         return 0;
     }
+    printf("************pShmRectInfo->pWidget=%p\n",pShmRectInfo->pWidget);
     pShmRectInfo->pWidget->show();
     pShmRectInfo->pWidget->winId();
     if(pShmRectInfo->window_handle)
     {
-        //SHM_DetchWnd(hShmHandle);
+//        SHM_DetchWnd(hShmHandle);
 
         return 0;
     }
+    printf("*****************%s---%d\n",__FUNCTION__,__LINE__);
+
     struct wl_surface *window_handle  = NULL;
     window_handle = (struct wl_surface *)native->nativeResourceForWindow("surface",
                                   pShmRectInfo->pWidget->windowHandle());
@@ -230,6 +233,8 @@ int SHM_AttchWnd(SHM_HANDLE hShmHandle)
         printf("window_handle NULL \n");
         return NULL;
     }
+    printf("**************window_handle=%p**pShmRectInfo->buffer=%p***%s---%d---\n",window_handle,pShmRectInfo->buffer,__FUNCTION__,__LINE__);
+
     pShmRectInfo->lock.Lock();
 //    printf("wl_surface_attach, %0x \n", window_handle);
     wl_surface_attach(window_handle, pShmRectInfo->buffer, 0, 0);
@@ -237,6 +242,8 @@ int SHM_AttchWnd(SHM_HANDLE hShmHandle)
     wl_display_flush(display_handle);
     pShmRectInfo->window_handle = window_handle;
     pShmRectInfo->lock.Unlock();
+    printf("*****************%s---%d\n",__FUNCTION__,__LINE__);
+
     return 0;
 }
 

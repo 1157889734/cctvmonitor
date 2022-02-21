@@ -74,7 +74,7 @@ background-color: rgb(16, 231, 231);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/btn_02_nor.png);</string>
+    <string notr="true">border-image: url(:/res/btn_02_hig.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -122,7 +122,7 @@ background-color: rgb(16, 231, 231);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/btn_04_nor.png);</string>
+    <string notr="true">border-image: url(:/res/btn_04_hig.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -154,7 +154,7 @@ background-color: rgb(16, 231, 231);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/27_act.png);</string>
+    <string notr="true">border-image: url(:/res/1_act.png);</string>
    </property>
    <property name="text">
     <string/>

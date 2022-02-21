@@ -14,8 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #QMAKE_CFLAGS += $(STRIP) $(TAR_FILE)
 #QMAKE_CXXFLAGS += $(STRIP) $(TAR_FILE)
 
-#QMAKE_CFLAGS += -g
-#QMAKE_CXXFLAGS += -g
+QMAKE_CFLAGS += -g
+QMAKE_CXXFLAGS += -g
 
 INCLUDEPATH += $$PWD/include
 INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/rockchip/

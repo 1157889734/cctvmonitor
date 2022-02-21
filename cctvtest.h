@@ -25,6 +25,8 @@ public:
     void setUi();
     void cmplayInit(QWidget *g_widget);
 
+    int GetNextFourVideo(int* piVideo);
+    int GetNextSingleVideo(int *piVideo);
 //    void UpdateCamState();
 //    void PlayCtrlFun();
     int FindCameBtnInfo(QAbstractButton* pbtn,int &iGroup,int &iNo);
@@ -34,11 +36,16 @@ public:
 //    void UpdateWarnBtn();
     bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
     pthread_t m_playthreadId;      //
+    pthread_t m_backVideothreadId;      //
+    pthread_t m_requesIpcthreadId;      //
 
 
 
-    playwidget *m_playWidget[4];
-    playwidget *m_playSingleWidget;
+//    playwidget *m_playWidget[4];
+//    playwidget *m_playSingleWidget;
+
+    QWidget *m_playWidget[4];
+    QWidget *m_playSingleWidget;
 
     QPushButton *videoGroupBtn[8][4];
     QButtonGroup *g_fileButtonGroup;
@@ -91,6 +98,7 @@ public slots:
     void GroupButtonDoorSlot(int index);
     void GroupButtonDoorclipSlot(int index);
     void GroupButtonPecuSlot(int index);
+//    void GetBackVideoTImerSlot();
 
 
 signals:

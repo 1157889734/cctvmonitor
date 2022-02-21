@@ -12,7 +12,7 @@
 
 #include <QApplication>
 
-#define LOG_FILE_DIR  "/mnt/mmc/log"
+#define LOG_FILE_DIR  "/home/data"
 
 cctvTest *g_cctvtest = NULL;
 mainforn *g_mainforn = NULL;
