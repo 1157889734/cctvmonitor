@@ -11,7 +11,6 @@ extern "C"{
 #define WSAGetLastError() errno
 #define BOOL	unsigned int
 #define MAX_FILENAME_LEN 128
-#define USB_PATH	"/mnt/usb/"
 
 typedef unsigned long PFTP_HANDLE;
 typedef void (*PF_FTP_PROC_CALLBACK)(PFTP_HANDLE pFtpHandle, int iPos);

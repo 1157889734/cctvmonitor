@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_cctvTest_t {
-    QByteArrayData data[20];
-    char stringdata0[295];
+    QByteArrayData data[21];
+    char stringdata0[304];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -51,7 +51,8 @@ QT_MOC_LITERAL(15, 207, 3), // "btn"
 QT_MOC_LITERAL(16, 211, 19), // "GroupButtonFireSlot"
 QT_MOC_LITERAL(17, 231, 19), // "GroupButtonDoorSlot"
 QT_MOC_LITERAL(18, 251, 23), // "GroupButtonDoorclipSlot"
-QT_MOC_LITERAL(19, 275, 19) // "GroupButtonPecuSlot"
+QT_MOC_LITERAL(19, 275, 19), // "GroupButtonPecuSlot"
+QT_MOC_LITERAL(20, 295, 8) // "playSlot"
 
     },
     "cctvTest\0showMonitorSignal\0\0"
@@ -61,7 +62,8 @@ QT_MOC_LITERAL(19, 275, 19) // "GroupButtonPecuSlot"
     "updateWarnInfoSLot\0PlayWidCicked\0"
     "GroupButtonClickSlot\0QAbstractButton*\0"
     "btn\0GroupButtonFireSlot\0GroupButtonDoorSlot\0"
-    "GroupButtonDoorclipSlot\0GroupButtonPecuSlot"
+    "GroupButtonDoorclipSlot\0GroupButtonPecuSlot\0"
+    "playSlot"
 };
 #undef QT_MOC_LITERAL
 
@@ -71,7 +73,7 @@ static const uint qt_meta_data_cctvTest[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      15,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -79,23 +81,24 @@ static const uint qt_meta_data_cctvTest[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   89,    2, 0x06 /* Public */,
-       3,    1,   90,    2, 0x06 /* Public */,
+       1,    0,   94,    2, 0x06 /* Public */,
+       3,    1,   95,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    0,   93,    2, 0x0a /* Public */,
-       6,    0,   94,    2, 0x0a /* Public */,
-       7,    0,   95,    2, 0x0a /* Public */,
-       8,    0,   96,    2, 0x0a /* Public */,
-       9,    0,   97,    2, 0x0a /* Public */,
-      10,    0,   98,    2, 0x0a /* Public */,
-      11,    0,   99,    2, 0x0a /* Public */,
-      12,    1,  100,    2, 0x0a /* Public */,
-      13,    1,  103,    2, 0x0a /* Public */,
-      16,    1,  106,    2, 0x0a /* Public */,
-      17,    1,  109,    2, 0x0a /* Public */,
-      18,    1,  112,    2, 0x0a /* Public */,
-      19,    1,  115,    2, 0x0a /* Public */,
+       5,    0,   98,    2, 0x0a /* Public */,
+       6,    0,   99,    2, 0x0a /* Public */,
+       7,    0,  100,    2, 0x0a /* Public */,
+       8,    0,  101,    2, 0x0a /* Public */,
+       9,    0,  102,    2, 0x0a /* Public */,
+      10,    0,  103,    2, 0x0a /* Public */,
+      11,    0,  104,    2, 0x0a /* Public */,
+      12,    1,  105,    2, 0x0a /* Public */,
+      13,    1,  108,    2, 0x0a /* Public */,
+      16,    1,  111,    2, 0x0a /* Public */,
+      17,    1,  114,    2, 0x0a /* Public */,
+      18,    1,  117,    2, 0x0a /* Public */,
+      19,    1,  120,    2, 0x0a /* Public */,
+      20,    0,  123,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -115,6 +118,7 @@ static const uint qt_meta_data_cctvTest[] = {
     QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -140,6 +144,7 @@ void cctvTest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 12: _t->GroupButtonDoorSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 13: _t->GroupButtonDoorclipSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 14: _t->GroupButtonPecuSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: _t->playSlot(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -201,13 +206,13 @@ int cctvTest::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 16;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 15)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 16;
     }
     return _id;
 }

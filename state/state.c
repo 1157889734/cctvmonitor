@@ -22,7 +22,9 @@ typedef struct _T_CARRIAGE_WARN_INFO_
 	u8int cDoorWarn;
     u8int cDoorClipWarn;
 }__attribute__((packed))T_CARRIAGE_WARN_INFO, *PT_CARRIAGE_WARN_INFO;
+#define MAX_SERVER_NUM 6    //最大服务器个数
 
+static PMSG_HANDLE nvrServerPmsgHandle[MAX_SERVER_NUM] = {0, 0, 0, 0};    //nvr服务器pmsg句柄
 
 static T_NVR_STATE g_atNVRState[6];
 
@@ -677,6 +679,28 @@ int GetCCTVRunDir(char *pcRunData,int iLen)
 int GetVideoNum()
 {
 	return g_iVideoNum;
+}
+
+
+PMSG_HANDLE STATE_GetNvrServerPmsgHandle(int iServerIdex)
+{
+    if (iServerIdex > MAX_SERVER_NUM || iServerIdex < 0)
+    {
+        return 0;
+    }
+
+    return nvrServerPmsgHandle[iServerIdex];
+}
+
+int STATE_SetNvrServerPmsgHandle(int iServerIdex, PMSG_HANDLE pmsgHandle)
+{
+    if (pmsgHandle <= 0 || iServerIdex > MAX_SERVER_NUM || iServerIdex < 0)
+    {
+        return -1;
+    }
+
+    nvrServerPmsgHandle[iServerIdex] = pmsgHandle;
+    return 0;
 }
 
 

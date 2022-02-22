@@ -19,8 +19,8 @@
 
 #include "ftpApi.h"
 #include "gb2312_utf8.h" 
-#include "./debugout/debug.h"
-#include "./log/log.h"
+#include "debug.h"
+#include "log.h"
 
 typedef struct _T_FTP_PACKET
 {
@@ -111,6 +111,9 @@ int FTP_DestroyWorkQueue(PT_FTP_QUEUE ptWorkQueue)
     }
 
     free(ptWorkQueue);
+
+    ptWorkQueue = NULL;
+
 
     return 0;
 }
@@ -303,6 +306,10 @@ int find_usbDev()
 
 	pFile = fopen("/proc/partitions", "rb");
     if (NULL == pFile)
+    {
+        return 0;
+    }
+    if(access("/proc/scsi/usb-storage",F_OK) < 0)
     {
         return 0;
     }
@@ -516,7 +523,7 @@ int FTP_CreateClientDataSocket(void)
 int FTP_CreateClientCmdSocket(void)
 {
     int iSockFd;
-    struct timeval sendTimeOut={1,0}, recvTimeOut = {1, 0};
+    struct timeval sendTimeOut={5,0}, recvTimeOut = {5, 0};
     int on = 1;
     
     iSockFd =socket(AF_INET, SOCK_STREAM, 0);  
@@ -626,7 +633,7 @@ int FTP_OpenDataConntion(T_FTP_CONNECTION_INFO *ptFtpConnectionInfo)
         
         if (connect(ptFtpConnectionInfo->data_socket, (struct sockaddr*)&data_client_ip, sizeof(struct sockaddr_in)) < 0) 
         {
-            DebugPrint(DEBUG_FTP_PRINT, "\n ftp_chdir 227 data_link not link to ftp \n");
+            DebugPrint(DEBUG_ERROR_PRINT, "\n ftp_chdir 227 data_link not link to ftp \n");
             return FTP_OPEN_DATA_ERR;
         }
     }
@@ -680,15 +687,14 @@ int FTP_ServerLogin(T_FTP_CONNECTION_INFO *ftp, int addr, int port, char *uname,
     {
         if (EINPROGRESS != errno)
         {
-            DebugPrint(DEBUG_FTP_PRINT, "ftp_open not link to ftp server(0x%x),port=0x%x(%d), errno=%d(%s)\n", 
-				server.sin_addr.s_addr, server.sin_port, port, errno, strerror(errno));
+            DebugPrint(DEBUG_ERROR_PRINT, "ftp_open not link to ftp server(0x%x),port=0x%x(%d), errno=%d(%s)\n", server.sin_addr.s_addr, server.sin_port, port, errno, strerror(errno));
             return FTP_CONNECT_SEVER_ERR;
         }
     }
 	memset(recv_buf, 0, sizeof(recv_buf));
     if (FTP_RecvResponse(ftp,recv_buf, 1024, "220") < 0)
     {
-        DebugPrint(DEBUG_FTP_PRINT, "ftp_open FTP_RecvResponse not link to ftp server(0x%x),port=0x%x(%d), errno=%d(%s)\n", server.sin_addr.s_addr, server.sin_port, port, errno, strerror(errno));
+        DebugPrint(DEBUG_ERROR_PRINT, "ftp_open FTP_RecvResponse not link to ftp server(0x%x),port=0x%x(%d), errno=%d(%s)\n", server.sin_addr.s_addr, server.sin_port, port, errno, strerror(errno));
         return FTP_CONNECT_SEVER_ERR;
     }
 
@@ -738,7 +744,7 @@ int FTP_ServerLogin(T_FTP_CONNECTION_INFO *ftp, int addr, int port, char *uname,
     sprintf(buf, "PASS %s\r\n", userpwd);
     if (FTP_CmdCtrl(ftp, buf,"230") < 0)
     {
-        DebugPrint(DEBUG_FTP_PRINT, "ftp_open send pwd err, usr=%s, errno=%d(%s)\n", userpwd, errno, strerror(errno));
+        DebugPrint(DEBUG_ERROR_PRINT, "ftp_open send pwd err, usr=%s, errno=%d(%s)\n", userpwd, errno, strerror(errno));
         FTP_Quit(ftp);
         return FTP_USR_PWD_ERR;
     }
@@ -820,7 +826,7 @@ int FTP_CheckdirAndMakedir(T_FTP_CONNECTION_INFO *ftp,  char *dname)
     err = FTP_CmdCtrl(ftp, cwd_str,"250");
     if (err == 0)
     {
-        DebugPrint(DEBUG_FTP_PRINT, "ftp_chdir_and_makedir_c 250 dir(%s) exist\n", cwd_str);
+        DebugPrint(DEBUG_ERROR_PRINT, "ftp_chdir_and_makedir_c 250 dir(%s) exist\n", cwd_str);
         return 0;//路径已存在
     }
     //路径不存在需要创建不存在的目录
@@ -904,7 +910,9 @@ void *FTP_DownloadDataRecvThread(void *param)
     struct timeval time_current;
     FILE *fp = NULL;
     T_FTP_PACKET tFtpPkt;
-    
+    T_LOG_INFO tLogInfo;
+
+
     PT_FTP_CONNECTION_INFO ptFtpConnectionInfo = (PT_FTP_CONNECTION_INFO)param;
 	if (NULL == ptFtpConnectionInfo)
 	{
@@ -915,10 +923,10 @@ void *FTP_DownloadDataRecvThread(void *param)
     {		
     	if (0 == find_usbDev())
 		{
-			if (0 == access(USB_PATH, F_OK))
-			{
-				system("rm -r" USB_PATH);
-			}
+            if (0 == access("/home/data/u/", F_OK))
+            {
+                system("rm -r /home/data/u/");
+            }
 			iPos = -1;  //暂定回调进度-1，表示告知U盘已拔出
 			goto FAIL;
 		}
@@ -928,8 +936,6 @@ void *FTP_DownloadDataRecvThread(void *param)
 	    {
 	    	if (tFtpPkt.iCmdType != FTP_DOWNLOAD_CMD)
 	    	{
-	    		iPos = -2;  
-				goto FAIL;	
 	    		continue;
 	    	}
 	    	
@@ -938,14 +944,12 @@ void *FTP_DownloadDataRecvThread(void *param)
 			    fp = fopen(tFtpPkt.acDstFileName, "wb");
 				if (NULL == fp)
 				{
-					iPos = -2;  
-					goto FAIL;	
+					continue;
 				}
 			}
 			else
 			{
-				iPos = -2;  
-				goto FAIL;	
+				continue;
 			}
 
 			//传输模式
@@ -954,6 +958,7 @@ void *FTP_DownloadDataRecvThread(void *param)
 		    iRet = FTP_CmdCtrl(ptFtpConnectionInfo, buf, "200");
 		    if (iRet < 0)
 		    {
+                DebugPrint(DEBUG_ERROR_PRINT, "FTP_CmdCtrl(RETR) err, iRet=%d\n",iRet);
 		    	fclose(fp);
 		    	fp = NULL;
 		    	iPos = -3;  //暂定回调进度-3，表示告知数据接收失败
@@ -965,6 +970,7 @@ void *FTP_DownloadDataRecvThread(void *param)
 		    strcpy(buf,"PASV\r\n");
 		    if ((iRet = FTP_SendCmd(ptFtpConnectionInfo, buf)) < 0)
 		    {
+                DebugPrint(DEBUG_ERROR_PRINT, "FTP_SendCmd(RETR) err, iRet=%d\n",iRet);
 		    	fclose(fp);
 		    	fp = NULL;
 		        iPos = -3;  //暂定回调进度-3，表示告知数据接收失败
@@ -974,11 +980,13 @@ void *FTP_DownloadDataRecvThread(void *param)
 			memset(recv_buf, 0, sizeof(recv_buf));
 		    if ((iRet = FTP_RecvResponse(ptFtpConnectionInfo,recv_buf, 1024, "227")) < 0)
 		    {
+                DebugPrint(DEBUG_ERROR_PRINT, "FTP_RecvResponse(RETR) err, iRet=%d\n",iRet);
 		    	fclose(fp);
 		    	fp = NULL;
 		        iPos = -3;  //暂定回调进度-3，表示告知数据接收失败
 		        goto FAIL;
 		    }
+
 		    memset(ip_str,0,sizeof(ip_str));
 		    point=FTP_Explain227Cmd(ip_str,recv_buf);    //得到端口和IP
 		    memset(&data_client_ip, 0, sizeof(struct sockaddr_in));              //先将保存地址的server置为全0
@@ -993,16 +1001,25 @@ void *FTP_DownloadDataRecvThread(void *param)
 		    	FTP_CloseClientDataSocket(ptFtpConnectionInfo);
 		    }
 	        ptFtpConnectionInfo->data_socket=FTP_CreateClientDataSocket();
-	        
+            if(ptFtpConnectionInfo->data_socket < 0)
+            {
+                DebugPrint(DEBUG_ERROR_PRINT, "\nptFtpConnectionInfo->data_socket < 0 \n");
+                FD_CLR(ptFtpConnectionInfo->data_socket, &ptFtpConnectionInfo->readSet);
+                FTP_CloseClientDataSocket(ptFtpConnectionInfo);
+                fclose(fp);
+                fp = NULL;
+                iPos = -3;  //暂定回调进度-3，表示告知数据接收失败
+                goto FAIL;
+            }
+
 		    if (connect(ptFtpConnectionInfo->data_socket, (struct sockaddr*)&data_client_ip, sizeof(struct sockaddr_in)) <0) 
 		    {
-		        DebugPrint(DEBUG_FTP_PRINT, "\ndata_link not link to ftp \n");
+                DebugPrint(DEBUG_ERROR_PRINT, "\ndata_link not link to ftp \n");
 		        fclose(fp);
 		    	fp = NULL;
 		        iPos = -3;  //暂定回调进度-3，表示告知数据接收失败
 		        goto FAIL;
 		    }
-
 			FD_SET(ptFtpConnectionInfo->data_socket, &ptFtpConnectionInfo->readSet);
 			
 		    memset(buf,0,sizeof(buf));
@@ -1011,7 +1028,7 @@ void *FTP_DownloadDataRecvThread(void *param)
 		    sprintf(buf, "RETR %s\r\n", sendfilename);
 		    if ((iRet = FTP_SendCmd(ptFtpConnectionInfo, buf)) < 0)
 		    {
-		        DebugPrint(DEBUG_FTP_PRINT, "FTP_SendCmd err\n");
+                DebugPrint(DEBUG_ERROR_PRINT, "FTP_SendCmd err\n");
 		        fclose(fp);
 		    	fp = NULL;
 		        iPos = -3;  //暂定回调进度-3，表示告知数据接收失败
@@ -1021,21 +1038,20 @@ void *FTP_DownloadDataRecvThread(void *param)
 			memset(recv_buf, 0, sizeof(recv_buf));
 		    if ((iRet = FTP_RecvResponse(ptFtpConnectionInfo,recv_buf, 1024, "150")) < 0)
 		    {
-		        DebugPrint(DEBUG_FTP_PRINT, "FTP_RecvResponse(RETR) err, iRet=%d\n",iRet);
+                DebugPrint(DEBUG_ERROR_PRINT, "FTP_RecvResponse(RETR) err, iRet=%d\n",iRet);
 		        fclose(fp);
 		    	fp = NULL;
 		        iPos = -3;  //暂定回调进度-3，表示告知数据接收失败
 		        goto FAIL;
 		    }
-
 			while (1 == ptFtpConnectionInfo->threadRunFlag)
 			{	
 				if (0 == find_usbDev())
 				{
-					if (0 == access(USB_PATH, F_OK))
-					{
-						system("rm -r" USB_PATH);
-					}
+                    if (0 == access("/home/data/u/", F_OK))
+                    {
+                        system("rm -r /home/data/u/");
+                    }
 					iPos = -1;  //暂定回调进度-1，表示告知U盘已拔出
 					break;
 				}
@@ -1050,7 +1066,6 @@ void *FTP_DownloadDataRecvThread(void *param)
 			        memset(acLocalDatabuf, 0, sizeof(acLocalDatabuf));
 					iRecvSize = ((ptFtpConnectionInfo->DownloadFileSize - iFileSize)>=sizeof(acLocalDatabuf))?sizeof(acLocalDatabuf):(ptFtpConnectionInfo->DownloadFileSize - iFileSize);
 			        iRecvLen = recv(ptFtpConnectionInfo->data_socket, acLocalDatabuf, iRecvSize, 0);
-
 					if (iRecvLen > 0)
 			        {
 			        	if (fp != NULL)
@@ -1064,60 +1079,66 @@ void *FTP_DownloadDataRecvThread(void *param)
 								}
 								else
 								{
-									if (0 == access(USB_PATH, F_OK))
-									{
-										system("rm -r" USB_PATH);
-									}
+                                    if (0 == access("/home/data/u/", F_OK))
+                                    {
+                                        system("rm -r /home/data/u/");
+                                    }
 									iPos = -1;  //暂定回调进度-1，表示告知U盘已拔出
 								}
 			                	break;
 			                }
-
 			                iFileSize += iRet;
 			                if (ptFtpConnectionInfo->DownloadFileSize > 0)
 			                {
 								iPos = iFileSize*100/ptFtpConnectionInfo->DownloadFileSize;
-								if (iPos >= 0)
-								{	     
-								    //DebugPrint(DEBUG_FTP_PRINT, "LINE:%d iPos =%d\n", __LINE__,iPos);
+                                if (iPos > 0)
+								{	
 									if (iPos == 100)
 									{
 						        		break;
 						        	} 
 						        	else
 						        	{
-										ptFtpConnectionInfo->pFtpProcFunc((PFTP_HANDLE)ptFtpConnectionInfo, iPos);
+//                                        DebugPrint(DEBUG_ERROR_PRINT, "ptFtpConnectionInfo->DownloadFileSize=%d\n",iPos);
+                                        ptFtpConnectionInfo->pFtpProcFunc((PFTP_HANDLE)ptFtpConnectionInfo, iPos);
 						        	}
 				                }
-			                } 
+			                }                
 			            }
 			        }
 					else if (0 == iRecvLen)
-					{		
-						T_LOG_INFO tLog;
-                        
-									   
-						memset(&tLog,0,sizeof(T_LOG_INFO));
+					{	
+						memset(&tLogInfo, 0, sizeof(T_LOG_INFO));
+						tLogInfo.iLogType = 0;
+						snprintf(tLogInfo.acLogDesc, sizeof(tLogInfo.acLogDesc), "Download: %s of nvr server %s success", sendfilename, ip_str);
+						LOG_WriteLog(&tLogInfo);
+						
 						memset(recv_buf, 0, sizeof(recv_buf));
 						if ((iRet = FTP_RecvResponse(ptFtpConnectionInfo, recv_buf, 1024, "226")) < 0)
 					    {
-					        DebugPrint(DEBUG_FTP_PRINT, "recv_buf err, buf=%s, ptFtpConnectionInfo->data_socket=%d\n", recv_buf,ptFtpConnectionInfo->data_socket);
+                            DebugPrint(DEBUG_ERROR_PRINT, "recv_buf err, buf=%s, ptFtpConnectionInfo->data_socket=%d\n", recv_buf,ptFtpConnectionInfo->data_socket);
+					        if(ptFtpConnectionInfo->data_socket > 0)
+						    {
+						    	FD_CLR(ptFtpConnectionInfo->data_socket, &ptFtpConnectionInfo->readSet);
+						    	FTP_CloseClientDataSocket(ptFtpConnectionInfo);
+                                DebugPrint(DEBUG_ERROR_PRINT, "11recv err,iRecvLen=%d\n",iRecvLen);
+                                iPos = -3; //暂定回调进度-3，表示告知数据接收失败
+						    }
+
+					        break;
 					    }
 						if(ptFtpConnectionInfo->data_socket > 0)
 					    {
 					    	FD_CLR(ptFtpConnectionInfo->data_socket, &ptFtpConnectionInfo->readSet);
 					    	FTP_CloseClientDataSocket(ptFtpConnectionInfo);
+                            DebugPrint(DEBUG_ERROR_PRINT, "22recv err,iRecvLen=%d\n",iRecvLen);
 					    }
+                            break;
 
-						tLog.iLogType = LOG_TYPE_EVENT;	
-						snprintf(tLog.acLogDesc,sizeof(tLog.acLogDesc)-1,"down succ:%s"
-							,tFtpPkt.acSrcFileName);
-						LOG_WriteLog(&tLog);
-						break;
 					}
 			        else
 			        {
-			            DebugPrint(DEBUG_FTP_PRINT, "recv err,iRecvLen=%d\n",iRecvLen);
+                        DebugPrint(DEBUG_ERROR_PRINT, "33recv err,iRecvLen=%d\n",iRecvLen);
 			            iPos = -3; //暂定回调进度-3，表示告知数据接收失败
 			            break;
 			        }
@@ -1126,13 +1147,13 @@ void *FTP_DownloadDataRecvThread(void *param)
 			    {
 			        if ((trytimes ++) > 3)
 			        {
-			            DebugPrint(DEBUG_FTP_PRINT, "select err, trytimes=%d\n", trytimes);
+                        DebugPrint(DEBUG_ERROR_PRINT, "select err, trytimes=%d\n", trytimes);
 			            iPos = -3;  //暂定回调进度-3，表示告知数据接收失败
 			            break;
 			        }
 			        else
 			        {
-			            DebugPrint(DEBUG_FTP_PRINT, "select err, errno=0x%x, err=%s trytimes=%d, sleep(1)\n", errno, strerror(errno), trytimes);
+                        DebugPrint(DEBUG_ERROR_PRINT, "select err, errno=0x%x, err=%s trytimes=%d, sleep(1)\n", errno, strerror(errno), trytimes);
 			            continue;
 			        }
 			    }
@@ -1141,15 +1162,21 @@ void *FTP_DownloadDataRecvThread(void *param)
 			fsync(fileno(fp));
 			fclose(fp);
 		    fp = NULL;
+            system("sync");
+		FAIL:
+		    if ((100 == iPos) || (-1 == iPos) || (-2 == iPos) || (-3 == iPos))
+		    {
+				ptFtpConnectionInfo->pFtpProcFunc((PFTP_HANDLE)ptFtpConnectionInfo, iPos);
+				if ((-1 == iPos) || (-2 == iPos) || (-3 == iPos))
+				{
+					memset(&tLogInfo, 0, sizeof(T_LOG_INFO));
+					tLogInfo.iLogType = 0;
+					snprintf(tLogInfo.acLogDesc, sizeof(tLogInfo.acLogDesc), "Download: %s of nvr server %s failed", sendfilename, ip_str);
+					LOG_WriteLog(&tLogInfo);
+				}
+		    }
 	    }
-		
-	FAIL:
-		if ((100 == iPos) || (-1 == iPos) || (-2 == iPos) || (-3 == iPos))
-		{
-			ptFtpConnectionInfo->pFtpProcFunc((PFTP_HANDLE)ptFtpConnectionInfo, iPos);
-			break;
-		}
-	    usleep(50*1000);
+	    usleep(100*1000);
     }
     
     return NULL;
@@ -1317,7 +1344,7 @@ PFTP_HANDLE FTP_CreateConnect(char *pcIpAddr, int iPort, PF_FTP_PROC_CALLBACK pF
     
     ptFtpConnectionInfo->pFtpProcFunc = pFtpProcFunc;
     ptFtpConnectionInfo->DownloadFileSize = 0;
-    iRet = FTP_ServerLogin(ptFtpConnectionInfo, htonl(inet_addr(pcIpAddr)), iPort, "root", "hq123");   //匿名方式登录服务器
+    iRet = FTP_ServerLogin(ptFtpConnectionInfo, htonl(inet_addr(pcIpAddr)), iPort, "admin", "12345");   //匿名方式登录服务器
 	if (iRet < 0)
 	{
 		free(ptFtpConnectionInfo);
@@ -1326,8 +1353,8 @@ PFTP_HANDLE FTP_CreateConnect(char *pcIpAddr, int iPort, PF_FTP_PROC_CALLBACK pF
 	}
 
 	FD_ZERO(&ptFtpConnectionInfo->readSet);
-	ptFtpConnectionInfo->selectTime.tv_sec = 0;
-	ptFtpConnectionInfo->selectTime.tv_usec = 500000;
+	ptFtpConnectionInfo->selectTime.tv_sec = 2;
+	ptFtpConnectionInfo->selectTime.tv_usec = 0;
 
 	pthread_mutex_init(&ptFtpConnectionInfo->tMutex, NULL);
 
@@ -1422,6 +1449,7 @@ int FTP_FileDownLoad(PFTP_HANDLE pFtpHandle)
 {
 	int iRet = 0;
 	PT_FTP_CONNECTION_INFO ptFtpConnectionInfo = (PT_FTP_CONNECTION_INFO)pFtpHandle;
+//    pthread_detach(pthread_self());
 
     if (NULL == ptFtpConnectionInfo)
     {

@@ -112,7 +112,7 @@ void cctvTest::UpdateCamState()
             }
 
         }
-
+//        qDebug()<<"**********iImgIndex="<<iImgIndex<<__LINE__;
         if(iNowPlay)
         {
             icon = iOnline ? pImageBtn[iImgIndex-1][0]:pImageBtn[iImgIndex-1][1];
@@ -125,11 +125,16 @@ void cctvTest::UpdateCamState()
         {
             icon = pImageBtn[iImgIndex-1][4];
         }
-        if(icon.name() != Nowicon.name())
+//        if(icon.isNull())
+//            qDebug()<<"***********name="<<icon.name()<<"******Nowicon.name"<<Nowicon.name()<<__LINE__;
+
+//        printf("**********icon.name=%s--Nowicon.name=%s\n",icon.name().toLatin1().data(),Nowicon.name().toLatin1().data());
+
+//        if(icon.name() != Nowicon.name())
         {
 
 
-            qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
+//            qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
             videoGroupBtn[iGroup][iPos]->setIcon(icon);
             videoGroupBtn[iGroup][iPos]->setIconSize(QSize(55,45));
             videoGroupBtn[iGroup][iPos]->hide();
@@ -224,7 +229,6 @@ void cctvTest::PlayStyleChangedfunc()
 
             if(iNextVideoIdx != -1)
             {
-                cmplayInit(m_playWidget[i]);
                 GetVideoRtspUrl(iNextVideoIdx,acUrl,sizeof(acUrl));
 //                strcpy(acUrl,"rtsp://admin:admin123@192.168.104.88:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif"); //11
                 cmplayInit(m_playWidget[i]);
@@ -624,8 +628,6 @@ void cctvTest::FourPlayStylefunc()
    }
 
 
-
-
 }
 
 
@@ -706,19 +708,19 @@ void* RequestIpcStateSlot(void *param)
 {
     while (1)
     {
-        for(int i=0;i<3;i++)
-        {
-            if(E_SERV_STATUS_CONNECT== NVR_GetConnectStatus(i*2))  //冗余操作  发送一个就好
-            {
-                NVR_SendCmdInfo(i*2, CLI_SERV_MSG_TYPE_GET_HDISK_STATUS, NULL, 0);
-                NVR_SendCmdInfo(i*2, CLI_SERV_MSG_TYPE_GET_IPC_STATUS, NULL, 0);
-            }
-            else if(E_SERV_STATUS_CONNECT== NVR_GetConnectStatus(i*2+1))
-            {
-                NVR_SendCmdInfo(i*2+1, CLI_SERV_MSG_TYPE_GET_HDISK_STATUS, NULL, 0);
-                NVR_SendCmdInfo(i*2+1, CLI_SERV_MSG_TYPE_GET_IPC_STATUS, NULL, 0);
-            }
-        }
+//        for(int i=0;i<3;i++)
+//        {
+//            if(E_SERV_STATUS_CONNECT== NVR_GetConnectStatus(i*2))  //冗余操作  发送一个就好
+//            {
+//                NVR_SendCmdInfo(i*2, CLI_SERV_MSG_TYPE_GET_HDISK_STATUS, NULL, 0);
+//                NVR_SendCmdInfo(i*2, CLI_SERV_MSG_TYPE_GET_IPC_STATUS, NULL, 0);
+//            }
+//            else if(E_SERV_STATUS_CONNECT== NVR_GetConnectStatus(i*2+1))
+//            {
+//                NVR_SendCmdInfo(i*2+1, CLI_SERV_MSG_TYPE_GET_HDISK_STATUS, NULL, 0);
+//                NVR_SendCmdInfo(i*2+1, CLI_SERV_MSG_TYPE_GET_IPC_STATUS, NULL, 0);
+//            }
+//        }
 
         usleep(3*1000*1000);
     }
@@ -844,8 +846,8 @@ cctvTest::~cctvTest()
 void cctvTest::cmplayInit(QWidget *g_widget)
 {
 
-//    if(m_RealMonitorVideos.pRenderHandle)
-//        return;
+    if(m_RealMonitorVideos.pRenderHandle)
+        return;
     memset(&m_RealMonitorVideos, 0, sizeof(m_RealMonitorVideos));
     m_RealMonitorVideos.pRenderHandle = NULL;
 
@@ -988,7 +990,6 @@ int cctvTest::GetNextSingleVideo(int *piVideo)
 }
 
 
-#if 0
 bool cctvTest::eventFilter(QObject *target, QEvent *event) //事件过滤器
 {
     if (event->type()==QEvent::MouseButtonPress || event->type()==QEvent::MouseMove) //判断界面操作
@@ -1009,11 +1010,9 @@ bool cctvTest::eventFilter(QObject *target, QEvent *event) //事件过滤器
             }
         }
 
-//            qDebug()<<"******m_iMousePosX="<<m_iMousePosX<<"*************m_iMousePosY="<<m_iMousePosY<<__LINE__;
 
         if(event->type()==QEvent::MouseButtonPress)
         {
-//                qDebug()<<"*****************"<<__LINE__;
             if(target == m_playWidget[0])
             {
                 emit sendWindIndexSignal(0);
@@ -1043,7 +1042,6 @@ bool cctvTest::eventFilter(QObject *target, QEvent *event) //事件过滤器
 
 
 }
-#endif
 
 void cctvTest::PlayWidCicked(int index)
 {
@@ -1133,27 +1131,25 @@ void cctvTest::GroupButtonClickSlot(QAbstractButton* pbtn)
     }
     if(g_iVideoCycleFlag)
     {
-//        for(int i=4;i<8;i++)
-//        {
-//            if(g_pHplay[i])
-//            {
-//                CMP_CloseMedia(g_pHplay[i]);
-//                CMP_UnInit(g_pHplay[i]);
+        for(int i=4;i<8;i++)
+        {
+            if(g_pHplay[i])
+            {
+                CMP_CloseMedia(g_pHplay[i]);
+                CMP_UnInit(g_pHplay[i]);
 
-////                CMP_DestroyMedia(g_pHplay[i]);
-//                g_pHplay[i] = NULL;
-//            }
-//            g_aiBackFourVideoIdx[i-4] = -1;
-//        }
-//        if(g_hBackSinglePlay)
-//        {
-//            CMP_CloseMedia(g_hBackSinglePlay);
-//            CMP_UnInit(g_hBackSinglePlay);
+                g_pHplay[i] = NULL;
+            }
+            g_aiBackFourVideoIdx[i-4] = -1;
+        }
+        if(g_hBackSinglePlay)
+        {
+            CMP_CloseMedia(g_hBackSinglePlay);
+            CMP_UnInit(g_hBackSinglePlay);
 
-////            CMP_DestroyMedia(g_hBackSinglePlay);
-//            g_hBackSinglePlay = NULL;
-//        }
-//        g_iBackSingleVideoIdx = -1;
+            g_hBackSinglePlay = NULL;
+        }
+        g_iBackSingleVideoIdx = -1;
 
 //        QTimer::singleShot(g_iCycTime,this,SLOT(GetBackVideoTImerSlot()));
 //        UpdateCamState();
@@ -1324,58 +1320,51 @@ void cctvTest::setUi()
 
 
 
-    m_playWidget[0] = new QWidget(this);
-//    m_playWidget[0]->setParent(this);
+    m_playWidget[0] = new playwidget();
+    m_playWidget[0]->setParent(this);
     m_playWidget[0]->setGeometry(0,0,416,312);
     m_playWidget[0]->setObjectName("m_playWidget0");
 
 
-    m_playWidget[1] = new QWidget(this);
-//    m_playWidget[1]->setParent(this);
+    m_playWidget[1] = new playwidget();
+    m_playWidget[1]->setParent(this);
     m_playWidget[1]->setGeometry(0,313,416,312);
     m_playWidget[1]->setObjectName("m_playWidget1");
 
 
-    m_playWidget[2] = new QWidget(this);
-//    m_playWidget[2]->setParent(this);
+    m_playWidget[2] = new playwidget();
+    m_playWidget[2]->setParent(this);
     m_playWidget[2]->setGeometry(417,0,416,312);
     m_playWidget[2]->setObjectName("m_playWidget2");
 
 
-    m_playWidget[3] = new QWidget(this);
-//    m_playWidget[3]->setParent(this);
+    m_playWidget[3] = new playwidget();
+    m_playWidget[3]->setParent(this);
     m_playWidget[3]->setGeometry(417,313,416,312);
     m_playWidget[3]->setObjectName("m_playWidget3");
 
 
-    m_playSingleWidget =new QWidget(this);
-//    m_playSingleWidget->setParent(this);
+    m_playSingleWidget =new playwidget();
+    m_playSingleWidget->setParent(this);
     m_playSingleWidget->setGeometry(0,0,832,624);
     m_playSingleWidget->setObjectName("m_playWidget");
 
 
-
-//    for(int i=0;i<4;i++)
-//    {
-//       connect(m_playWidget[i],SIGNAL(sendClickSignal(QObject*)),this,SLOT(PlayWidCicked(QObject*)));
-
-//    }
-//    connect(m_playSingleWidget,SIGNAL(sendClickSignal(QPoint)),this,SLOT(PlayWidCicked(QPoint)));
 
 
 
     for(int i = 0; i < 4; i++)
     {
         m_playWidget[i]->setStyleSheet("QWidget{background-color: rgb(0, 0, 0);}");     //设置播放窗口背景色为黑色
-//        m_playWidget[i]->installEventFilter(this);     //播放窗体注册进事件过滤器
-//        m_playWidget[i]->setMouseTracking(true);
+        m_playWidget[i]->installEventFilter(this);     //播放窗体注册进事件过滤器
+        m_playWidget[i]->setMouseTracking(true);
         m_playWidget[i]->show();
 
     }
 
     m_playSingleWidget->setStyleSheet("QWidget{background-color: rgb(0, 0, 0);}");
-//    m_playSingleWidget->installEventFilter(this);     //播放窗体注册进事件过滤器
-//    m_playSingleWidget->setMouseTracking(true);
+    m_playSingleWidget->installEventFilter(this);     //播放窗体注册进事件过滤器
+    m_playSingleWidget->setMouseTracking(true);
     m_playSingleWidget->hide();
 
 
@@ -1785,12 +1774,134 @@ void cctvTest::timeupdateSlot()
 
 void cctvTest::showcctvPage()
 {
-    this->show();
+
+    if(E_FOUR_VPLAY == g_eCurPlayStyle)
+      {
+//         int iNeedChange = 0;
+        char acUrl[256] = {0};
+
+         for(int i =0;i<4;i++)
+         {
+              //此时为4画面显示
+              if(-1 == g_iNextSingleVideoIdx)
+              {
+                  int  iNextVideoIdx = g_aiNextFourVideoIdx[i];
+
+                 m_playWidget[i]->show();
+                 if(g_pHplay[i] == NULL)
+                 {
+                     qDebug()<<"*************="<<g_pHplay[i]<<__LINE__;
+                     qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
+                     GetVideoRtspUrl(g_iNextSingleVideoIdx,acUrl,sizeof(acUrl));
+     //                strcpy(acUrl,"rtsp://admin:admin123@192.168.104.88:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif"); //11
+                     cmplayInit(m_playWidget[i]);
+                     g_pHplay[i] = CMP_Init(&m_RealMonitorVideos,CMP_VDEC_NORMAL);
+                     CMP_OpenMediaPreview(g_pHplay[i], acUrl, CMP_TCP);
+                     CMP_PlayMedia(g_pHplay[i]);
+                     CMP_SetPlayEnable(g_pHplay[i],1);
+//                     CMP_SetPlayEnable(g_pHplay[i],1);
+                 }
+              }
+              //另外一个情况为单画面显示，并且当前显示的画面不在四画面中
+              //在按下监控按钮时已将其关闭，所以需再次创建
+         }
+         if(-1 != g_iNextSingleVideoIdx )
+         {
+              char acUrl[256] = {0};
+
+               m_playSingleWidget->show();
+               GetVideoMainRtspUrl(g_iNextSingleVideoIdx ,acUrl,sizeof(acUrl));
+//                strcpy(acUrl,"rtsp://admin:admin123@192.168.104.88:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif"); //11
+               cmplayInit(m_playSingleWidget);
+               g_hSinglePlay = CMP_Init(&m_RealMonitorVideos,CMP_VDEC_NORMAL);
+               CMP_OpenMediaPreview(g_hSinglePlay, acUrl, CMP_TCP);
+               CMP_PlayMedia(g_hSinglePlay);
+               CMP_SetPlayEnable(g_hSinglePlay,1);
+               qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
+
+//               g_hSinglePlay = CMP_CreateMedia(pCCTVWid->m_pSinglePlayBg);
+//               CMP_OpenMediaPreview(g_hSinglePlay, acUrl, CMP_TCP);
+//               CMP_SetWndDisplayEnable(g_hSinglePlay,1,1);
+         }
+              //此时为4画面显示
+         g_iCurSingleVideoIdx = g_iNextSingleVideoIdx;
+      }
+      else
+      {
+          if(g_hSinglePlay)
+          {
+              qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
+
+              CMP_SetPlayEnable(g_hSinglePlay,1);
+          }
+      }
+
+      if(g_iVideoCycleFlag)
+      {
+          //Fl::add_timeout(g_iCycTime-4,CycControlTimer,pData);
+//          Fl::add_timeout(g_iCycTime,GetBackVideoTimer,pData);
+      }
+      g_iNeedUpdateWarnIcon = 1;
+
+      this->show();
+
 }
 
 
 void cctvTest::showMonitorPage()
 {
+    if(E_FOUR_VPLAY == g_eCurPlayStyle)
+   {
+       for(int i =0;i<4;i++)
+       {
+           if(g_pHplay[i])
+           {
+               qDebug()<<"*************="<<g_pHplay[i]<<__LINE__;
+               qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
+//               CMP_SetPlayEnable(g_pHplay[i], 0);
+//               m_playWidget[i]->hide();
+
+               CMP_CloseMedia(g_pHplay[i]);
+               CMP_UnInit(g_pHplay[i]);
+               g_pHplay[i] = NULL;
+
+           }
+           if(g_pHplay[i+4])
+           {
+               qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
+               CMP_CloseMedia(g_pHplay[i+4]);
+               CMP_UnInit(g_pHplay[i+4]);
+               g_pHplay[i+4] = NULL;
+           }
+           g_aiBackFourVideoIdx[i] = -1;
+      }
+
+       if(g_hSinglePlay)
+       {
+           qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
+           g_iCurSingleVideoIdx = -1;
+           CMP_CloseMedia(g_hSinglePlay);
+           CMP_UnInit(g_hSinglePlay);
+           g_hSinglePlay = NULL;
+       }
+    }
+    else
+    {
+       if(g_hSinglePlay)
+       {
+           qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
+           CMP_SetPlayEnable(g_hSinglePlay, 0);
+       }
+       if(g_hBackSinglePlay)
+       {
+           qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
+
+            CMP_CloseMedia(g_hBackSinglePlay);
+            CMP_UnInit(g_hBackSinglePlay);
+            g_hBackSinglePlay = NULL;
+        }
+        g_iBackSingleVideoIdx = -1;
+   }
     this->hide();
     emit showMonitorSignal();
 }

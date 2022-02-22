@@ -16,12 +16,14 @@ class mainforn : public QWidget
 public:
     explicit mainforn(QWidget *parent = nullptr);
     ~mainforn();
-
+    void recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsgData, int iMsgDataLen);
 
 public slots:
     void showMainfornPage();
     void menuButtonClick();
     void hidePageSlots();
+    void pmsgTimerFunc();
+
 
 signals:
     void sendhidesignal();
@@ -31,6 +33,8 @@ private:
     Ui::mainforn *ui;
     recordManage *g_recordManage;
     sysManage *g_sysManage;
+    QTimer *m_PmsgTimer;
+
 };
 
 #endif // MAINFORN_H

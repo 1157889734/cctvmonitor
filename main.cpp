@@ -8,7 +8,7 @@
 #include "recordmanage.h"
 #include "sysmanage.h"
 #include "NVRMsgProc.h"
-
+#include <QDebug>
 
 #include <QApplication>
 
@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     int iRet = 0;
     T_LOG_INFO tLog;
+    char acNvrServerIp[128] = {0};
     LOG_Init(LOG_FILE_DIR);    //本地日志模块初始化
 
     GetTLCDSoftVersion(g_acCCTVVersion,sizeof(g_acCCTVVersion));
@@ -74,11 +75,29 @@ int main(int argc, char *argv[])
 //    g_mainforn->setStyleSheet("border-image: url();background-image:url(:/res/bg_system0.png)");
     g_mainforn->hide();
 
+    for (int i = 0; i < 6; i++)
+    {
+        memset(acNvrServerIp, 0, sizeof(acNvrServerIp));
+        snprintf(acNvrServerIp, sizeof(acNvrServerIp), "192.168.%d.81", 100+i);
+//        snprintf(acNvrServerIp, sizeof(acNvrServerIp), "127.0.0.%d", 1);
+        iRet = PMSG_CreateConnect(acNvrServerIp, 10100);
+        qDebug()<<"***********iRet=**"<<iRet<<__func__<<__LINE__;
 
-    NVR_init();
+        if (0 == iRet)
+        {
+//            DebugPrint(DEBUG_UI_ERROR_PRINT, "create connection to server:%s error!\n",acNvrServerIp);
+            continue;
+        }
+        if (STATE_SetNvrServerPmsgHandle(i, (PMSG_HANDLE)iRet) < 0)
+        {
+//            DebugPrint(DEBUG_UI_ERROR_PRINT, "save server:%s pmsg handle error!\n",acNvrServerIp);
+        }
+    }
+
+//    NVR_init();
 //    InitPmsgproc();
 
-    g_hResUpdate = PMSG_CreateResConn(12016);
+//    g_hResUpdate = PMSG_CreateResConn(12016);
 
     for(int i=0;i<4;i++)
     {
@@ -96,7 +115,7 @@ int main(int argc, char *argv[])
     delete  g_mainforn;
     g_mainforn = NULL;
 
-    UninitPmsgproc();
+//    UninitPmsgproc();
     NVR_Uninit();
     STATE_Uninit();
     DebugUninit();

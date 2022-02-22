@@ -260,6 +260,7 @@ public:
         startTimeLabel = new QPushButton(recordManage);
         startTimeLabel->setObjectName(QString::fromUtf8("startTimeLabel"));
         startTimeLabel->setGeometry(QRect(90, 50, 221, 31));
+        startTimeLabel->setFont(font);
         startTimeLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "background-color: rgb(255, 255, 255);\n"
 "border-color: rgb(0, 0, 0);\n"
@@ -268,6 +269,7 @@ public:
         endTimeLabel = new QPushButton(recordManage);
         endTimeLabel->setObjectName(QString::fromUtf8("endTimeLabel"));
         endTimeLabel->setGeometry(QRect(90, 90, 221, 31));
+        endTimeLabel->setFont(font);
         endTimeLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "background-color: rgb(255, 255, 255);\n"
 "border-color: rgb(0, 0, 0);\n"

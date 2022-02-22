@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QButtonGroup>
-
+#include "state/state.h"
 
 namespace Ui {
 class sysManage;
@@ -26,6 +26,8 @@ public:
     int getDay();
 
     QButtonGroup *g_buttonGroup;
+    pthread_t m_CheckDiskStatethreadId;      //
+    T_NVR_STATE m_atNVRState[6];
 
 public slots:
     void hideSysPageSlots();

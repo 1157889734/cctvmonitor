@@ -34,17 +34,17 @@ public:
 //    void FourPlayStyle();
 //    void SinglePlayStyle();
 //    void UpdateWarnBtn();
-//    bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
+    bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
     pthread_t m_backVideothreadId;      //
     pthread_t m_requesIpcthreadId;      //
 
 
 
-//    playwidget *m_playWidget[4];
-//    playwidget *m_playSingleWidget;
+    playwidget *m_playWidget[4];
+    playwidget *m_playSingleWidget;
 
-    QWidget *m_playWidget[4];
-    QWidget *m_playSingleWidget;
+//    QWidget *m_playWidget[4];
+//    QWidget *m_playSingleWidget;
 
     QPushButton *videoGroupBtn[8][4];
     QButtonGroup *g_fileButtonGroup;

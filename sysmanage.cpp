@@ -4,6 +4,59 @@
 #include <QTableWidget>
 #include <QDebug>
 #include "comm.h"
+#include "log/log.h"
+#include "NVRMsgProc.h"
+#include "unistd.h"
+#include <sys/time.h>
+#include "stdio.h"
+#include <QTime>
+void* CheckDiskStateTimer(void *arg)
+{
+    T_LOG_INFO tLog;
+    tLog.iLogType = LOG_TYPE_SYS;
+    sysManage *pMySysWid = (sysManage *)arg;
+    T_NVR_STATE atNVRState[6];
+
+    GetAllNvrInfo(atNVRState,sizeof(atNVRState));
+
+    while (1)
+    {
+        for(int i=0;i<6;i++)
+        {
+            int iState = NVR_GetConnectStatus(i);
+
+            atNVRState[i].iNVRConnectState = iState;
+            if(pMySysWid->m_atNVRState[i].iNVRConnectState != iState)
+            {
+                if(E_SERV_STATUS_CONNECT == iState)
+                {
+                    memset(tLog.acLogDesc,0,sizeof(tLog.acLogDesc));
+                    sprintf(tLog.acLogDesc,"%d车 nvr online",i+1);
+                    LOG_WriteLog(&tLog);
+                }
+                else
+                {
+                    memset(tLog.acLogDesc,0,sizeof(tLog.acLogDesc));
+                    sprintf(tLog.acLogDesc,"%d车 nvr off",i+1);
+                    LOG_WriteLog(&tLog);
+                }
+            }
+        }
+
+        if(memcmp(atNVRState,pMySysWid->m_atNVRState,sizeof(atNVRState)))
+        {
+            memcpy(pMySysWid->m_atNVRState,atNVRState,sizeof(atNVRState));
+    //        pMySysWid->m_pDiskStTable->redraw();
+        }
+
+        usleep(4*1000*1000);
+    }
+
+
+    return NULL;
+}
+
+
 
 sysManage::sysManage(QWidget *parent) :
     QWidget(parent),
@@ -23,6 +76,8 @@ sysManage::sysManage(QWidget *parent) :
     ui->monthLabel->setText(QString::number(m_iMonth,10));
     ui->dayLabel->setText(QString::number(m_iDay,10));
 
+
+    m_CheckDiskStatethreadId = 0;
 
     QPalette palette;
     palette.setBrush(QPalette::Background,QBrush(QPixmap(":/res/bg_system.png")));
@@ -95,6 +150,9 @@ sysManage::sysManage(QWidget *parent) :
     connect(ui->LastPageButton,SIGNAL(clicked()),this,SLOT(lastpageSlot()));
     connect(ui->NextPageButton,SIGNAL(clicked()),this,SLOT(nextPageSlot()));
 
+    pthread_create(&m_CheckDiskStatethreadId, NULL, CheckDiskStateTimer, (void *)this);    //创建监控线程
+
+
     getTrainConfig();
 
 }
@@ -106,9 +164,14 @@ sysManage::~sysManage()
 
 void sysManage::searchSystermLog()
 {
+    if (m_CheckDiskStatethreadId != 0)
+    {
+        pthread_join(m_CheckDiskStatethreadId, NULL);
+        m_CheckDiskStatethreadId = 0;
+    }
 
-
-
+    delete  g_buttonGroup;
+    g_buttonGroup = NULL;
 
 
 }
@@ -349,7 +412,8 @@ void sysManage::getTrainConfig()     //获取车型配置信息
         item = "离线";
         ui->devStatusTableWidget->setItem(row, 5, new QTableWidgetItem(item));
         ui->devStatusTableWidget->item(row, 5)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-
+        const QColor color = QColor(255,0,0);
+        ui->devStatusTableWidget->item(row, 5)->setTextColor(color);
 
     }
 

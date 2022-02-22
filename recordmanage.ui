@@ -715,6 +715,11 @@ background-color: rgb(70, 173, 223);</string>
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(255, 255, 255);
@@ -734,6 +739,11 @@ border-style: solid;</string>
      <width>221</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(0, 0, 0);
