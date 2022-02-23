@@ -27,24 +27,22 @@ public:
 
     int GetNextFourVideo(int* piVideo);
     int GetNextSingleVideo(int *piVideo);
-//    void UpdateCamState();
-//    void PlayCtrlFun();
+
+    void GetBackVideoTImerCirlce();
+
+    void triggerGetDevStateSignal();
+    void triggerSetTimeSignal();
+
     int FindCameBtnInfo(QAbstractButton* pbtn,int &iGroup,int &iNo);
-//    void PlayStyleChanged();
-//    void FourPlayStyle();
-//    void SinglePlayStyle();
-//    void UpdateWarnBtn();
+
     bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
-    pthread_t m_backVideothreadId;      //
-    pthread_t m_requesIpcthreadId;      //
-
-
+    pthread_t monitorthread;
+    int     m_iThreadRunFlag;
 
     playwidget *m_playWidget[4];
     playwidget *m_playSingleWidget;
 
-//    QWidget *m_playWidget[4];
-//    QWidget *m_playSingleWidget;
+
 
     QPushButton *videoGroupBtn[8][4];
     QButtonGroup *g_fileButtonGroup;
@@ -76,6 +74,8 @@ public:
     int			  	m_iWeek;
     time_t 			m_tLastTime;		//播放按钮点击的最后时间  避免视频切换太快
     struct timeval  m_tPrevClickTime;   //全屏切换上次点击的时间 避免全屏非全屏切换太快
+    time_t          tPollingOparateTime;  //轮询操作时间
+
     unsigned int    m_iPecuInfo;		//Pecu报警的值
     int m_iMousePosX;
     int m_iMousePosY;
@@ -100,17 +100,16 @@ public slots:
     void GroupButtonDoorSlot(int index);
     void GroupButtonDoorclipSlot(int index);
     void GroupButtonPecuSlot(int index);
-//    void GetBackVideoTImerSlot();
     void playSlot();
 
 signals:
     void showMonitorSignal();
     void sendWindIndexSignal(int index);
+
+    void getDevStateSignal();
+    void setTimeSignal();
 private:
     Ui::cctvTest *ui;
-    QTimer *UpdateTimer;
-    QTimer *updatePlayTimer;
-    QTimer *updateWarnTimer;
     QTimer *playTimer;
 
 

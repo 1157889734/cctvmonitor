@@ -158,6 +158,7 @@ recordManage::recordManage(QWidget *parent) :
 
     timeSetWidget = new timeset(this);
     timeSetWidget->setWindowFlags(timeSetWidget->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
+    timeSetWidget->setWindowModality(Qt::ApplicationModal);
     timeSetWidget->hide();
 
     connect(timeSetWidget, SIGNAL(timeSetSendMsg(QString,QString,QString,QString,QString,QString)), this, SLOT(timeSetRecvMsg(QString,QString,QString,QString,QString,QString)));  //时间设置窗体控件设置信号响应
@@ -1629,7 +1630,7 @@ void recordManage::openStartTimeSetWidgetSlot()
         sscanf(acTimeStr, "%4d-%02d-%02d %02d:%02d:%02d", &iYear, &iMonth, &iDay, &iHour, &iMin, &iSec);
         DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] %d-%d-%d %d:%d:%d!\n", __FUNCTION__, iYear, iMonth, iDay, iHour, iMin, iSec);
     }
-    timeSetWidget->setGeometry(420, 190, timeSetWidget->width(), timeSetWidget->height());
+    timeSetWidget->setGeometry(312, 112, timeSetWidget->width(), timeSetWidget->height());
     g_iDateEditNo = 1;
     timeSetWidget->setTimeLabelText(iYear, iMonth, iDay, iHour, iMin, iSec);
     timeSetWidget->show();
@@ -1650,7 +1651,7 @@ void recordManage::openStopTimeSetWidgetSlot()
         sscanf(acTimeStr, "%4d-%02d-%02d %02d:%02d:%02d", &iYear, &iMonth, &iDay, &iHour, &iMin, &iSec);
         DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] %d-%d-%d %d:%d:%d!\n", __FUNCTION__, iYear, iMonth, iDay, iHour, iMin, iSec);
     }
-    timeSetWidget->setGeometry(420, 230, timeSetWidget->width(), timeSetWidget->height());
+    timeSetWidget->setGeometry(312, 150, timeSetWidget->width(), timeSetWidget->height());
     g_iDateEditNo = 2;
     timeSetWidget->setTimeLabelText(iYear, iMonth, iDay, iHour, iMin, iSec);
     timeSetWidget->show();

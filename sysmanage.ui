@@ -106,6 +106,16 @@ background-color: rgb(70, 173, 223);</string>
      <height>200</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-style: none;
+background-color: rgb(255, 255, 255);
+gridline-color: rgb(130, 135, 144);
+border-color: rgb(130, 135, 144);
+border-width: 1px;border-style: solid;</string>
+   </property>
    <attribute name="horizontalHeaderVisible">
     <bool>true</bool>
    </attribute>
@@ -134,6 +144,16 @@ background-color: rgb(70, 173, 223);</string>
      <width>713</width>
      <height>261</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-style: none;
+background-color: rgb(255, 255, 255);
+gridline-color: rgb(130, 135, 144);
+border-color: rgb(130, 135, 144);
+border-width: 1px;border-style: solid;</string>
    </property>
   </widget>
   <widget class="QLabel" name="yearLabel">
@@ -414,6 +434,26 @@ background-color: rgb(70, 173, 223);</string>
     <string>下一页</string>
    </property>
   </widget>
+  <zorder>label</zorder>
+  <zorder>label_2</zorder>
+  <zorder>restartButton</zorder>
+  <zorder>backButton</zorder>
+  <zorder>devStatusTableWidget</zorder>
+  <zorder>label_3</zorder>
+  <zorder>yearLabel</zorder>
+  <zorder>LastYearButton</zorder>
+  <zorder>NextYearButton</zorder>
+  <zorder>monthLabel</zorder>
+  <zorder>LastMonButton</zorder>
+  <zorder>NextMonButton</zorder>
+  <zorder>dayLabel</zorder>
+  <zorder>LastDayButton</zorder>
+  <zorder>NextDayButton</zorder>
+  <zorder>searchSystermLogButton</zorder>
+  <zorder>searchWorkLogButton</zorder>
+  <zorder>LastPageButton</zorder>
+  <zorder>NextPageButton</zorder>
+  <zorder>devLogTableWidget</zorder>
  </widget>
  <resources/>
  <connections/>

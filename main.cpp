@@ -81,17 +81,22 @@ int main(int argc, char *argv[])
         snprintf(acNvrServerIp, sizeof(acNvrServerIp), "192.168.%d.81", 100+i);
 //        snprintf(acNvrServerIp, sizeof(acNvrServerIp), "127.0.0.%d", 1);
         iRet = PMSG_CreateConnect(acNvrServerIp, 10100);
-        qDebug()<<"***********iRet=**"<<iRet<<__func__<<__LINE__;
+//        qDebug()<<"***********iRet=**"<<iRet<<__func__<<__LINE__;
 
         if (0 == iRet)
         {
 //            DebugPrint(DEBUG_UI_ERROR_PRINT, "create connection to server:%s error!\n",acNvrServerIp);
             continue;
         }
-        if (STATE_SetNvrServerPmsgHandle(i, (PMSG_HANDLE)iRet) < 0)
+        if(iRet != 0)
         {
-//            DebugPrint(DEBUG_UI_ERROR_PRINT, "save server:%s pmsg handle error!\n",acNvrServerIp);
+            if (STATE_SetNvrServerPmsgHandle(i, (PMSG_HANDLE)iRet) < 0)
+            {
+    //            DebugPrint(DEBUG_UI_ERROR_PRINT, "save server:%s pmsg handle error!\n",acNvrServerIp);
+            }
+
         }
+
     }
 
 //    NVR_init();
@@ -106,6 +111,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(g_cctvtest,SIGNAL(showMonitorSignal()),g_mainforn,SLOT(showMainfornPage()));
     QObject::connect(g_mainforn,SIGNAL(sendhidesignal()),g_cctvtest,SLOT(showcctvPage()));
+    QObject::connect(g_cctvtest,SIGNAL(getDevStateSignal()),g_mainforn,SLOT(getDevStateSlot()));
 
     return a.exec();
 

@@ -79,6 +79,12 @@ public:
         devStatusTableWidget = new QTableWidget(sysManage);
         devStatusTableWidget->setObjectName(QString::fromUtf8("devStatusTableWidget"));
         devStatusTableWidget->setGeometry(QRect(20, 360, 482, 200));
+        devStatusTableWidget->setFocusPolicy(Qt::NoFocus);
+        devStatusTableWidget->setStyleSheet(QString::fromUtf8("border-style: none;\n"
+"background-color: rgb(255, 255, 255);\n"
+"gridline-color: rgb(130, 135, 144);\n"
+"border-color: rgb(130, 135, 144);\n"
+"border-width: 1px;border-style: solid;"));
         devStatusTableWidget->horizontalHeader()->setVisible(true);
         label_3 = new QLabel(sysManage);
         label_3->setObjectName(QString::fromUtf8("label_3"));
@@ -87,6 +93,12 @@ public:
         devLogTableWidget = new QTableWidget(sysManage);
         devLogTableWidget->setObjectName(QString::fromUtf8("devLogTableWidget"));
         devLogTableWidget->setGeometry(QRect(10, 42, 713, 261));
+        devLogTableWidget->setFocusPolicy(Qt::NoFocus);
+        devLogTableWidget->setStyleSheet(QString::fromUtf8("border-style: none;\n"
+"background-color: rgb(255, 255, 255);\n"
+"gridline-color: rgb(130, 135, 144);\n"
+"border-color: rgb(130, 135, 144);\n"
+"border-width: 1px;border-style: solid;"));
         yearLabel = new QLabel(sysManage);
         yearLabel->setObjectName(QString::fromUtf8("yearLabel"));
         yearLabel->setGeometry(QRect(835, 50, 85, 38));
@@ -193,6 +205,26 @@ public:
         NextPageButton->setGeometry(QRect(900, 260, 108, 42));
         NextPageButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "background-color: rgb(70, 173, 223);"));
+        label->raise();
+        label_2->raise();
+        restartButton->raise();
+        backButton->raise();
+        devStatusTableWidget->raise();
+        label_3->raise();
+        yearLabel->raise();
+        LastYearButton->raise();
+        NextYearButton->raise();
+        monthLabel->raise();
+        LastMonButton->raise();
+        NextMonButton->raise();
+        dayLabel->raise();
+        LastDayButton->raise();
+        NextDayButton->raise();
+        searchSystermLogButton->raise();
+        searchWorkLogButton->raise();
+        LastPageButton->raise();
+        NextPageButton->raise();
+        devLogTableWidget->raise();
 
         retranslateUi(sysManage);
 

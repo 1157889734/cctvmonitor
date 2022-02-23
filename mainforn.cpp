@@ -29,7 +29,7 @@ mainforn::mainforn(QWidget *parent) :
     connect(ui->recpushButton,SIGNAL(clicked()),this,SLOT(menuButtonClick()));
     connect(g_recordManage,SIGNAL(hideRecSysPage()),this,SLOT(hidePageSlots()));
     connect(g_sysManage,SIGNAL(hideSysPage()),this,SLOT(hidePageSlots()));
-
+    connect(this,SIGNAL(sendDeviceSignal()),g_sysManage,SLOT(getDevStateSignalCtrl()));
 
 
     m_PmsgTimer = new QTimer(this);
@@ -78,6 +78,12 @@ void mainforn::showMainfornPage()
     this->show();
 }
 
+void mainforn::getDevStateSlot()
+{
+    emit sendDeviceSignal();
+
+}
+
 void mainforn::menuButtonClick()
 {
     QObject* Sender = sender();     //Sender->objectName(),可区分不同的信号来源，也就是不同的按钮按键
@@ -92,9 +98,10 @@ void mainforn::menuButtonClick()
         ui->sysyPushButton->setStyleSheet("background-color: rgb(252, 233, 79)");
         ui->recpushButton->setStyleSheet("background-color: rgb(23, 119, 244)");
         g_recordManage->closePlayWin();
-        g_recordManage->playWidget->hide();
         g_recordManage->hide();
         g_sysManage->show();
+
+
 
 
     }
@@ -102,7 +109,6 @@ void mainforn::menuButtonClick()
     {
         ui->sysyPushButton->setStyleSheet("background-color: rgb(23, 119, 244)");
         ui->recpushButton->setStyleSheet("background-color: rgb(252, 233, 79)");
-        g_recordManage->playWidget->show();
         g_sysManage->hide();
         g_recordManage->show();
     }
@@ -155,6 +161,8 @@ void mainforn::recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *p
         }
 
         case SERV_CLI_MSG_TYPE_GET_NVR_STATUS_RESP:
+        case SERV_CLI_MSG_TYPE_PISMSG_REPORT:
+        case SERV_CLI_MSG_TYPE_GET_IPC_STATUS_RESP:
         {
             if (pcMsgData == NULL || iMsgDataLen != 18)
             {
@@ -164,11 +172,14 @@ void mainforn::recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *p
             {
                 if (g_sysManage != NULL)
                 {
-//                    g_sysManage->pmsgCtrl(pHandle, ucMsgCmd, pcMsgData, iMsgDataLen);
+                    g_sysManage->pmsgCtrl(pHandle, ucMsgCmd, pcMsgData, iMsgDataLen);
                 }
 
             }
         }
+        case SERV_CLI_MSG_TYPE_HDISK_ALARM_REPORT:
+            break;
+
         default:
             break;
 

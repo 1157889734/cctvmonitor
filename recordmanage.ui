@@ -276,7 +276,6 @@ background-color: rgb(255, 255, 255);
 gridline-color: rgb(130, 135, 144);
 border-color: rgb(130, 135, 144);
 border-width: 1px;border-style: solid;
-
 </string>
    </property>
    <property name="horizontalScrollBarPolicy">

@@ -10,8 +10,18 @@
 #include <sys/time.h>
 #include "stdio.h"
 #include <QTime>
+#include "pmsg/pmsgcli.h"
+#include "debugout/debug.h"
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+static int g_statusflag = 0;
+
 void* CheckDiskStateTimer(void *arg)
 {
+    sysManage *pMySysWid = (sysManage *)arg;
+
+#if 0
     T_LOG_INFO tLog;
     tLog.iLogType = LOG_TYPE_SYS;
     sysManage *pMySysWid = (sysManage *)arg;
@@ -51,9 +61,63 @@ void* CheckDiskStateTimer(void *arg)
 
         usleep(4*1000*1000);
     }
+#endif
+
+
+
 
 
     return NULL;
+}
+
+void sysManage::getDevStateSignalCtrl()
+{
+    int iRet = 0, i = 0, j = 0;
+    for(i = 0; i< 6; i++)
+    {
+        if(g_statusflag == 0)
+        {
+            m_NvrServerPhandle[i] = STATE_GetNvrServerPmsgHandle(i);
+        }
+        if (m_aiServerIdex[i] >= 1)
+        {
+            if (E_SERV_STATUS_CONNECT == PMSG_GetConnectStatus(m_NvrServerPhandle[i]))    //获取到服务器状态为在线
+            {
+                DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] server %d status is online\n", __FUNCTION__, i+1);
+                 ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 5, new QTableWidgetItem(tr("在线")));
+                 ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 5)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+                 iRet = PMSG_SendPmsgData(m_NvrServerPhandle[i], CLI_SERV_MSG_TYPE_GET_NVR_STATUS, NULL, 0);
+                 if (iRet < 0)
+                 {
+                     DebugPrint(DEBUG_UI_ERROR_PRINT, "[%s] PMSG_SendPmsgData CLI_SERV_MSG_TYPE_GET_NVR_STATUS error!iRet=%d,server=%d\n", __FUNCTION__, iRet,i+1);
+                 }
+
+                 iRet = PMSG_SendPmsgData(m_NvrServerPhandle[i], CLI_SERV_MSG_TYPE_GET_IPC_STATUS, NULL, 0);
+                 if (iRet < 0)
+                 {
+                     DebugPrint(DEBUG_UI_ERROR_PRINT, "[%s] PMSG_SendPmsgData CLI_SERV_MSG_TYPE_GET_IPC_STATUS error!iRet=%d,server=%d\n", __FUNCTION__, iRet,i+1);
+                 }
+
+                 m_aiNvrOnlineFlag[i] = 1;
+
+            }
+            else
+            {
+                DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] server %d status is offline\n", __FUNCTION__, i+1);
+                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 5, new QTableWidgetItem(tr("离线")));
+                ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 5)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 4, new QTableWidgetItem(""));
+
+            }
+
+        }
+
+
+    }
+
+    g_statusflag = 1;
+
+
 }
 
 
@@ -63,7 +127,7 @@ sysManage::sysManage(QWidget *parent) :
     ui(new Ui::sysManage)
 {
     ui->setupUi(this);
-    this->setAutoFillBackground(true);
+//    this->setAutoFillBackground(true);
     struct tm *pLocalTime;
     time_t tTime;
     time(&tTime);
@@ -78,21 +142,22 @@ sysManage::sysManage(QWidget *parent) :
 
 
     m_CheckDiskStatethreadId = 0;
+    m_GetDevStatethreadId = 0;
 
     QPalette palette;
     palette.setBrush(QPalette::Background,QBrush(QPixmap(":/res/bg_system.png")));
     this->setPalette(palette);
-//    this->setStyleSheet("QWidget{background-image: url(:/res/bg_system.png)}");
 
     connect(ui->backButton,SIGNAL(clicked()),this,SLOT(hideSysPageSlots()));
+
+
 
     ui->devStatusTableWidget->setFocusPolicy(Qt::NoFocus);
     ui->devStatusTableWidget->setColumnCount(6);
     ui->devStatusTableWidget->setRowCount(6);
     ui->devStatusTableWidget->setShowGrid(true);
-    ui->devStatusTableWidget->setStyleSheet("QTableWidget::item:selected { background-color: rgb(252, 233, 79) }");
+//    ui->devStatusTableWidget->setStyleSheet("QTableWidget::item:selected { background-color: rgb(252, 233, 79) }");
 
-//    ui->devStorageTableWidget->setStyleSheet("QTableWidget{ gridline-color : rgb(255, 255, 255)}");
     QStringList header;
     header<<tr("设备位置")<<tr("硬盘个数")<<tr("硬盘容量")<<tr("使用量")<<tr("硬盘状态")<<tr("在线状态");
     ui->devStatusTableWidget->horizontalHeader()->setStyleSheet("background-color:white");
@@ -103,6 +168,7 @@ sysManage::sysManage(QWidget *parent) :
     ui->devStatusTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers); //设置不可编辑
     ui->devStatusTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);  //整行选中的方式
     ui->devStatusTableWidget->setSelectionMode(QAbstractItemView::SingleSelection); //设置只能选择一行，不能多行选中
+    ui->devStatusTableWidget->verticalHeader()->setVisible(false);
 
     ui->devStatusTableWidget->horizontalHeader()->resizeSection(1,70);
     ui->devStatusTableWidget->horizontalHeader()->resizeSection(2,70);
@@ -116,7 +182,7 @@ sysManage::sysManage(QWidget *parent) :
     ui->devLogTableWidget->setColumnCount(4);
 //    ui->devLogTableWidget->setRowCount(6);
     ui->devLogTableWidget->setShowGrid(true);
-    ui->devLogTableWidget->setStyleSheet("QTableWidget::item:selected { background-color: rgb(252, 233, 79) }");
+//    ui->devLogTableWidget->setStyleSheet("QTableWidget::item:selected { background-color: rgb(252, 233, 79) }");
 
     QStringList logheader;
     logheader<<tr("序号")<<tr("类型")<<tr("时间")<<tr("日志信息");
@@ -128,11 +194,27 @@ sysManage::sysManage(QWidget *parent) :
     ui->devLogTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers); //设置不可编辑
     ui->devLogTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);  //整行选中的方式
     ui->devLogTableWidget->setSelectionMode(QAbstractItemView::SingleSelection); //设置只能选择一行，不能多行选中
+    ui->devLogTableWidget->verticalHeader()->setVisible(false);
 
     ui->devLogTableWidget->horizontalHeader()->resizeSection(1,40);
     ui->devLogTableWidget->horizontalHeader()->resizeSection(2,70);
     ui->devLogTableWidget->horizontalHeader()->resizeSection(3,170);
     ui->devLogTableWidget->horizontalHeader()->resizeSection(4,430);
+
+
+    for (int i = 0; i < MAX_SERVER_NUM; i++)
+    {
+        m_aiServerIdex[i] = 0;
+        m_NvrServerPhandle[i] = 0;
+        m_iNoCheckDiskErrNum[i] = 0;
+        m_iCheckDiskErrFlag[i] = 0;
+        for (int j = 0; j < MAX_CAMERA_OFSERVER; j++)
+        {
+            m_aiNvrOnlineFlag[i] = 0;
+//            m_aiCameraIdex[i][j] = 0;
+//            m_aiCameraOnlineFlag[i][j] = 0;
+        }
+    }
 
 
     g_buttonGroup = new QButtonGroup();
@@ -143,7 +225,7 @@ sysManage::sysManage(QWidget *parent) :
     g_buttonGroup->addButton(ui->LastDayButton,5);
     g_buttonGroup->addButton(ui->NextDayButton,6);
 
-    connect(g_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(GroupButtonClickSlot(int)));     //预置点按钮组按键信号连接响应槽函数
+    connect(g_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(GroupButtonClickSlot(int)));
 
     connect(ui->searchSystermLogButton,SIGNAL(clicked()),this,SLOT(searchSystermLog()));
     connect(ui->searchWorkLogButton,SIGNAL(clicked()),this,SLOT(searchSystermLog()));
@@ -159,11 +241,6 @@ sysManage::sysManage(QWidget *parent) :
 
 sysManage::~sysManage()
 {
-    delete ui;
-}
-
-void sysManage::searchSystermLog()
-{
     if (m_CheckDiskStatethreadId != 0)
     {
         pthread_join(m_CheckDiskStatethreadId, NULL);
@@ -172,6 +249,110 @@ void sysManage::searchSystermLog()
 
     delete  g_buttonGroup;
     g_buttonGroup = NULL;
+
+
+    delete ui;
+}
+
+void sysManage::getNvrStatusCtrl(PMSG_HANDLE pHandle, char *pcMsgData)
+{
+    int i = 0, iDevType = 0;
+    char actmp[16] = {0}, acVersion[32] = {0};
+    char acDiskFull[16] = {0}, acDiskUsed[16] = {0};
+    QString acDeviceTp =  "";
+    T_NVR_STATUS *ptNvrstaus = (T_NVR_STATUS *)pcMsgData;
+    snprintf(acDiskFull, sizeof(acDiskFull), "%dG", htons(ptNvrstaus->i16HdiskTotalSize));
+    snprintf(acDiskUsed, sizeof(acDiskUsed), "%dG", htons(ptNvrstaus->i16HdiskUsedSize));
+
+    for (i =0; i < MAX_SERVER_NUM; i++)
+    {
+        if ((pHandle == m_NvrServerPhandle[i]) && (m_aiServerIdex[i] >= 1))
+        {
+
+            /*第一次连上服务器的3分钟之内不检测硬盘是否异常*/
+//            if (0 == m_iCheckDiskErrFlag[i])
+//            {
+//                m_iNoCheckDiskErrNum[i]++;
+//                if (18 == m_iNoCheckDiskErrNum[i])
+//                {
+//                    m_iCheckDiskErrFlag[i] = 1;
+//                    m_iNoCheckDiskErrNum[i] = 0;
+//                }
+//            }
+            m_iCheckDiskErrFlag[i] = 1;
+
+
+            if (htons(ptNvrstaus->i16HdiskTotalSize) <= 0)
+            {
+                if (1 == m_iCheckDiskErrFlag[i])
+                {
+                    ui->devStatusTableWidget->setItem(i, 2, new QTableWidgetItem("0G"));
+                    ui->devStatusTableWidget->item(i, 2)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+                    ui->devStatusTableWidget->setItem(i, 3, new QTableWidgetItem("0G"));
+                    ui->devStatusTableWidget->item(i, 3)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+                    ui->devStatusTableWidget->setItem(i, 4, new QTableWidgetItem(QString(tr("硬盘异常"))));
+                    ui->devStatusTableWidget->item(i, 4)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+                }
+            }
+            else
+            {
+                ui->devStatusTableWidget->setItem(i, 2, new QTableWidgetItem(QString(QLatin1String(acDiskFull))));
+                ui->devStatusTableWidget->item(i, 2)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+                ui->devStatusTableWidget->setItem(i, 3, new QTableWidgetItem(QString(QLatin1String(acDiskUsed))));
+                ui->devStatusTableWidget->item(i, 3)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+                ui->devStatusTableWidget->setItem(i, 4, new QTableWidgetItem(QString(tr("正常"))));
+                ui->devStatusTableWidget->item(i, 4)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+            }
+            break;
+
+        }
+
+
+
+
+
+    }
+
+
+
+}
+
+
+int sysManage::pmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsgData, int iMsgDataLen)     //与服务器通信消息处理
+{
+    switch(ucMsgCmd)
+    {
+        case SERV_CLI_MSG_TYPE_GET_NVR_STATUS_RESP:
+        {
+            if (pcMsgData == NULL || iMsgDataLen != 18)
+            {
+                break;
+            }
+            else
+            {
+                getNvrStatusCtrl(pHandle, pcMsgData);
+                break;
+            }
+        }
+        case SERV_CLI_MSG_TYPE_GET_IPC_STATUS_RESP:
+        {
+            break;
+        }
+
+        default:
+            break;
+    }
+
+    return 0;
+}
+
+void sysManage::searchSystermLog()
+{
+
 
 
 }
@@ -211,7 +392,6 @@ void sysManage::GroupButtonClickSlot(int index)
     int iDay = getDay();
     int iMaxDay = 28;
 
-    qDebug()<<"*******buttonIndex="<<buttonIndex<<__LINE__;
     if(buttonIndex == 1)
     {
         iYear--;
@@ -298,6 +478,7 @@ void sysManage::GroupButtonClickSlot(int index)
 
 void sysManage::hideSysPageSlots()
 {
+
     this->hide();
     emit hideSysPage();
 }
@@ -379,10 +560,10 @@ void sysManage::getTrainConfig()     //获取车型配置信息
     /*获取各服务器即摄像机信息，填充相应的列表控件*/
     for (i = 0; i < 6; i++)
     {
-//        m_NvrServerPhandle[i] = STATE_GetNvrServerPmsgHandle(i);
+        m_NvrServerPhandle[i] = STATE_GetNvrServerPmsgHandle(i);
         row = ui->devStatusTableWidget->rowCount();//获取表格中当前总行数
         ui->devStatusTableWidget->insertRow(row);//添加一行
-//        m_aiServerIdex[i] = row+1;
+        m_aiServerIdex[i] = row+1;
         item = "";
         item = QString::number(row+1);
         item += "车NVR";

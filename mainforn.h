@@ -23,11 +23,11 @@ public slots:
     void menuButtonClick();
     void hidePageSlots();
     void pmsgTimerFunc();
-
+    void getDevStateSlot();
 
 signals:
     void sendhidesignal();
-
+    void sendDeviceSignal();
 
 private:
     Ui::mainforn *ui;
