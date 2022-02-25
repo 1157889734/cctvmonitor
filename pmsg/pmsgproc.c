@@ -513,7 +513,15 @@ int InitPmsgproc(void)
     g_iHeartSockt = CreateMultcastSocket(12090);
     g_iLcdSocket = CreateLcdSocket();
     iRet = AddMulticastAddr(g_iBroadcastSysSocket, "225.0.0.10");
+    if(iRet < 0)
+    {
+        printf("***********AddMulticastAddr---fail--%d------%d\n",iRet,__LINE__);
+    }
     iRet = AddMulticastAddr(g_iVideoSwitchSocket, "224.0.0.88");
+    if(iRet < 0)
+    {
+        printf("***********AddMulticastAddr---fail--%d------%d\n",iRet,__LINE__);
+    }
     g_iMultThreadRun = 1;
     pthread_create(&g_tid, NULL, MultcastRecvThread, NULL);
     

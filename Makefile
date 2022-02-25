@@ -2094,6 +2094,8 @@ main.o: main.cpp cctvtest.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qrubberband.h \
 		NVRMsgProc.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDebug \
+		event/lmsgProc.h \
+		include/msgapp.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QApplication \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qapplication.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qcoreapplication.h \
@@ -2648,7 +2650,8 @@ playwidget.o: playwidget.cpp playwidget.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/QMouseEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o playwidget.o playwidget.cpp
 
-multicast.o: pmsg/multicast.c pmsg/multicast.h
+multicast.o: pmsg/multicast.c state/state.h \
+		pmsg/multicast.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o multicast.o pmsg/multicast.c
 
 pmsgcli.o: pmsg/pmsgcli.c pmsg/pmsgcli.h \

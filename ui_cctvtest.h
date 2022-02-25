@@ -21,11 +21,11 @@ class Ui_cctvTest
 {
 public:
     QLabel *label;
-    QPushButton *monitorpushButton;
+    QPushButton *monitorManageButton;
     QPushButton *signalBUtton;
     QPushButton *fourpushButton;
-    QPushButton *startpushButton;
-    QPushButton *stoppushButton;
+    QPushButton *openPollButton;
+    QPushButton *closePollButton;
     QLabel *label_2;
     QPushButton *pushButton_1_5;
     QPushButton *pushButton_1_7;
@@ -74,10 +74,10 @@ public:
         label->setGeometry(QRect(832, 0, 192, 624));
         label->setStyleSheet(QString::fromUtf8("background-image: url(:/res/br1.png);\n"
 ""));
-        monitorpushButton = new QPushButton(cctvTest);
-        monitorpushButton->setObjectName(QString::fromUtf8("monitorpushButton"));
-        monitorpushButton->setGeometry(QRect(831, 220, 191, 81));
-        monitorpushButton->setStyleSheet(QString::fromUtf8("\n"
+        monitorManageButton = new QPushButton(cctvTest);
+        monitorManageButton->setObjectName(QString::fromUtf8("monitorManageButton"));
+        monitorManageButton->setGeometry(QRect(831, 220, 191, 81));
+        monitorManageButton->setStyleSheet(QString::fromUtf8("\n"
 "\n"
 "QPushButton{\n"
 "background-color: rgb(53, 186, 180);\n"
@@ -101,14 +101,14 @@ public:
         fourpushButton->setObjectName(QString::fromUtf8("fourpushButton"));
         fourpushButton->setGeometry(QRect(930, 350, 96, 73));
         fourpushButton->setStyleSheet(QString::fromUtf8("border-image: url(:/res/btn_01_nor.png);"));
-        startpushButton = new QPushButton(cctvTest);
-        startpushButton->setObjectName(QString::fromUtf8("startpushButton"));
-        startpushButton->setGeometry(QRect(830, 440, 96, 73));
-        startpushButton->setStyleSheet(QString::fromUtf8("border-image: url(:/res/btn_03_nor.png);"));
-        stoppushButton = new QPushButton(cctvTest);
-        stoppushButton->setObjectName(QString::fromUtf8("stoppushButton"));
-        stoppushButton->setGeometry(QRect(930, 440, 96, 73));
-        stoppushButton->setStyleSheet(QString::fromUtf8("border-image: url(:/res/btn_04_hig.png);"));
+        openPollButton = new QPushButton(cctvTest);
+        openPollButton->setObjectName(QString::fromUtf8("openPollButton"));
+        openPollButton->setGeometry(QRect(830, 440, 96, 73));
+        openPollButton->setStyleSheet(QString::fromUtf8("border-image: url(:/res/btn_03_nor.png);"));
+        closePollButton = new QPushButton(cctvTest);
+        closePollButton->setObjectName(QString::fromUtf8("closePollButton"));
+        closePollButton->setGeometry(QRect(930, 440, 96, 73));
+        closePollButton->setStyleSheet(QString::fromUtf8("border-image: url(:/res/btn_04_hig.png);"));
         label_2 = new QLabel(cctvTest);
         label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setGeometry(QRect(0, 624, 1024, 144));
@@ -260,11 +260,11 @@ public:
 "font: 12pt \"Ubuntu\";"));
         timelabel->setAlignment(Qt::AlignCenter);
         label->raise();
-        monitorpushButton->raise();
+        monitorManageButton->raise();
         fourpushButton->raise();
         signalBUtton->raise();
-        startpushButton->raise();
-        stoppushButton->raise();
+        openPollButton->raise();
+        closePollButton->raise();
         label_2->raise();
         pushButton_1_5->raise();
         pushButton_1_7->raise();
@@ -311,11 +311,11 @@ public:
     {
         cctvTest->setWindowTitle(QCoreApplication::translate("cctvTest", "cctvTest", nullptr));
         label->setText(QString());
-        monitorpushButton->setText(QCoreApplication::translate("cctvTest", "\347\233\221\346\216\247\347\256\241\347\220\206", nullptr));
+        monitorManageButton->setText(QCoreApplication::translate("cctvTest", "\347\233\221\346\216\247\347\256\241\347\220\206", nullptr));
         signalBUtton->setText(QString());
         fourpushButton->setText(QString());
-        startpushButton->setText(QString());
-        stoppushButton->setText(QString());
+        openPollButton->setText(QString());
+        closePollButton->setText(QString());
         label_2->setText(QString());
         pushButton_1_5->setText(QString());
         pushButton_1_7->setText(QString());

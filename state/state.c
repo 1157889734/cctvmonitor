@@ -631,7 +631,7 @@ int GetDeviceIp(char *pcIp,int ilen)
         int inet_sock;  
         struct ifreq ifr;  
         inet_sock = socket(AF_INET, SOCK_DGRAM, 0);  
-        strcpy(ifr.ifr_name, "eth0");  
+        strcpy(ifr.ifr_name, "eth1");
         ioctl(inet_sock, SIOCGIFADDR, &ifr);  
         strncpy(pcIp, inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr),ilen);
 	    close(inet_sock);

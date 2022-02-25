@@ -21,7 +21,7 @@
 #include <netinet/ip.h>
 #include <sys/select.h>
 #include <fcntl.h>
-
+#include "state/state.h"
 #include "multicast.h"
 
 	
@@ -44,8 +44,8 @@ int read_interface(const char *acInterface, int *ifindex, void *addr, unsigned c
             {
                 our_ip = (struct sockaddr_in *) &ifr.ifr_addr;
                 *pAddr = our_ip->sin_addr.s_addr;
-                //printf("%s (our ip) = %s", ifr.ifr_name, 
-                 //     inet_ntoa(our_ip->sin_addr));
+                printf("%s (our ip) = %s", ifr.ifr_name,
+                      inet_ntoa(our_ip->sin_addr));
             } 
             else 
             {
@@ -107,12 +107,16 @@ int CreateMultcastSocket(unsigned short usMultPort)
     struct sockaddr_in	servaddr;
     struct sockaddr_in	cliaddr;
 	
-    iRet = read_interface("eth0", NULL, &source, NULL);
-    if(iRet != 0)
-    {
-        return -2;
-    }
-    
+//    iRet = read_interface("eth1", NULL, &source, NULL);
+//    if(iRet != 0)
+//    {
+//        return -2;
+//    }
+
+    char acIp[32]={0};
+    memset(acIp,0,sizeof(acIp));
+    GetDeviceIp(acIp,16);
+
     iSockFd = socket(PF_INET, SOCK_DGRAM, 0);
     if (iSockFd < 0)
     {
@@ -123,7 +127,7 @@ int CreateMultcastSocket(unsigned short usMultPort)
     iOption = fcntl(iSockFd, F_GETFL, 0);  
     fcntl(iSockFd, F_SETFL, iOption | O_NONBLOCK); 
 
-    inaddr.s_addr = source;//htonl(source);//
+    inaddr.s_addr = inet_addr(acIp);//source;//htonl(source);//
     if (setsockopt(iSockFd, IPPROTO_IP, IP_MULTICAST_IF, &inaddr, sizeof(struct in_addr)) < 0)
     {
         printf("fail when setsockopt\n");
@@ -156,18 +160,24 @@ int AddMulticastAddr(int iSockFd, char *pcMulticastAddr)
     struct ip_mreq ipmr;
     int iRet = 0;
     u_int32_t source = 0;
-    
+    struct sockaddr_in *our_ip;
+    char acIp[32]={0};
+    memset(acIp,0,sizeof(acIp));
+    GetDeviceIp(acIp,16);
+
     if (iSockFd <= 0)
     {
         return -1;	
+    }
+//    iRet = read_interface("eth1", NULL, &source, NULL);
+//    if(iRet != 0)
+//    {
+//        return -2;
+//    }
+//    char *pcIpaddr="192.168.104.109";
 
-    iRet = read_interface("eth0", NULL, &source, NULL);
-    if(iRet != 0)
-    {
-        return -2;
-    }}
-    
-    ipmr.imr_interface.s_addr = source;//htonl(source);//htonl(INADDR_ANY);
+//    printf("*********source=%s--\n",source);
+    ipmr.imr_interface.s_addr = inet_addr(acIp);/*source;//htonl(source);//*//*htonl(INADDR_ANY);*/
     ipmr.imr_multiaddr.s_addr = inet_addr(pcMulticastAddr);
     iRet = setsockopt(iSockFd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*)&ipmr, sizeof(ipmr));
     if (iRet < 0)
@@ -183,18 +193,22 @@ int DropMulticastAddr(int iSockFd, char *pcMulticastAddr)
     struct ip_mreq ipmr;
     int iRet = 0;
     u_int32_t source = 0;
-    
+    char acIp[32]={0};
+    memset(acIp,0,sizeof(acIp));
+
     if (iSockFd <= 0)
     {
         return -1;	
-
-    iRet = read_interface("eth0", NULL, &source, NULL);
-    if(iRet != 0)
-    {
-        return -2;
-    }}
+    }
+//    iRet = read_interface("eth1", NULL, &source, NULL);
+//    if(iRet != 0)
+//    {
+//        return -2;
+//    }
     
-    ipmr.imr_interface.s_addr = source;//htonl(source);//htonl(INADDR_ANY);
+    GetDeviceIp(acIp,16);
+
+    ipmr.imr_interface.s_addr = inet_addr(acIp);//source;//htonl(source);//htonl(INADDR_ANY);
     ipmr.imr_multiaddr.s_addr = inet_addr(pcMulticastAddr);
     iRet = setsockopt(iSockFd, IPPROTO_IP, IP_DROP_MEMBERSHIP, (char*)&ipmr, sizeof(ipmr));
     if (iRet < 0)

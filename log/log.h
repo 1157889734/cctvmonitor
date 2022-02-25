@@ -5,8 +5,8 @@
 extern "C"{
 #endif /* End of #ifdef __cplusplus */
 
-#define LOG_FILE_NAME "sys.log"
-#define LOG_FILE_DIR  "/mnt/mmc/log"
+#define LOG_FILE_NAME "sys_tmp.log"
+#define LOG_FILE_DIR  "/home/data"
 #define	MAX_LOG_NUMBER	10000
 
 #define MAX_LOG_DESC_LEN 128

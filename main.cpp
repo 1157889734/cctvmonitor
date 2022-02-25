@@ -9,6 +9,8 @@
 #include "sysmanage.h"
 #include "NVRMsgProc.h"
 #include <QDebug>
+#include "event/lmsgProc.h"
+#include "msgapp.h"
 
 #include <QApplication>
 
@@ -68,11 +70,15 @@ int main(int argc, char *argv[])
     {
 
     }
+
+//    LMSG_Init();
+//    LMSG_SendMsgToDHMI(MSG_CCTV2DHMI_ASYNC_REQUEST_STATE, NULL, 0);
+
+
     g_cctvtest = new cctvTest();
     g_cctvtest->show();
 
     g_mainforn = new mainforn();
-//    g_mainforn->setStyleSheet("border-image: url();background-image:url(:/res/bg_system0.png)");
     g_mainforn->hide();
 
     for (int i = 0; i < 6; i++)
@@ -100,7 +106,7 @@ int main(int argc, char *argv[])
     }
 
 //    NVR_init();
-//    InitPmsgproc();
+    InitPmsgproc();
 
 //    g_hResUpdate = PMSG_CreateResConn(12016);
 
@@ -121,7 +127,7 @@ int main(int argc, char *argv[])
     delete  g_mainforn;
     g_mainforn = NULL;
 
-//    UninitPmsgproc();
+    UninitPmsgproc();
     NVR_Uninit();
     STATE_Uninit();
     DebugUninit();

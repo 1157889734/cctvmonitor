@@ -6,8 +6,8 @@
 #include "QTimer"
 #include <QButtonGroup>
 #include <QWidget>
-#include "playwind.h"
-#include "playwidget.h"
+//#include "playwind.h"
+//#include "playwidget.h"
 #include "types.h"
 
 QT_BEGIN_NAMESPACE
@@ -28,7 +28,7 @@ public:
     int GetNextFourVideo(int* piVideo);
     int GetNextSingleVideo(int *piVideo);
 
-    void GetBackVideoTImerCirlce();
+    void videoPollingfunction();
 
     void triggerGetDevStateSignal();
     void triggerSetTimeSignal();
@@ -39,24 +39,24 @@ public:
     pthread_t monitorthread;
     int     m_iThreadRunFlag;
 
-    playwidget *m_playWidget[4];
-    playwidget *m_playSingleWidget;
+    QWidget *m_playWidget[4];
+    QWidget *m_playSingleWidget;
 
 
 
-    QPushButton *videoGroupBtn[8][4];
-    QButtonGroup *g_fileButtonGroup;
-    QButtonGroup *g_buttonGroup;
-    QButtonGroup *g_doorButtonGroup;
-    QButtonGroup *g_doorclipButtonGroup;
-    QButtonGroup *g_PecuButtonGroup;
+    QPushButton     *videoGroupBtn[8][4];
+    QButtonGroup    *g_fileButtonGroup;
+    QButtonGroup    *g_videoNumbuttonGroup;
+    QButtonGroup    *g_doorButtonGroup;
+    QButtonGroup    *g_doorclipButtonGroup;
+    QButtonGroup    *g_PecuButtonGroup;
 
-    QIcon  pImageBtn[32][5];
+    QIcon           pImageBtn[32][5];
 
-    QPushButton *m_pBoxFire[6];//烟火报警的图标
-    QPushButton *m_pBoxDoor[24];//门禁报警的图标
-    QPushButton *m_pBoxDoorClip[24];//门夹报警的图标
-    QPushButton *m_pBoxPecu[24];//PECU报警的图标
+    QPushButton     *m_pBoxFire[6];//烟火报警的图标
+    QPushButton     *m_pBoxDoor[24];//门禁报警的图标
+    QPushButton     *m_pBoxDoorClip[24];//门夹报警的图标
+    QPushButton     *m_pBoxPecu[24];//PECU报警的图标
     char			m_acFireWarnInfo[6];	//烟火报警的值
     char			m_acDoorWarnInfo[6];	//门禁报警的值
     char            m_acDoorClipWarnInfo[6];//门夹报警的值
@@ -81,21 +81,21 @@ public:
     int m_iMousePosY;
     T_WND_INFO                     m_RealMonitorVideos;
 
-    void UpdateCamState();
-    void UpdateWarnBtn();
+    void UpdateCamStatefunc();
+    void UpdateWarnBtnfunc();
     void PlayStyleChangedfunc();
     void SinglePlayStylefunc();
     void FourPlayStylefunc();
 public slots:
     void showcctvPage();
-    void showMonitorPage();
+    void showMonitorManagePage();
     void sigalePageSlot();
     void fourPageSlot();
     void cycleSlot();
     void timeupdateSlot();
     void updateWarnInfoSLot();
     void PlayWidCicked(int index);
-    void GroupButtonClickSlot(QAbstractButton* btn);
+    void GroupButtonVideoClickSlot(QAbstractButton* btn);
     void GroupButtonFireSlot(int index);
     void GroupButtonDoorSlot(int index);
     void GroupButtonDoorclipSlot(int index);

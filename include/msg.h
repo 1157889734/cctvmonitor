@@ -1,7 +1,7 @@
 #ifndef _MSG_H_
 #define _MSG_H_
 #include <sys/poll.h>
-
+#include "pthread.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -40,7 +40,7 @@ SOURCES += \
     mainforn.cpp \
     mutex.cpp \
     myslider.cpp \
-    playwidget.cpp \
+#    playwidget.cpp \
 #    playwind.cpp \
     pmsg/multicast.c \
     pmsg/pmsgcli.c \
@@ -74,7 +74,7 @@ HEADERS += \
     mainforn.h \
     mutex.h \
     myslider.h \
-    playwidget.h \
+#    playwidget.h \
 #    playwind.h \
     pmsg/multicast.h \
     pmsg/pmsgcli.h \

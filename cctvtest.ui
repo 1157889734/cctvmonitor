@@ -33,7 +33,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="monitorpushButton">
+  <widget class="QPushButton" name="monitorManageButton">
    <property name="geometry">
     <rect>
      <x>831</x>
@@ -96,7 +96,7 @@ background-color: rgb(16, 231, 231);
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="startpushButton">
+  <widget class="QPushButton" name="openPollButton">
    <property name="geometry">
     <rect>
      <x>830</x>
@@ -112,7 +112,7 @@ background-color: rgb(16, 231, 231);
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="stoppushButton">
+  <widget class="QPushButton" name="closePollButton">
    <property name="geometry">
     <rect>
      <x>930</x>
@@ -717,11 +717,11 @@ font: 12pt &quot;Ubuntu&quot;;</string>
    </property>
   </widget>
   <zorder>label</zorder>
-  <zorder>monitorpushButton</zorder>
+  <zorder>monitorManageButton</zorder>
   <zorder>fourpushButton</zorder>
   <zorder>signalBUtton</zorder>
-  <zorder>startpushButton</zorder>
-  <zorder>stoppushButton</zorder>
+  <zorder>openPollButton</zorder>
+  <zorder>closePollButton</zorder>
   <zorder>label_2</zorder>
   <zorder>pushButton_1_5</zorder>
   <zorder>pushButton_1_7</zorder>
