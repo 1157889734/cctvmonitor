@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_cctvTest_t {
     QByteArrayData data[23];
-    char stringdata0[336];
+    char stringdata0[347];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,32 +40,33 @@ QT_MOC_LITERAL(4, 48, 5), // "index"
 QT_MOC_LITERAL(5, 54, 17), // "getDevStateSignal"
 QT_MOC_LITERAL(6, 72, 13), // "setTimeSignal"
 QT_MOC_LITERAL(7, 86, 12), // "showcctvPage"
-QT_MOC_LITERAL(8, 99, 15), // "showMonitorPage"
-QT_MOC_LITERAL(9, 115, 14), // "sigalePageSlot"
-QT_MOC_LITERAL(10, 130, 12), // "fourPageSlot"
-QT_MOC_LITERAL(11, 143, 9), // "cycleSlot"
-QT_MOC_LITERAL(12, 153, 14), // "timeupdateSlot"
-QT_MOC_LITERAL(13, 168, 18), // "updateWarnInfoSLot"
-QT_MOC_LITERAL(14, 187, 13), // "PlayWidCicked"
-QT_MOC_LITERAL(15, 201, 20), // "GroupButtonClickSlot"
-QT_MOC_LITERAL(16, 222, 16), // "QAbstractButton*"
-QT_MOC_LITERAL(17, 239, 3), // "btn"
-QT_MOC_LITERAL(18, 243, 19), // "GroupButtonFireSlot"
-QT_MOC_LITERAL(19, 263, 19), // "GroupButtonDoorSlot"
-QT_MOC_LITERAL(20, 283, 23), // "GroupButtonDoorclipSlot"
-QT_MOC_LITERAL(21, 307, 19), // "GroupButtonPecuSlot"
-QT_MOC_LITERAL(22, 327, 8) // "playSlot"
+QT_MOC_LITERAL(8, 99, 21), // "showMonitorManagePage"
+QT_MOC_LITERAL(9, 121, 14), // "sigalePageSlot"
+QT_MOC_LITERAL(10, 136, 12), // "fourPageSlot"
+QT_MOC_LITERAL(11, 149, 9), // "cycleSlot"
+QT_MOC_LITERAL(12, 159, 14), // "timeupdateSlot"
+QT_MOC_LITERAL(13, 174, 18), // "updateWarnInfoSLot"
+QT_MOC_LITERAL(14, 193, 13), // "PlayWidCicked"
+QT_MOC_LITERAL(15, 207, 25), // "GroupButtonVideoClickSlot"
+QT_MOC_LITERAL(16, 233, 16), // "QAbstractButton*"
+QT_MOC_LITERAL(17, 250, 3), // "btn"
+QT_MOC_LITERAL(18, 254, 19), // "GroupButtonFireSlot"
+QT_MOC_LITERAL(19, 274, 19), // "GroupButtonDoorSlot"
+QT_MOC_LITERAL(20, 294, 23), // "GroupButtonDoorclipSlot"
+QT_MOC_LITERAL(21, 318, 19), // "GroupButtonPecuSlot"
+QT_MOC_LITERAL(22, 338, 8) // "playSlot"
 
     },
     "cctvTest\0showMonitorSignal\0\0"
     "sendWindIndexSignal\0index\0getDevStateSignal\0"
-    "setTimeSignal\0showcctvPage\0showMonitorPage\0"
-    "sigalePageSlot\0fourPageSlot\0cycleSlot\0"
-    "timeupdateSlot\0updateWarnInfoSLot\0"
-    "PlayWidCicked\0GroupButtonClickSlot\0"
-    "QAbstractButton*\0btn\0GroupButtonFireSlot\0"
-    "GroupButtonDoorSlot\0GroupButtonDoorclipSlot\0"
-    "GroupButtonPecuSlot\0playSlot"
+    "setTimeSignal\0showcctvPage\0"
+    "showMonitorManagePage\0sigalePageSlot\0"
+    "fourPageSlot\0cycleSlot\0timeupdateSlot\0"
+    "updateWarnInfoSLot\0PlayWidCicked\0"
+    "GroupButtonVideoClickSlot\0QAbstractButton*\0"
+    "btn\0GroupButtonFireSlot\0GroupButtonDoorSlot\0"
+    "GroupButtonDoorclipSlot\0GroupButtonPecuSlot\0"
+    "playSlot"
 };
 #undef QT_MOC_LITERAL
 
@@ -140,14 +141,14 @@ void cctvTest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 2: _t->getDevStateSignal(); break;
         case 3: _t->setTimeSignal(); break;
         case 4: _t->showcctvPage(); break;
-        case 5: _t->showMonitorPage(); break;
+        case 5: _t->showMonitorManagePage(); break;
         case 6: _t->sigalePageSlot(); break;
         case 7: _t->fourPageSlot(); break;
         case 8: _t->cycleSlot(); break;
         case 9: _t->timeupdateSlot(); break;
         case 10: _t->updateWarnInfoSLot(); break;
         case 11: _t->PlayWidCicked((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 12: _t->GroupButtonClickSlot((*reinterpret_cast< QAbstractButton*(*)>(_a[1]))); break;
+        case 12: _t->GroupButtonVideoClickSlot((*reinterpret_cast< QAbstractButton*(*)>(_a[1]))); break;
         case 13: _t->GroupButtonFireSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 14: _t->GroupButtonDoorSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 15: _t->GroupButtonDoorclipSlot((*reinterpret_cast< int(*)>(_a[1]))); break;

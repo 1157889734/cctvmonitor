@@ -81,6 +81,8 @@ public:
     int m_iMousePosY;
     T_WND_INFO                     m_RealMonitorVideos;
 
+    int playFlag;
+
     void UpdateCamStatefunc();
     void UpdateWarnBtnfunc();
     void PlayStyleChangedfunc();

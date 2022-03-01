@@ -36,6 +36,8 @@ typedef struct  T_SHM_RECT_INFO
     struct wl_buffer* buffer;
     QWidget *pWidget;
     CMutexLock lock;
+    rga_info_t rgasrc;
+    rga_info_t rgadst;
     T_SHM_RECT_INFO()
     {
         fd = 0;
@@ -110,6 +112,19 @@ static PT_SHM_RECT_INFO create_rect_info(int w, int h)
     pRectInfo->fd = fd;
     pRectInfo->size = size;
 
+
+    memset(&pRectInfo->rgasrc, 0, sizeof(rga_info_t));
+    memset(&pRectInfo->rgadst, 0, sizeof(rga_info_t));
+
+    pRectInfo->rgasrc.fd = -1;
+    pRectInfo->rgasrc.mmuFlag = 1;
+
+    pRectInfo->rgadst.fd = -1;
+    pRectInfo->rgadst.mmuFlag = 1;
+    pRectInfo->rgadst.virAddr = shm_data;
+
+    rga_set_rect(&pRectInfo->rgadst.rect, 0, 0, w, h, w, h, RK_FORMAT_YCbCr_420_SP);
+
     return pRectInfo;
 }
 
@@ -176,6 +191,7 @@ SHM_HANDLE SHM_AddRect(QWidget *pWnd)
         memset(pShmRectInfo->addr, 0x10, w * h);
         memset(pShmRectInfo->addr + w * h, 0x80, w * h * 0.5);
     }
+
 
 
     printf("add rect end \n");
@@ -299,10 +315,10 @@ int SHM_FillRect(SHM_HANDLE hShmHandle, uint32_t color)
     return 0;
 }
 
-int SHM_RkRgaBlit(MppFrame tSrcMppFrame, uint8_t *dstAddr, int w, int h)
+int SHM_RkRgaBlit_old(MppFrame tSrcMppFrame, uint8_t *dstAddr, int w, int h)
 {
-    static rga_info_t rgasrc;
-    static rga_info_t rgadst;
+    rga_info_t rgasrc;
+    rga_info_t rgadst;
 
     int ret = 0;
     int srcWidth,srcHeight,srcFormat, src_h_stride,src_v_stride;
@@ -353,6 +369,35 @@ int SHM_RkRgaBlit(MppFrame tSrcMppFrame, uint8_t *dstAddr, int w, int h)
 
     return ret;
 }
+int SHM_RkRgaBlit(MppFrame tSrcMppFrame, PT_SHM_RECT_INFO pShmRectInfo)
+{
+    rga_info_t &rgasrc = pShmRectInfo->rgasrc;
+    rga_info_t &rgadst = pShmRectInfo->rgadst;
+
+    int ret = 0;
+    int srcWidth,srcHeight,srcFormat, src_h_stride,src_v_stride;
+
+    MppBuffer buffer  = NULL;
+    RK_U8*    srcAddr = NULL;
+
+    srcFormat = RK_FORMAT_YCbCr_420_SP;
+    srcWidth  =   mpp_frame_get_width(tSrcMppFrame);
+    srcHeight =   mpp_frame_get_height(tSrcMppFrame);
+    src_h_stride    =   mpp_frame_get_hor_stride(tSrcMppFrame);
+    src_v_stride = mpp_frame_get_ver_stride(tSrcMppFrame);
+    buffer = mpp_frame_get_buffer(tSrcMppFrame);
+    srcAddr = (RK_U8 *)mpp_buffer_get_ptr(buffer);
+
+    rgasrc.virAddr = srcAddr;
+    /********** set the rect_info **********/
+    rga_set_rect(&rgasrc.rect, 0, 0, srcWidth, srcHeight, src_h_stride, src_v_stride, srcFormat);
+
+    RockchipRga &rkRga = RockchipRga::get();
+    /********** call rga_Interface **********/
+    ret = rkRga.RkRgaBlit(&rgasrc, &rgadst, NULL);
+
+    return ret;
+}
 int SHM_Display(SHM_HANDLE hPlaneHandle, MppFrame frame)
 {
     PT_SHM_RECT_INFO pShmRectInfo = (PT_SHM_RECT_INFO)hPlaneHandle;
@@ -362,7 +407,7 @@ int SHM_Display(SHM_HANDLE hPlaneHandle, MppFrame frame)
         return -1;
     }
     int err = -1;
-    err = SHM_RkRgaBlit(frame, pShmRectInfo->addr, pShmRectInfo->w, pShmRectInfo->h);
+    err = SHM_RkRgaBlit(frame, pShmRectInfo);
     if(err < 0)
     {
         printf("rga_blit err \n");

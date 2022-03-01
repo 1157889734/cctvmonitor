@@ -25,11 +25,15 @@ recordManage *g_recordPlayThis = NULL;
 
 void PftpProc(PFTP_HANDLE PHandle, int iPos)     //回调函数处理接收到的进度条进度, iPos为进度百分比
 {
+    T_LOG_INFO tLog;
+    memset(&tLog,0,sizeof(T_LOG_INFO));
+    tLog.iLogType = LOG_TYPE_EVENT;
+
+
     if (PHandle != g_recordPlayThis->m_tFtpHandle[g_recordPlayThis->m_iFtpServerIdex])
     {
         return;
     }
-
     g_recordPlayThis->triggerDownloadProcessBarDisplaySignal(1);   //显示进度条
 
     g_recordPlayThis->triggerSetDownloadProcessBarValueSignal(iPos);
@@ -38,6 +42,9 @@ void PftpProc(PFTP_HANDLE PHandle, int iPos)     //回调函数处理接收到�
     {
         if(100 == iPos)
         {
+            snprintf(tLog.acLogDesc,sizeof(tLog.acLogDesc)-1,"down succuss");
+            LOG_WriteLog(&tLog);
+
             usleep(2000*1000);
         }
 

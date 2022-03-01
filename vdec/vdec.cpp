@@ -624,7 +624,7 @@ int VDEC_DestroyVideoDecCh(VDEC_HADNDLE VHandle)
     ptVideoInfo->iVideoExitFlag = 1;
     while(ptVideoInfo->iVideoExitFlagOver)
     {
-        usleep(100000);
+        usleep(10000);
     }
 
     T_VDEC_INFO* ptDecInfo = (T_VDEC_INFO* )ptVideoInfo->ptDecInfo;
