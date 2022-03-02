@@ -27,20 +27,7 @@ extern "C"{
 
 
 
-typedef void* HWND;
-typedef struct _T_WND_INFO
-{
-    HWND hWnd;
 
-    int  nX;
-    int  nY;
-    int  nWidth;
-    int  nHeight;
-    int  nVideoWidth;
-    int  nVideoHeight;
-    void *pRenderHandle;
-
-}T_WND_INFO;
 
 #ifndef _CMP_VDEC_TYPE_
 #define _CMP_VDEC_TYPE_

@@ -1,6 +1,5 @@
 #include "recordmanage.h"
 #include "ui_recordmanage.h"
-#include "debugout/debug.h"
 #include "state/state.h"
 #include <QDebug>
 #include <QMessageBox>
@@ -13,6 +12,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <QCheckBox>
+#include <QHBoxLayout>
 
 
 #define FTP_SERVER_PORT  21   //FTP服务器默认通信端?
@@ -246,12 +246,12 @@ void recordManage::cmplaybackInit()
     QWidget *pWnd = playWidget; //
     rt = pWnd->geometry();
     pt = pWnd->mapToGlobal(QPoint(0, 0));
-    m_RealMonitorVideos.nVideoWidth = 0;
-    m_RealMonitorVideos.nVideoHeight = 0;
-    m_RealMonitorVideos.nX = rt.x();
-    m_RealMonitorVideos.nY = rt.y();
-    m_RealMonitorVideos.nWidth = rt.width();
-    m_RealMonitorVideos.nHeight = rt.height();
+//    m_RealMonitorVideos.nVideoWidth = 0;
+//    m_RealMonitorVideos.nVideoHeight = 0;
+//    m_RealMonitorVideos.nX = rt.x();
+//    m_RealMonitorVideos.nY = rt.y();
+//    m_RealMonitorVideos.nWidth = rt.width();
+//    m_RealMonitorVideos.nHeight = rt.height();
     m_RealMonitorVideos.hWnd = (HWND)pWnd;
     m_RealMonitorVideos.pRenderHandle = NULL;
 

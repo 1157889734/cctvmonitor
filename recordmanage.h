@@ -8,7 +8,11 @@
 #include "timeset.h"
 #include "pmsg/pmsgcli.h"
 #include <QTimer>
-#include "vdec/cmplayer.h"
+#include "log/log.h"
+//#include "vdec/cmplayer.h"
+
+#include "debugout/debug.h"
+#include "includeVdecc/CMPlayerInterface.h"
 #include <QTableWidgetItem>
 
 #define MAX_RECORD_SEACH_NUM 10000

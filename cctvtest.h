@@ -9,6 +9,8 @@
 //#include "playwind.h"
 //#include "playwidget.h"
 #include "types.h"
+//#include "vdec/cmplayer.h"
+#include "includeVdecc/CMPlayerInterface.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class cctvTest; }
@@ -81,7 +83,6 @@ public:
     int m_iMousePosY;
     T_WND_INFO                     m_RealMonitorVideos;
 
-    int playFlag;
 
     void UpdateCamStatefunc();
     void UpdateWarnBtnfunc();

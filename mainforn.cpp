@@ -1,3 +1,4 @@
+#include "debugout/debug.h"
 #include "mainforn.h"
 #include "ui_mainforn.h"
 #include "NVRMsgProc.h"

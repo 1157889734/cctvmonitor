@@ -18,9 +18,15 @@ QMAKE_CFLAGS += -g
 QMAKE_CXXFLAGS += -g
 
 INCLUDEPATH += $$PWD/include
-INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/rockchip/
-#INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/libdrm
-INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/rga/
+INCLUDEPATH += $$PWD/includeVdecc
+
+#INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/rockchip/
+##INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/libdrm
+#INCLUDEPATH += /home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/rga/
+
+LIBS += -L$$PWD/lib/ -lrkcmplay
+#LIBS += -lrga -lrockchip_mpp -lwayland-client
+
 LIBS += -L$$PWD/lib/  -ldl -lz -lbz2 -lrockchip_mpp -lrga -lpthread -lwayland-client
 
 # You can also make your code fail to compile if it uses deprecated APIs.
@@ -46,21 +52,21 @@ SOURCES += \
     pmsg/pmsgcli.c \
     pmsg/pmsgproc.c \
     recordmanage.cpp \
-    rtsp/Base64EncDec.c \
-    rtsp/md5.c \
-    rtsp/ourMD5.c \
-    rtsp/rtcp.c \
-    rtsp/rtp.c \
-    rtsp/rtsp.c \
-    rtsp/rtspApi.c \
-    rtsp/rtspComm.c \
+#    rtsp/Base64EncDec.c \
+#    rtsp/md5.c \
+#    rtsp/ourMD5.c \
+#    rtsp/rtcp.c \
+#    rtsp/rtp.c \
+#    rtsp/rtsp.c \
+#    rtsp/rtspApi.c \
+#    rtsp/rtspComm.c \
     state/fileConfig.c \
     state/state.c \
     sysmanage.cpp \
-    vdec/cmplayer.cpp \
-    vdec/rgaapi.cpp \
-    vdec/shm.cpp \
-    vdec/vdec.cpp \
+#    vdec/cmplayer.cpp \
+#    vdec/rgaapi.cpp \
+#    vdec/shm.cpp \
+#    vdec/vdec.cpp \
     timeset.cpp
 
 HEADERS += \
@@ -80,26 +86,26 @@ HEADERS += \
     pmsg/pmsgcli.h \
     pmsg/pmsgproc.h \
     recordmanage.h \
-    rtsp/Base64EncDec.h \
-    rtsp/md5.h \
-    rtsp/mutex.h \
-    rtsp/ourMD5.h \
-    rtsp/rtcp.h \
-    rtsp/rtp.h \
-    rtsp/rtsp.h \
-    rtsp/rtspApi.h \
-    rtsp/rtspComm.h \
-    rtsp/types.h \
+#    rtsp/Base64EncDec.h \
+#    rtsp/md5.h \
+#    rtsp/mutex.h \
+#    rtsp/ourMD5.h \
+#    rtsp/rtcp.h \
+#    rtsp/rtp.h \
+#    rtsp/rtsp.h \
+#    rtsp/rtspApi.h \
+#    rtsp/rtspComm.h \
+#    rtsp/types.h \
     state/fileConfig.h \
     state/state.h \
     sysmanage.h \
     timeset.h \
     types.h \
-    vdec/cmplayer.h \
-    vdec/rga_api.h \
-    vdec/rgaapi.h \
-    vdec/shm.h \
-    vdec/vdec.h
+#    vdec/cmplayer.h \
+#    vdec/rga_api.h \
+#    vdec/rgaapi.h \
+#    vdec/shm.h \
+#    vdec/vdec.h
 
 FORMS += \
     cctvtest.ui \
@@ -118,15 +124,15 @@ RESOURCES += \
     res.qrc
 
 DISTFILES += \
-    rtsp/Base64EncDec.o \
-    rtsp/Makefile \
-    rtsp/Makefile.bak \
-    rtsp/librtsp.a \
-    rtsp/md5.o \
-    rtsp/ourMD5.o \
-    rtsp/rtcp.o \
-    rtsp/rtp.o \
-    rtsp/rtsp.h.bak \
-    rtsp/rtsp.o \
-    rtsp/rtspApi.o \
-    rtsp/rtspComm.o
+#    rtsp/Base64EncDec.o \
+#    rtsp/Makefile \
+#    rtsp/Makefile.bak \
+#    rtsp/librtsp.a \
+#    rtsp/md5.o \
+#    rtsp/ourMD5.o \
+#    rtsp/rtcp.o \
+#    rtsp/rtp.o \
+#    rtsp/rtsp.h.bak \
+#    rtsp/rtsp.o \
+#    rtsp/rtspApi.o \
+#    rtsp/rtspComm.o
