@@ -9,8 +9,8 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
-#include "fileConfig.h"
-#include "state.h"
+#include "state/fileConfig.h"
+#include "state/state.h"
 
 #include "./log/log.h"
 #define  VIDEO_CH_MAX_SIZE 32

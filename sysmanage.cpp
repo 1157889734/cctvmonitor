@@ -17,59 +17,6 @@
 #include <arpa/inet.h>
 static int g_statusflag = 0;
 
-void* CheckDiskStateTimer(void *arg)
-{
-    sysManage *pMySysWid = (sysManage *)arg;
-
-#if 0
-    T_LOG_INFO tLog;
-    tLog.iLogType = LOG_TYPE_SYS;
-    sysManage *pMySysWid = (sysManage *)arg;
-    T_NVR_STATE atNVRState[6];
-
-    GetAllNvrInfo(atNVRState,sizeof(atNVRState));
-
-    while (1)
-    {
-        for(int i=0;i<6;i++)
-        {
-            int iState = NVR_GetConnectStatus(i);
-
-            atNVRState[i].iNVRConnectState = iState;
-            if(pMySysWid->m_atNVRState[i].iNVRConnectState != iState)
-            {
-                if(E_SERV_STATUS_CONNECT == iState)
-                {
-                    memset(tLog.acLogDesc,0,sizeof(tLog.acLogDesc));
-                    sprintf(tLog.acLogDesc,"%d车 nvr online",i+1);
-                    LOG_WriteLog(&tLog);
-                }
-                else
-                {
-                    memset(tLog.acLogDesc,0,sizeof(tLog.acLogDesc));
-                    sprintf(tLog.acLogDesc,"%d车 nvr off",i+1);
-                    LOG_WriteLog(&tLog);
-                }
-            }
-        }
-
-        if(memcmp(atNVRState,pMySysWid->m_atNVRState,sizeof(atNVRState)))
-        {
-            memcpy(pMySysWid->m_atNVRState,atNVRState,sizeof(atNVRState));
-    //        pMySysWid->m_pDiskStTable->redraw();
-        }
-
-        usleep(4*1000*1000);
-    }
-#endif
-
-
-
-
-
-    return NULL;
-}
-
 void sysManage::getDevStateSignalCtrl()
 {
     int iRet = 0, i = 0, j = 0;
@@ -141,7 +88,6 @@ sysManage::sysManage(QWidget *parent) :
     ui->dayLabel->setText(QString::number(m_iDay,10));
 
 
-    m_CheckDiskStatethreadId = 0;
     m_GetDevStatethreadId = 0;
 
     QPalette palette;
@@ -232,8 +178,6 @@ sysManage::sysManage(QWidget *parent) :
     connect(ui->LastPageButton,SIGNAL(clicked()),this,SLOT(lastpageSlot()));
     connect(ui->NextPageButton,SIGNAL(clicked()),this,SLOT(nextPageSlot()));
 
-    pthread_create(&m_CheckDiskStatethreadId, NULL, CheckDiskStateTimer, (void *)this);    //创建监控线程
-
 
     getTrainConfig();
 
@@ -241,11 +185,6 @@ sysManage::sysManage(QWidget *parent) :
 
 sysManage::~sysManage()
 {
-    if (m_CheckDiskStatethreadId != 0)
-    {
-        pthread_join(m_CheckDiskStatethreadId, NULL);
-        m_CheckDiskStatethreadId = 0;
-    }
 
     delete  g_buttonGroup;
     g_buttonGroup = NULL;
@@ -256,8 +195,8 @@ sysManage::~sysManage()
 
 void sysManage::getNvrStatusCtrl(PMSG_HANDLE pHandle, char *pcMsgData)
 {
-    int i = 0, iDevType = 0;
-    char actmp[16] = {0}, acVersion[32] = {0};
+    int i = 0;
+//    char actmp[16] = {0}, acVersion[32] = {0};
     char acDiskFull[16] = {0}, acDiskUsed[16] = {0};
     QString acDeviceTp =  "";
     T_NVR_STATUS *ptNvrstaus = (T_NVR_STATUS *)pcMsgData;
@@ -311,13 +250,7 @@ void sysManage::getNvrStatusCtrl(PMSG_HANDLE pHandle, char *pcMsgData)
 
         }
 
-
-
-
-
     }
-
-
 
 }
 
@@ -541,12 +474,9 @@ int sysManage::getDay()
 
 void sysManage::getTrainConfig()     //获取车型配置信息
 {
-    int i = 0, j = 0, row = 0;
+    int i = 0, row = 0;
     QString item = "";
     QString devStatus = tr("离线");     //设备状态初始默认值为离线
-//    T_TRAIN_CONFIG tTrainConfigInfo;
-    char tranNum[32] = {0};
-
 
     /*设备状态和设备存储列表清空*/
     row = ui->devStatusTableWidget->rowCount();

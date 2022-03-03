@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_cctvTest_t {
     QByteArrayData data[23];
-    char stringdata0[347];
+    char stringdata0[354];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -54,7 +54,7 @@ QT_MOC_LITERAL(18, 254, 19), // "GroupButtonFireSlot"
 QT_MOC_LITERAL(19, 274, 19), // "GroupButtonDoorSlot"
 QT_MOC_LITERAL(20, 294, 23), // "GroupButtonDoorclipSlot"
 QT_MOC_LITERAL(21, 318, 19), // "GroupButtonPecuSlot"
-QT_MOC_LITERAL(22, 338, 8) // "playSlot"
+QT_MOC_LITERAL(22, 338, 15) // "PlayCtrlFunSlot"
 
     },
     "cctvTest\0showMonitorSignal\0\0"
@@ -66,7 +66,7 @@ QT_MOC_LITERAL(22, 338, 8) // "playSlot"
     "GroupButtonVideoClickSlot\0QAbstractButton*\0"
     "btn\0GroupButtonFireSlot\0GroupButtonDoorSlot\0"
     "GroupButtonDoorclipSlot\0GroupButtonPecuSlot\0"
-    "playSlot"
+    "PlayCtrlFunSlot"
 };
 #undef QT_MOC_LITERAL
 
@@ -153,7 +153,7 @@ void cctvTest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 14: _t->GroupButtonDoorSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 15: _t->GroupButtonDoorclipSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 16: _t->GroupButtonPecuSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 17: _t->playSlot(); break;
+        case 17: _t->PlayCtrlFunSlot(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {

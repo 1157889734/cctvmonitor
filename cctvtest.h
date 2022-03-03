@@ -103,7 +103,7 @@ public slots:
     void GroupButtonDoorSlot(int index);
     void GroupButtonDoorclipSlot(int index);
     void GroupButtonPecuSlot(int index);
-    void playSlot();
+    void PlayCtrlFunSlot();
 
 signals:
     void showMonitorSignal();

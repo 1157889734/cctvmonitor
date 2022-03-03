@@ -18,8 +18,8 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#include "pmsgproc.h"
-#include "multicast.h"
+#include "pmsg/pmsgproc.h"
+#include "pmsg/multicast.h"
 #include "state/state.h"
 #include "log/log.h"
 #include "debugout/debug.h"

@@ -17,7 +17,6 @@
 
 #define FTP_SERVER_PORT  21   //FTP服务器默认通信端?
 
-static PFTP_HANDLE g_ftpHandle = 0;
 
 int g_iDateEditNo = 0;      //要显示时间的不同控件的编号
 pthread_mutex_t g_sliderValueSetMutex;
@@ -107,7 +106,6 @@ recordManage::recordManage(QWidget *parent) :
     m_iPlayRange = 0;
     m_iPlayFlag = 0;
     m_iRecordIdex = -1;
-//    g_fistSelctFlag = -1;
     recordPlayFlag = 0;
     m_iSliderValue = 0;
     m_threadId = 0;
@@ -246,12 +244,7 @@ void recordManage::cmplaybackInit()
     QWidget *pWnd = playWidget; //
     rt = pWnd->geometry();
     pt = pWnd->mapToGlobal(QPoint(0, 0));
-//    m_RealMonitorVideos.nVideoWidth = 0;
-//    m_RealMonitorVideos.nVideoHeight = 0;
-//    m_RealMonitorVideos.nX = rt.x();
-//    m_RealMonitorVideos.nY = rt.y();
-//    m_RealMonitorVideos.nWidth = rt.width();
-//    m_RealMonitorVideos.nHeight = rt.height();
+
     m_RealMonitorVideos.hWnd = (HWND)pWnd;
     m_RealMonitorVideos.pRenderHandle = NULL;
 
@@ -469,7 +462,6 @@ void recordManage::playSliderPressSlot(int iPosTime)
         ui->playSpeedlabel->setText(playSpeedStr);
 
         pthread_mutex_lock(&g_sliderValueSetMutex);
-        //m_iSliderValue = iPosTime;
         m_playSlider->setValue(iPosTime);
         CMP_SetPosition(m_cmpHandle, iPosTime);
         pthread_mutex_unlock(&g_sliderValueSetMutex);
@@ -531,9 +523,6 @@ void recordManage::downloadProcessBarDisplaySlot(int iEnableFlag)   //是否显�
             ui->downloadButton->setEnabled(true);
         }
 
-//        g_downloadFlag = 0;
-
-
     }
     else if ((1 == iEnableFlag) /*&& (1 == ui->fileDownloadProgressBar->isHidden())*/)
     {
@@ -551,7 +540,6 @@ void recordManage::downloadProcessBarDisplaySlot(int iEnableFlag)   //是否显�
             ui->downloadButton->setEnabled(false);
         }
 
-//        g_downloadFlag = 1;
     }
 
 
@@ -638,7 +626,6 @@ void *slideValueSetThread(void *param)    //播放进度条刷新线程
           {
               while (1 == recordPlaypage->m_iThreadRunFlag && iTryGetPlayRangeNum > 0)     //尝试5次获取播放时长，每次间隔1000MS
               {
-//                  iDuration = CMP_GetPlayRange(recordPlaypage->m_cmpHandle);
                   iDuration =  CMP_GetPlayRange(recordPlaypage->m_cmpHandle);
 
                   if (iDuration > 0)
@@ -662,11 +649,9 @@ void *slideValueSetThread(void *param)    //播放进度条刷新线程
 
               recordPlaypage->triggerSetRangeLabelSignal();
           }
-//            qDebug()<<"***********recordPlaypage->m_iPlayRange="<<recordPlaypage->m_iPlayRange<<__LINE__;
           if ((recordPlaypage->m_iPlayRange > 0) && (recordPlaypage->m_iPlayFlag != 0))   //只有获取到了进度条范围值,并且不处于暂停状态才会刷新进度条，否则不做刷新处理
           {
               pthread_mutex_lock(&g_sliderValueSetMutex);
-//              recordPlaypage->m_iSliderValue = CMP_GetCurrentPlayTime(recordPlaypage->m_cmpHandle);
               recordPlaypage->m_iSliderValue = CMP_GetPlayTime(recordPlaypage->m_cmpHandle);
               recordPlaypage->triggerSetSliderValueSignal(recordPlaypage->m_iSliderValue);
               pthread_mutex_unlock(&g_sliderValueSetMutex);
@@ -675,7 +660,6 @@ void *slideValueSetThread(void *param)    //播放进度条刷新线程
 //                  DebugPrint(DEBUG_UI_NOMAL_PRINT, "recordPlayWidget record play end!close play window\n");
                   recordPlaypage->triggerCloseRecordPlaySignal();
               }
-//              qDebug()<<"***********recordPlaypage->m_iSliderValue="<<recordPlaypage->m_iSliderValue<<__LINE__;
 
           }
           usleep(500*1000);
@@ -690,8 +674,6 @@ void recordManage::recordPlayCtrl(int iRow, int iDex)
 {
     int iRet = 0;
     char acRtspAddr[128] = {0};
-//    T_TRAIN_CONFIG tTrainConfigInfo;
-    T_LOG_INFO tLogInfo;
     QString playSpeedStr;
 
 
@@ -761,10 +743,6 @@ void recordManage::recordPlayCtrl(int iRow, int iDex)
 //        DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] create slideValueSet thread end!\n",__FUNCTION__);
     }
 
-//    memset(&tLogInfo, 0, sizeof(T_LOG_INFO));
-//    tLogInfo.iLogType = 0;
-//    snprintf(tLogInfo.acLogDesc, sizeof(tLogInfo.acLogDesc), "play %s of nvr server %d", m_acFilePath[iRow], tTrainConfigInfo.tNvrServerInfo[iDex].iCarriageNO+100);
-//    LOG_WriteLog(&tLogInfo);
 
 }
 
@@ -804,7 +782,6 @@ void recordManage::NextBtnClicked()
 
 
     closePlayWin();   //先关闭之前的
-//       setPlayButtonStyleSheet();
 //    emit setRecordPlayFlagSignal(1);
 
 
@@ -829,7 +806,6 @@ void recordManage::QuickBtnClicked()
     QString playSpeedStr;
     if (NULL == m_cmpHandle)
     {
-       printf("*****NULL == m_cmpHandle****line1036\n");
        return;
     }
 
@@ -851,7 +827,6 @@ void recordManage::QuickBtnClicked()
     }
     ui->playSpeedlabel->setText(playSpeedStr);
     CMP_SetPlaySpeed(m_cmpHandle,m_dPlaySpeed);
-//    setPlayButtonStyleSheet();
 
 }
 
@@ -860,7 +835,6 @@ void recordManage::StopBtnClicked()
     if (m_cmpHandle != NULL)    //如果播放窗口已经有打开了码流播放，关闭码流播放
     {
         closePlayWin();
-//        setPlayButtonStyleSheet();
 
     }
 
@@ -888,14 +862,8 @@ void recordManage::PlayBtnClicked()
        {
            m_iPlayFlag = 1;
            CMP_PlayMedia(m_cmpHandle);
-    //            CMP_SetPlayRate(m_cmpHandle,m_dPlaySpeed);
        }
-    //        else
-    //        {
-    //            m_iPlayFlag = 0;
-    //            CMP_PauseMedia(m_cmpHandle);
-    //        }
-    //           setPlayButtonStyleSheet();
+
     }
     else
     {
@@ -933,9 +901,6 @@ void recordManage::SlowBtnClicked()
     ui->playSpeedlabel->setText(playSpeedStr);
     CMP_SetPlaySpeed(m_cmpHandle,m_dPlaySpeed);
 
-//    setPlayButtonStyleSheet();
-
-
 }
 
 void recordManage::PrevBtnClicked()
@@ -962,7 +927,6 @@ void recordManage::PrevBtnClicked()
     }
 
     closePlayWin();   //先关闭之前的
-//    setPlayButtonStyleSheet();
 //    emit setRecordPlayFlagSignal(1);
 
     recordPlayCtrl(iRow, iDex);
@@ -1047,13 +1011,9 @@ void recordManage::DownBtnClicked()
        {
            return;
        }
-       qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
 
        m_iFtpServerIdex = idex;
 
-    //           memset(&tTrainConfigInfo, 0, sizeof(T_TRAIN_CONFIG));
-    //           STATE_GetCurrentTrainConfigInfo(&tTrainConfigInfo);
-    //           snprintf(acIpAddr, sizeof(acIpAddr), "192.168.%d.81", 100+tTrainConfigInfo.tNvrServerInfo[idex].iCarriageNO);
 
         snprintf(acIpAddr, sizeof(acIpAddr), "192.168.%d.81", 104);
        if(m_tFtpHandle[idex] == 0)
@@ -1064,18 +1024,14 @@ void recordManage::DownBtnClicked()
        {
            return;
        }
-       qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
 
        if (0 == m_tFtpHandle[idex])
        {
     //               DebugPrint(DEBUG_UI_ERROR_PRINT, "[%s] connect to ftp server:%s error!\n", __FUNCTION__, acIpAddr);
            return;
        }
-       qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
 
-       qDebug()<<"*****************m_tFtpHandle[idex]="<<m_tFtpHandle[idex]<<"************idex="<<idex<<__LINE__;
        memset(acSaveFileName,0,sizeof (acSaveFileName));
-       qDebug()<<"**************acSaveFileName"<<acSaveFileName<<__FUNCTION__<<__LINE__;
        for (row = 0; row < ui->recordFileTableWidget->rowCount(); row++)
        {
 
@@ -1163,7 +1119,6 @@ void recordManage::recordSelectionSlot(QTableWidgetItem *item)
         {
             if (i == item->row())
             {
-//                g_fistSelctFlag = item->row();
 
                 ui->recordFileTableWidget->item(i, 1)->setTextColor(Qt::green);
                 ui->recordFileTableWidget->item(i, 2)->setForeground(Qt::green);
@@ -1173,7 +1128,6 @@ void recordManage::recordSelectionSlot(QTableWidgetItem *item)
                 ui->recordFileTableWidget->item(i, 1)->setTextColor(Qt::black);
                 ui->recordFileTableWidget->item(i, 2)->setForeground(Qt::black);
             }
-//            setPlayButtonStyleSheet();
 
         }
     }
@@ -1373,8 +1327,7 @@ void recordManage::recordQueryEndSlot()
 
 void recordManage::SearchBtnClicked()
 {
-    E_FILE_SEARCH_STATE eState;
-    int iRet = 0, row = 0, iServerIdex = 0, iCameraIdex = 0, i = 0;
+    int iRet = 0, i = 0;
     int year = 0, mon = 0, day = 0, hour = 0, min = 0, sec = 0;
     memset(m_pcRecordFileBuf, 0, MAX_RECORD_SEACH_NUM*MAX_RECFILE_PATH_LEN);
     m_iTotalLen = 0;
@@ -1386,15 +1339,7 @@ void recordManage::SearchBtnClicked()
 
     int iNvrNo = ui->carSeletionComboBox->currentIndex();
     int iIpcPos    = ui->cameraSelectionComboBox->currentIndex();
-    int iVideoType = ui->videoComboBox->currentIndex() +1;
-    T_LOG_INFO tLogInfo;
 
-
-    int iCmd = CLI_SERV_MSG_TYPE_GET_RECORD_FILE;
-    int iDataLen = sizeof(T_NVR_SEARCH_RECORD);
-    int iVideoIdx = -1;
-    char acCmdData[96]={0};
-    T_NVR_SEARCH_RECORD *pSchFile = NULL;
     int iDiscTime = 0;
 
     sscanf(ui->startTimeLabel->text().toLatin1().data(), "%4d-%2d-%2d %2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec);

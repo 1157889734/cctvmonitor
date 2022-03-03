@@ -145,8 +145,8 @@ void mainforn::pmsgTimerFunc()
 
 void mainforn::recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsgData, int iMsgDataLen)
 {
-    int iAlarmType = 0, iDevPos = 0, iShadeAlarmEnableFlag = 0, i = 0;
-    int iCarriageNO;
+//    int iAlarmType = 0, iDevPos = 0, iShadeAlarmEnableFlag = 0, i = 0;
+//    int iCarriageNO;
 //    qDebug()<<"**************ucMsgCmd="<<ucMsgCmd<<__func__<<__LINE__;
     switch(ucMsgCmd)    //不同的应答消息类型分发给不同的页面处理
     {

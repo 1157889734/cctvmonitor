@@ -15,8 +15,8 @@ EQ            = =
 CC            = /home/cftc/toolchain/host/bin/aarch64-buildroot-linux-gnu-gcc
 CXX           = /home/cftc/toolchain/host/bin/aarch64-buildroot-linux-gnu-g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Os --sysroot=/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Os --sysroot=/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot -g -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
+CFLAGS        = -pipe -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Os --sysroot=/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot $(STRIP) $(TAR_FILE) -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Os --sysroot=/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot $(STRIP) $(TAR_FILE) -g -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -Iinclude -IincludeVdecc -I../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5 -I../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets -I../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui -I../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore -I. -I. -I../../toolchain/host/mkspecs/devices/linux-buildroot-g++
 QMAKE         = /home/cftc/toolchain/host/bin/qmake
 DEL_FILE      = rm -f
@@ -849,7 +849,7 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: ../../toolchain/host/mkspecs/features/data/dummy.cpp
-	/home/cftc/toolchain/host/bin/aarch64-buildroot-linux-gnu-g++ -pipe -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Os --sysroot=/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h ../../toolchain/host/mkspecs/features/data/dummy.cpp
+	/home/cftc/toolchain/host/bin/aarch64-buildroot-linux-gnu-g++ -pipe -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Os --sysroot=/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot $(STRIP) $(TAR_FILE) -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h ../../toolchain/host/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: moc_cctvtest.cpp moc_mainforn.cpp moc_myslider.cpp moc_recordmanage.cpp moc_sysmanage.cpp moc_timeset.cpp
 compiler_moc_header_clean:
@@ -1726,8 +1726,8 @@ debug.o: debugout/debug.c debugout/debug.h
 
 ftpApi.o: ftp/ftpApi.c ftp/ftpApi.h \
 		ftp/gb2312_utf8.h \
-		include/debug.h \
-		include/log.h
+		debugout/debug.h \
+		log/log.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o ftpApi.o ftp/ftpApi.c
 
 gb2312_utf8.o: ftp/gb2312_utf8.c 

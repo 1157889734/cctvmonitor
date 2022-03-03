@@ -20,7 +20,6 @@ cctvTest *g_cctvtest = NULL;
 mainforn *g_mainforn = NULL;
 #define DEBUG_PORT 9880
 static char g_acCCTVVersion[28] ={0};
-static PMSG_HANDLE 	 g_hResUpdate;	   //资源更新的信号句柄
 static int  g_aiNextFourVideoIdx[4] = {-1,-1,-1,-1};
 
 
@@ -70,10 +69,6 @@ int main(int argc, char *argv[])
     {
 
     }
-
-//    LMSG_Init();
-//    LMSG_SendMsgToDHMI(MSG_CCTV2DHMI_ASYNC_REQUEST_STATE, NULL, 0);
-
 
     g_cctvtest = new cctvTest();
     g_cctvtest->show();

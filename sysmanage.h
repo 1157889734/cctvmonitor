@@ -32,7 +32,6 @@ public:
 
 
     QButtonGroup *g_buttonGroup;
-    pthread_t m_CheckDiskStatethreadId;      //
     pthread_t m_GetDevStatethreadId;      //
 
     T_NVR_STATE m_atNVRState[6];

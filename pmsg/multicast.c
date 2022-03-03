@@ -22,7 +22,7 @@
 #include <sys/select.h>
 #include <fcntl.h>
 #include "state/state.h"
-#include "multicast.h"
+#include "pmsg/multicast.h"
 
 	
 int read_interface(const char *acInterface, int *ifindex, void *addr, unsigned char *arp)
@@ -97,15 +97,14 @@ int read_interface(const char *acInterface, int *ifindex, void *addr, unsigned c
 int CreateMultcastSocket(unsigned short usMultPort)
 {
     int iSockFd = 0;
-    int iLen = 0;
     int iOption = 0;  
     int iRet = 0;
     int iFlag = 1;
-    socklen_t iAddrLen = sizeof(struct sockaddr_in );
-    u_int32_t source = 0;
+//    socklen_t iAddrLen = sizeof(struct sockaddr_in );
+//    u_int32_t source = 0;
     struct in_addr inaddr;
     struct sockaddr_in	servaddr;
-    struct sockaddr_in	cliaddr;
+//    struct sockaddr_in	cliaddr;
 	
 //    iRet = read_interface("eth1", NULL, &source, NULL);
 //    if(iRet != 0)
@@ -159,8 +158,8 @@ int AddMulticastAddr(int iSockFd, char *pcMulticastAddr)
 {
     struct ip_mreq ipmr;
     int iRet = 0;
-    u_int32_t source = 0;
-    struct sockaddr_in *our_ip;
+//    u_int32_t source = 0;
+//    struct sockaddr_in *our_ip;
     char acIp[32]={0};
     memset(acIp,0,sizeof(acIp));
     GetDeviceIp(acIp,16);
@@ -192,7 +191,7 @@ int DropMulticastAddr(int iSockFd, char *pcMulticastAddr)
 {
     struct ip_mreq ipmr;
     int iRet = 0;
-    u_int32_t source = 0;
+//    u_int32_t source = 0;
     char acIp[32]={0};
     memset(acIp,0,sizeof(acIp));
 

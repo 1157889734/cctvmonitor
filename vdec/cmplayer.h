@@ -6,7 +6,7 @@
 #include <QWidget>
 #include "./state/state.h"
 #include "./log/log.h"
-#include <sys/sysinfo.h>
+//#include <sys/sysinfo.h>
 
 #include "vdec.h"
 

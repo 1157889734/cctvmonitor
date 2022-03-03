@@ -17,10 +17,10 @@
 #include<fcntl.h>
 #include <sys/ioctl.h>
 
-#include "ftpApi.h"
-#include "gb2312_utf8.h" 
-#include "debug.h"
-#include "log.h"
+#include "ftp/ftpApi.h"
+#include "ftp/gb2312_utf8.h"
+#include "debugout/debug.h"
+#include "log/log.h"
 
 typedef struct _T_FTP_PACKET
 {

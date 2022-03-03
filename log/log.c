@@ -8,8 +8,8 @@
 #include        <fcntl.h>
 #include        <pthread.h>
 
-#include 		"log.h"
-#include		"./debugout/debug.h"
+#include 		"log/log.h"
+#include		"debugout/debug.h"
 
 static int g_iLogCount = 0;
 static int g_iSyncFlag = 0;
