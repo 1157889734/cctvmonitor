@@ -445,7 +445,6 @@ void cctvTest::SinglePlayStylefunc()
 }
 void cctvTest::FourPlayStylefunc()
 {
-//    int iFourVideoChanged = 0;
 //    qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
     //单画面界面的视频发生了变化
@@ -459,10 +458,28 @@ void cctvTest::FourPlayStylefunc()
             CMP_CloseMedia(g_hSinglePlay);
             CMP_UnInit(g_hSinglePlay);
             g_hSinglePlay = NULL;
+            qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
+
         }
+//        m_playSingleWidget->hide();
 
         if(g_iNextSingleVideoIdx != -1)   	//接下来要播放的为单画面视频
         {
+            for(int i=0;i<4;i++)
+            {
+                if(g_pHplay[i])
+                {
+                       //不需要播放的四画面视频关闭显示了
+                    CMP_SetPlayEnable(g_pHplay[i],0);
+//                    CMP_CloseMedia(g_pHplay[i]);
+//                    CMP_UnInit(g_pHplay[i]);
+//                    g_pHplay[i] = NULL;
+                }
+                qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
+
+                m_playWidget[i]->hide();
+            }
+
              char acUrl[256] = {0};
 
              m_playSingleWidget->show();
@@ -474,18 +491,7 @@ void cctvTest::FourPlayStylefunc()
              CMP_OpenMediaPreview(g_hSinglePlay, acUrl, CMP_TCP);
              CMP_PlayMedia(g_hSinglePlay);
 
-//             CMP_SetPlayEnable(g_hSinglePlay,0);
-//            for(int i=0;i<4;i++)
-//            {
-//                if(g_pHplay[i])
-//                {
-//                       //不需要播放的四画面视频关闭显示了
-//                    CMP_SetPlayEnable(g_pHplay[i],0);
-
-//                }
-
-//                m_playWidget[i]->hide();
-//            }
+             qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
             CMP_SetPlayEnable(g_hSinglePlay,1);
 
@@ -495,7 +501,7 @@ void cctvTest::FourPlayStylefunc()
         {
             qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
-            m_playSingleWidget->hide();
+//            m_playSingleWidget->hide();
             for(int i=0;i<4;i++)
             {
 
@@ -506,7 +512,8 @@ void cctvTest::FourPlayStylefunc()
                         CMP_CloseMedia(g_pHplay[i]);
                         CMP_UnInit(g_pHplay[i]);
                         g_pHplay[i] = NULL;
-//                        m_playWidget[i]->hide();
+                        m_playWidget[i]->hide();
+                        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
                     }
                     g_aiCurFourVideoIdx[i] = -1;
@@ -519,6 +526,8 @@ void cctvTest::FourPlayStylefunc()
 
                 if(g_aiCurFourVideoIdx[i] != g_aiNextFourVideoIdx[i])
                 {
+                    qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
+
                     m_playWidget[i]->show();
 
                     if(g_aiNextFourVideoIdx[i]!=-1)
@@ -1956,11 +1965,6 @@ void cctvTest::showcctvPage()
                  if(g_pHplay[i] == NULL)
                 {
                      m_playWidget[i]->show();
-
-
-
-//                     usleep(1000*10);
-
                      GetVideoMainRtspUrl(iNextVideoIdx ,acUrl,sizeof(acUrl));
                     //                strcpy(acUrl,"rtsp://admin:admin123@192.168.104.88:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif"); //11
                      cmplayInit(m_playWidget[i]);
@@ -2047,7 +2051,6 @@ void cctvTest::showMonitorManagePage()
                CMP_CloseMedia(g_pHplay[i]);
                CMP_UnInit(g_pHplay[i]);
                g_pHplay[i] = NULL;
-//               m_playWidget[i]->hide();
 
            }
 
@@ -2206,7 +2209,7 @@ void cctvTest::closeVideoCyc()
            qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
          }
         g_aiBackFourVideoIdx[i-4] = -1;
-//        m_playWidget[i]->hide();
+        m_playWidget[i]->hide();
   }
   if(g_hBackSinglePlay)
    {
@@ -2215,7 +2218,7 @@ void cctvTest::closeVideoCyc()
        g_hBackSinglePlay = NULL;
        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
-//       m_playSingleWidget->hide();
+       m_playSingleWidget->hide();
    }
    g_iBackSingleVideoIdx = -1;
 
