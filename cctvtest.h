@@ -46,6 +46,7 @@ public:
 
 
 
+
     QPushButton     *videoGroupBtn[8][4];
     QButtonGroup    *g_fileButtonGroup;
     QButtonGroup    *g_videoNumbuttonGroup;
@@ -89,6 +90,7 @@ public:
     void PlayStyleChangedfunc();
     void SinglePlayStylefunc();
     void FourPlayStylefunc();
+
 public slots:
     void showcctvPage();
     void showMonitorManagePage();
@@ -96,7 +98,6 @@ public slots:
     void fourPageSlot();
     void cycleSlot();
     void timeupdateSlot();
-    void updateWarnInfoSLot();
     void PlayWidCicked(int index);
     void GroupButtonVideoClickSlot(QAbstractButton* btn);
     void GroupButtonFireSlot(int index);
@@ -104,6 +105,8 @@ public slots:
     void GroupButtonDoorclipSlot(int index);
     void GroupButtonPecuSlot(int index);
     void PlayCtrlFunSlot();
+
+    void updateWarnInfoSLot();
 
 signals:
     void showMonitorSignal();
@@ -114,6 +117,7 @@ signals:
 private:
     Ui::cctvTest *ui;
     QTimer *playTimer;
+    QTimer *updateWarnTimer;
 
 
 };

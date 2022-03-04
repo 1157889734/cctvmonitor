@@ -143,7 +143,6 @@ void cctvTest::UpdateCamStatefunc()
 
 void cctvTest::UpdateWarnBtnfunc()
 {
-
     for(int i=0;i<m_iFireCount;i++)
     {
         m_pBoxFire[i]->hide();
@@ -161,14 +160,13 @@ void cctvTest::UpdateWarnBtnfunc()
         m_pBoxDoorClip[i]->show();
     }
 
+
     for(int i=0;i<m_iPecuCount;i++)
     {
         m_pBoxPecu[i]->hide();
         m_pBoxPecu[i]->show();
 
     }
-    qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
-
 
 }
 
@@ -284,7 +282,7 @@ void cctvTest::PlayStyleChangedfunc()
                qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
             }
-            m_playWidget[i]->hide();
+//            m_playWidget[i]->hide();
 
         }
 
@@ -476,18 +474,18 @@ void cctvTest::FourPlayStylefunc()
              CMP_OpenMediaPreview(g_hSinglePlay, acUrl, CMP_TCP);
              CMP_PlayMedia(g_hSinglePlay);
 
-             CMP_SetPlayEnable(g_hSinglePlay,0);
-            for(int i=0;i<4;i++)
-            {
-                if(g_pHplay[i])
-                {
-                       //不需要播放的四画面视频关闭显示了
-                    CMP_SetPlayEnable(g_pHplay[i],0);
+//             CMP_SetPlayEnable(g_hSinglePlay,0);
+//            for(int i=0;i<4;i++)
+//            {
+//                if(g_pHplay[i])
+//                {
+//                       //不需要播放的四画面视频关闭显示了
+//                    CMP_SetPlayEnable(g_pHplay[i],0);
 
-                }
+//                }
 
-                m_playWidget[i]->hide();
-            }
+//                m_playWidget[i]->hide();
+//            }
 
             CMP_SetPlayEnable(g_hSinglePlay,1);
 
@@ -508,7 +506,7 @@ void cctvTest::FourPlayStylefunc()
                         CMP_CloseMedia(g_pHplay[i]);
                         CMP_UnInit(g_pHplay[i]);
                         g_pHplay[i] = NULL;
-                        m_playWidget[i]->hide();
+//                        m_playWidget[i]->hide();
 
                     }
                     g_aiCurFourVideoIdx[i] = -1;
@@ -774,7 +772,7 @@ void *monitorTread(void *param)
         if ((tPollWarnStateCurTime - tPollWarnStateOldTime) >= GET_DEVSTATE_WARN_TIME) //报警信息更新
         {
 
-            pvmsMonitorPage->updateWarnInfoSLot();
+//            pvmsMonitorPage->updateWarnInfoSLot();
             tPollWarnStateOldTime = tPollWarnStateCurTime;
 
         }
@@ -860,6 +858,9 @@ cctvTest::cctvTest(QWidget *parent)
     playTimer->start(500);
     connect(playTimer,SIGNAL(timeout()),this,SLOT(PlayCtrlFunSlot()));
 
+    updateWarnTimer = new QTimer();
+    updateWarnTimer->start(500);
+    connect(updateWarnTimer,SIGNAL(timeout()),this,SLOT(updateWarnInfoSLot()));
 
 
 
@@ -878,6 +879,17 @@ cctvTest::~cctvTest()
         delete playTimer;
         playTimer  = NULL;
     }
+
+    if (updateWarnTimer != NULL)
+    {
+        if (updateWarnTimer ->isActive())
+        {
+            updateWarnTimer ->stop();
+        }
+        delete updateWarnTimer;
+        updateWarnTimer  = NULL;
+    }
+
 
     if (monitorthread != 0)
     {
@@ -1434,11 +1446,13 @@ void cctvTest::setUi()
     for (int i = 0; i < 6; i++)
     {
         m_pBoxFire[i]= new QPushButton(this);
-        m_pBoxFire[i]->setGeometry(20,10+50+i,100,45);
+        m_pBoxFire[i]->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
+        m_pBoxFire[i]->setFlat(true);
+        m_pBoxFire[i]->setStyleSheet("QPushButton{border:none;background:transparent;color:rgb(255,255,255)}");
+        m_pBoxFire[i]->setGeometry(20,10+50*i,100,45);
         icon.addFile(QString::fromUtf8(acImgFullName),QSize(),QIcon::Normal,QIcon::Off);
         m_pBoxFire[i]->setIcon(icon);
         m_pBoxFire[i]->setIconSize(QSize(60,45));
-        m_pBoxFire[i]->setStyleSheet("background-color:rgb(0,0,0);color:rgb(255,255,255)");
         m_pBoxFire[i]->hide();
         g_fileButtonGroup->addButton(m_pBoxFire[i]);
     }
@@ -1464,26 +1478,32 @@ void cctvTest::setUi()
         for(int j=0;j<12;j++)
         {
             m_pBoxDoor[i*12+j] = new QPushButton(this);
+            m_pBoxDoor[i*12+j]->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
+            m_pBoxDoor[i*12+j]->setFlat(true);
+            m_pBoxDoor[i*12+j]->setStyleSheet("QPushButton{border:none;background:transparent;color:rgb(255,255,255)}");
             m_pBoxDoor[i*12+j]->setGeometry(130+i*115,10+50*j,100,45);
             icon.addFile(QString::fromUtf8(acImgFullName),QSize(),QIcon::Normal,QIcon::Off);
             m_pBoxDoor[i*12+j]->setIcon(icon);
-            m_pBoxDoor[i*12+j]->setStyleSheet("background-color:rgb(0,0,0);color:rgb(255,255,255)");
             m_pBoxDoor[i*12+j]->setIconSize(QSize(60,45));
             m_pBoxDoor[i*12+j]->hide();
 
             m_pBoxDoorClip[i*12+j] = new QPushButton(this);
-            m_pBoxDoorClip[i*12+j]->setGeometry(130+i*115,10+50*j,100,45);
+            m_pBoxDoorClip[i*12+j]->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
+            m_pBoxDoorClip[i*12+j]->setFlat(true);
+            m_pBoxDoorClip[i*12+j]->setStyleSheet("QPushButton{border:none;background:transparent;color:rgb(255,255,255)}");
+            m_pBoxDoorClip[i*12+j]->setGeometry(360+i*115,10+50*j,100,45);
             icon.addFile(QString::fromUtf8(acDoorClipImage),QSize(),QIcon::Normal,QIcon::Off);
             m_pBoxDoorClip[i*12+j]->setIcon(icon);
-            m_pBoxDoorClip[i*12+j]->setStyleSheet("background-color:rgb(0,0,0);color:rgb(255,255,255)");
             m_pBoxDoorClip[i*12+j]->setIconSize(QSize(60,45));
             m_pBoxDoorClip[i*12+j]->hide();
 
             m_pBoxPecu[i*12+j] = new QPushButton(this);
-            m_pBoxPecu[i*12+j]->setGeometry(130+i*115,10+50*j,100,45);
+            m_pBoxPecu[i*12+j]->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
+            m_pBoxPecu[i*12+j]->setFlat(true);
+            m_pBoxPecu[i*12+j]->setStyleSheet("QPushButton{border:none;background:transparent;color:rgb(255,255,255)}");
+            m_pBoxPecu[i*12+j]->setGeometry(590+i*115,10+50*j,100,45);
             icon.addFile(QString::fromUtf8(acPecuImage),QSize(),QIcon::Normal,QIcon::Off);
             m_pBoxPecu[i*12+j]->setIconSize(QSize(60,45));
-            m_pBoxPecu[i*12+j]->setStyleSheet("background-color:rgb(0,0,0);color:rgb(255,255,255)");
             m_pBoxPecu[i*12+j]->setIcon(icon);
             m_pBoxPecu[i*12+j]->hide();
 
@@ -1583,7 +1603,7 @@ void cctvTest::updateWarnInfoSLot()
                     m_aiPecuIdx[iCount] = iVideoIdx;
                     aiWarnVideoIdx[iWarnNum] = iVideoIdx;
                     iWarnNum ++;
-                    m_pBoxPecu[iCount]->setText(acBuf);
+                    m_pBoxPecu[iCount]->setText(QString(acBuf));
                     m_pBoxPecu[iCount]->show();
                     iCount ++; //pecu报警数加1
 
@@ -1592,15 +1612,15 @@ void cctvTest::updateWarnInfoSLot()
                 else if(iVideoIdx == iPecuFirstWarnVideoIdx && iFirst)
                 {
                     m_aiPecuIdx[iCount] = iVideoIdx;
-                    m_pBoxPecu[iCount]->setText(acBuf);
+                    m_pBoxPecu[iCount]->setText(QString(acBuf));
                     m_pBoxPecu[iCount]->show();
                     iCount ++;
                     iFirst = 0;
                 }
+
             }
         }
         m_iPecuCount = iCount;
-        qDebug()<<"**************m_iPecuCount="<<m_iPecuCount<<__FUNCTION__<<__LINE__;
 
         iCount = 0;
         for(int i=0;i<6;i++)
@@ -1614,7 +1634,7 @@ void cctvTest::updateWarnInfoSLot()
                 int iHaveExist = 0;
 
                 GetVideoName(iVideoIdx, acBuf, sizeof(acBuf));
-                m_pBoxFire[iCount]->setText(acBuf);
+                m_pBoxFire[iCount]->setText(QString(acBuf));
                 m_pBoxFire[iCount]->show();
                 m_aiFireIdx[iCount] = iVideoIdx;
                 iCount ++;
@@ -1636,7 +1656,6 @@ void cctvTest::updateWarnInfoSLot()
         }
 
         m_iFireCount = iCount;
-        qDebug()<<"**************m_iFireCount="<<m_iFireCount<<__FUNCTION__<<__LINE__;
 
         iCount = 0;
         for(int i=0;i<6;i++)
@@ -1660,7 +1679,7 @@ void cctvTest::updateWarnInfoSLot()
                 if(!iHaveExist)
                 {
                     GetVideoName(iVideoIdx, acBuf, sizeof(acBuf));
-                    m_pBoxDoor[iCount]->setText(acBuf);
+                    m_pBoxDoor[iCount]->setText(QString(acBuf));
                     m_pBoxDoor[iCount]->show();
                     aiDoorWarnVideoIdx[iCount] = iVideoIdx;
                     m_aiDoorIdx[iCount] = iVideoIdx;
@@ -1680,6 +1699,7 @@ void cctvTest::updateWarnInfoSLot()
                         iWarnNum ++;
                     }
                 }
+
             }
 
             if(acDoorClipWarnInfo[i] & (0x01<<j))
@@ -1700,7 +1720,7 @@ void cctvTest::updateWarnInfoSLot()
                 if(!iHaveExist)
                 {
                     GetVideoName(iVideoIdx, acBuf, sizeof(acBuf));
-                    m_pBoxDoor[iCount]->setText(acBuf);
+                    m_pBoxDoorClip[iDoorClipCount]->setText(QString(acBuf));
                     m_pBoxDoorClip[iDoorClipCount]->show();
                     aiDoorClipWarnVideoIdx[iDoorClipCount] = iVideoIdx;
                     m_aiDoorClipIdx[iDoorClipCount] = iVideoIdx;
@@ -1719,13 +1739,12 @@ void cctvTest::updateWarnInfoSLot()
                         aiWarnVideoIdx[iWarnNum] = iVideoIdx;
                         iWarnNum ++;
                     }
+
                 }
             }
         }
         m_iDoorCount = iCount;
         m_iDoorClipCount = iDoorClipCount;
-        qDebug()<<"**************m_iDoorCount="<<m_iDoorCount<<__FUNCTION__<<__LINE__;
-        qDebug()<<"**************m_iDoorClipCount="<<m_iDoorClipCount<<__FUNCTION__<<__LINE__;
 
         if(iWarnNum >1)
         {
@@ -1741,10 +1760,8 @@ void cctvTest::updateWarnInfoSLot()
                 ui->fourpushButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_01_nor.png)}");
                 g_eNextPlayStyle = E_FOUR_VPLAY;
                 g_iNextSingleVideoIdx  = -1;
-                qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
             }
-            qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
             //先找出不需要动的
             for(int i=0;i<4;i++)
@@ -1770,7 +1787,6 @@ void cctvTest::updateWarnInfoSLot()
                 }
 
             }
-            qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
             //再将剩下的报警相机放到队列中
             for(int i=0;i<4;i++)
@@ -1793,19 +1809,16 @@ void cctvTest::updateWarnInfoSLot()
                     iFreshed = 1;
                 }
             }
-            qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
             if(-1 != aiWarnVideoIdx[0])
             {
                 g_aiNextFourVideoIdx[0] = aiWarnVideoIdx[0];
                 iFreshed = 1;
             }
-            qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
             //只要有一个发生了变化 都需要重新调出四界面
             if(iFreshed)
             {
-                qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
                 g_iNextSingleVideoIdx = -1;
             }
@@ -1813,7 +1826,6 @@ void cctvTest::updateWarnInfoSLot()
         else if(1 == iWarnNum)
         {
             int iVideoIndex = aiWarnVideoIdx[0];
-            qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
             if(g_iVideoCycleFlag)
             {
@@ -1825,21 +1837,18 @@ void cctvTest::updateWarnInfoSLot()
                 ui->fourpushButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_01_hig.png)}");
 
                 g_eNextPlayStyle = E_SINGLE_VPLAY;
-                qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
             }
             g_iNextSingleVideoIdx = iVideoIndex;
         }
         else
         {
-            qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
             if(E_SINGLE_VPLAY == g_eCurPlayStyle)
             {
                 if(-1 == g_iCurSingleVideoIdx)
                 {
                     g_iNextSingleVideoIdx = 0;
-                    qDebug()<<"**************="<<__FUNCTION__<<__LINE__;
 
                 }
             }
@@ -1855,7 +1864,6 @@ void cctvTest::updateWarnInfoSLot()
 
         g_iWarnNum = iWarnNum;
         g_iWarn = iWarnNum >0?1:0;
-        qDebug()<<"**************g_iWarnNum="<<g_iWarnNum<<"*****g_iWarn="<<g_iWarn<<__FUNCTION__<<__LINE__;
 
     }
     return;
@@ -2039,7 +2047,7 @@ void cctvTest::showMonitorManagePage()
                CMP_CloseMedia(g_pHplay[i]);
                CMP_UnInit(g_pHplay[i]);
                g_pHplay[i] = NULL;
-               m_playWidget[i]->hide();
+//               m_playWidget[i]->hide();
 
            }
 
@@ -2048,7 +2056,6 @@ void cctvTest::showMonitorManagePage()
                CMP_CloseMedia(g_pHplay[i+4]);
                CMP_UnInit(g_pHplay[i+4]);
                g_pHplay[i+4] = NULL;
-               m_playWidget[i]->hide();
            }
 
            g_aiBackFourVideoIdx[i] = -1;
@@ -2061,7 +2068,6 @@ void cctvTest::showMonitorManagePage()
            CMP_CloseMedia(g_hSinglePlay);
            CMP_UnInit(g_hSinglePlay);
            g_hSinglePlay = NULL;
-           m_playSingleWidget->hide();
 
        }
     }
@@ -2073,7 +2079,6 @@ void cctvTest::showMonitorManagePage()
            CMP_CloseMedia(g_hSinglePlay);
            CMP_UnInit(g_hSinglePlay);
            g_hSinglePlay = NULL;
-           m_playSingleWidget->hide();
 
        }
        if(g_hBackSinglePlay)
@@ -2082,7 +2087,6 @@ void cctvTest::showMonitorManagePage()
             CMP_CloseMedia(g_hBackSinglePlay);
             CMP_UnInit(g_hBackSinglePlay);
             g_hBackSinglePlay = NULL;
-            m_playSingleWidget->hide();
 
         }
         g_iBackSingleVideoIdx = -1;
@@ -2202,7 +2206,7 @@ void cctvTest::closeVideoCyc()
            qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
          }
         g_aiBackFourVideoIdx[i-4] = -1;
-        m_playWidget[i]->hide();
+//        m_playWidget[i]->hide();
   }
   if(g_hBackSinglePlay)
    {
@@ -2211,7 +2215,7 @@ void cctvTest::closeVideoCyc()
        g_hBackSinglePlay = NULL;
        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
-       m_playSingleWidget->hide();
+//       m_playSingleWidget->hide();
    }
    g_iBackSingleVideoIdx = -1;
 

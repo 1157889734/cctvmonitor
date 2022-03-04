@@ -45,16 +45,16 @@ QT_MOC_LITERAL(9, 121, 14), // "sigalePageSlot"
 QT_MOC_LITERAL(10, 136, 12), // "fourPageSlot"
 QT_MOC_LITERAL(11, 149, 9), // "cycleSlot"
 QT_MOC_LITERAL(12, 159, 14), // "timeupdateSlot"
-QT_MOC_LITERAL(13, 174, 18), // "updateWarnInfoSLot"
-QT_MOC_LITERAL(14, 193, 13), // "PlayWidCicked"
-QT_MOC_LITERAL(15, 207, 25), // "GroupButtonVideoClickSlot"
-QT_MOC_LITERAL(16, 233, 16), // "QAbstractButton*"
-QT_MOC_LITERAL(17, 250, 3), // "btn"
-QT_MOC_LITERAL(18, 254, 19), // "GroupButtonFireSlot"
-QT_MOC_LITERAL(19, 274, 19), // "GroupButtonDoorSlot"
-QT_MOC_LITERAL(20, 294, 23), // "GroupButtonDoorclipSlot"
-QT_MOC_LITERAL(21, 318, 19), // "GroupButtonPecuSlot"
-QT_MOC_LITERAL(22, 338, 15) // "PlayCtrlFunSlot"
+QT_MOC_LITERAL(13, 174, 13), // "PlayWidCicked"
+QT_MOC_LITERAL(14, 188, 25), // "GroupButtonVideoClickSlot"
+QT_MOC_LITERAL(15, 214, 16), // "QAbstractButton*"
+QT_MOC_LITERAL(16, 231, 3), // "btn"
+QT_MOC_LITERAL(17, 235, 19), // "GroupButtonFireSlot"
+QT_MOC_LITERAL(18, 255, 19), // "GroupButtonDoorSlot"
+QT_MOC_LITERAL(19, 275, 23), // "GroupButtonDoorclipSlot"
+QT_MOC_LITERAL(20, 299, 19), // "GroupButtonPecuSlot"
+QT_MOC_LITERAL(21, 319, 15), // "PlayCtrlFunSlot"
+QT_MOC_LITERAL(22, 335, 18) // "updateWarnInfoSLot"
 
     },
     "cctvTest\0showMonitorSignal\0\0"
@@ -62,11 +62,11 @@ QT_MOC_LITERAL(22, 338, 15) // "PlayCtrlFunSlot"
     "setTimeSignal\0showcctvPage\0"
     "showMonitorManagePage\0sigalePageSlot\0"
     "fourPageSlot\0cycleSlot\0timeupdateSlot\0"
-    "updateWarnInfoSLot\0PlayWidCicked\0"
-    "GroupButtonVideoClickSlot\0QAbstractButton*\0"
-    "btn\0GroupButtonFireSlot\0GroupButtonDoorSlot\0"
-    "GroupButtonDoorclipSlot\0GroupButtonPecuSlot\0"
-    "PlayCtrlFunSlot"
+    "PlayWidCicked\0GroupButtonVideoClickSlot\0"
+    "QAbstractButton*\0btn\0GroupButtonFireSlot\0"
+    "GroupButtonDoorSlot\0GroupButtonDoorclipSlot\0"
+    "GroupButtonPecuSlot\0PlayCtrlFunSlot\0"
+    "updateWarnInfoSLot"
 };
 #undef QT_MOC_LITERAL
 
@@ -96,13 +96,13 @@ static const uint qt_meta_data_cctvTest[] = {
       10,    0,  113,    2, 0x0a /* Public */,
       11,    0,  114,    2, 0x0a /* Public */,
       12,    0,  115,    2, 0x0a /* Public */,
-      13,    0,  116,    2, 0x0a /* Public */,
-      14,    1,  117,    2, 0x0a /* Public */,
-      15,    1,  120,    2, 0x0a /* Public */,
-      18,    1,  123,    2, 0x0a /* Public */,
-      19,    1,  126,    2, 0x0a /* Public */,
-      20,    1,  129,    2, 0x0a /* Public */,
-      21,    1,  132,    2, 0x0a /* Public */,
+      13,    1,  116,    2, 0x0a /* Public */,
+      14,    1,  119,    2, 0x0a /* Public */,
+      17,    1,  122,    2, 0x0a /* Public */,
+      18,    1,  125,    2, 0x0a /* Public */,
+      19,    1,  128,    2, 0x0a /* Public */,
+      20,    1,  131,    2, 0x0a /* Public */,
+      21,    0,  134,    2, 0x0a /* Public */,
       22,    0,  135,    2, 0x0a /* Public */,
 
  // signals: parameters
@@ -118,13 +118,13 @@ static const uint qt_meta_data_cctvTest[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, 0x80000000 | 15,   16,
+    QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,    4,
-    QMetaType::Void, 0x80000000 | 16,   17,
-    QMetaType::Void, QMetaType::Int,    4,
-    QMetaType::Void, QMetaType::Int,    4,
-    QMetaType::Void, QMetaType::Int,    4,
-    QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void,
 
        0        // eod
@@ -146,20 +146,20 @@ void cctvTest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 7: _t->fourPageSlot(); break;
         case 8: _t->cycleSlot(); break;
         case 9: _t->timeupdateSlot(); break;
-        case 10: _t->updateWarnInfoSLot(); break;
-        case 11: _t->PlayWidCicked((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 12: _t->GroupButtonVideoClickSlot((*reinterpret_cast< QAbstractButton*(*)>(_a[1]))); break;
-        case 13: _t->GroupButtonFireSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 14: _t->GroupButtonDoorSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 15: _t->GroupButtonDoorclipSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 16: _t->GroupButtonPecuSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 17: _t->PlayCtrlFunSlot(); break;
+        case 10: _t->PlayWidCicked((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 11: _t->GroupButtonVideoClickSlot((*reinterpret_cast< QAbstractButton*(*)>(_a[1]))); break;
+        case 12: _t->GroupButtonFireSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 13: _t->GroupButtonDoorSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 14: _t->GroupButtonDoorclipSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: _t->GroupButtonPecuSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 16: _t->PlayCtrlFunSlot(); break;
+        case 17: _t->updateWarnInfoSLot(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 12:
+        case 11:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
