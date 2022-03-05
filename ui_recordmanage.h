@@ -57,6 +57,7 @@ public:
     QPushButton *startTimeLabel;
     QPushButton *endTimeLabel;
     QProgressBar *fileDownloadProgressBar;
+    QLabel *label;
 
     void setupUi(QWidget *recordManage)
     {
@@ -295,6 +296,10 @@ public:
 "   text-align: center;\n"
 "}"));
         fileDownloadProgressBar->setValue(0);
+        label = new QLabel(recordManage);
+        label->setObjectName(QString::fromUtf8("label"));
+        label->setGeometry(QRect(340, 10, 680, 570));
+        label->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
 
         retranslateUi(recordManage);
 
@@ -338,6 +343,7 @@ public:
         label_12->setText(QCoreApplication::translate("recordManage", ":", nullptr));
         startTimeLabel->setText(QString());
         endTimeLabel->setText(QString());
+        label->setText(QString());
     } // retranslateUi
 
 };

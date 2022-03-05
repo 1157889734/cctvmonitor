@@ -26,6 +26,7 @@ public:
     void closeVideoCyc();
     void setUi();
     void cmplayInit(QWidget *g_widget);
+    void cmplayMultiInit(QWidget *g_widget, int i);
 
     int GetNextFourVideo(int* piVideo);
     int GetNextSingleVideo(int *piVideo);
@@ -82,15 +83,33 @@ public:
     unsigned int    m_iPecuInfo;		//Pecu报警的值
     int m_iMousePosX;
     int m_iMousePosY;
-    T_WND_INFO                     m_RealMonitorVideos;
+    T_WND_INFO                     m_RealMonitorVideos[8];
+    T_WND_INFO                     m_RealMonitorSingleVideo;
 
+    struct T_Node
+    {
+        int iStreamState;
+        int iIndex;
+        T_Node()
+        {
+            iStreamState = 0xffff;
+            iIndex = 0;
+        }
+        void empty()
+        {
+            iStreamState = 0xffff;
+            iIndex = 0;
+        }
 
+    };
+    T_Node m_nodes[8];
+    T_Node single_node;
     void UpdateCamStatefunc();
     void UpdateWarnBtnfunc();
     void PlayStyleChangedfunc();
     void SinglePlayStylefunc();
     void FourPlayStylefunc();
-
+    void getPLayStrameState();
 public slots:
     void showcctvPage();
     void showMonitorManagePage();

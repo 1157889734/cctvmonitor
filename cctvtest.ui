@@ -149,12 +149,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>15</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/1_act.png);</string>
+    <string notr="true">border-image: url(:/res/1_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -165,12 +165,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>75</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/29_act.png);</string>
+    <string notr="true">border-image: url(:/res/29_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -181,12 +181,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>15</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/1_act.png);</string>
+    <string notr="true">border-image: url(:/res/1_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -197,12 +197,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>75</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/31_act.png);</string>
+    <string notr="true">border-image: url(:/res/31_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -213,12 +213,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>200</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/5_act.png);</string>
+    <string notr="true">border-image: url(:/res/5_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -229,12 +229,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>200</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/4_act.png);</string>
+    <string notr="true">border-image: url(:/res/4_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -245,12 +245,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>140</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/2_act.png);</string>
+    <string notr="true">border-image: url(:/res/2_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -261,12 +261,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>140</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/3_act.png);</string>
+    <string notr="true">border-image: url(:/res/3_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -277,12 +277,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>325</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/9_act.png);</string>
+    <string notr="true">border-image: url(:/res/9_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -293,12 +293,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>325</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/8_act.png);</string>
+    <string notr="true">border-image: url(:/res/8_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -309,12 +309,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>265</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/6_act.png);</string>
+    <string notr="true">border-image: url(:/res/6_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -325,12 +325,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>265</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/7_act.png);</string>
+    <string notr="true">border-image: url(:/res/7_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -341,12 +341,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>450</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/13_act.png);</string>
+    <string notr="true">border-image: url(:/res/13_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -357,12 +357,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>450</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/12_act.png);</string>
+    <string notr="true">border-image: url(:/res/12_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -373,12 +373,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>390</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/11_act.png);</string>
+    <string notr="true">border-image: url(:/res/11_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -389,12 +389,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>390</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/10_act.png);</string>
+    <string notr="true">border-image: url(:/res/10_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -405,12 +405,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>575</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/16_act.png);</string>
+    <string notr="true">border-image: url(:/res/16_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -421,12 +421,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>515</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/14_act.png);</string>
+    <string notr="true">border-image: url(:/res/14_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -437,12 +437,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>515</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/15_act.png);</string>
+    <string notr="true">border-image: url(:/res/15_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -453,12 +453,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>575</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/17_act.png);</string>
+    <string notr="true">border-image: url(:/res/17_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -469,12 +469,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>700</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/21_act.png);</string>
+    <string notr="true">border-image: url(:/res/21_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -485,12 +485,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>640</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/18_act.png);</string>
+    <string notr="true">border-image: url(:/res/18_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -501,12 +501,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>700</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/20_act.png);</string>
+    <string notr="true">border-image: url(:/res/20_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -517,12 +517,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>640</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/19_act.png);</string>
+    <string notr="true">border-image: url(:/res/19_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -533,12 +533,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>765</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/22_act.png);</string>
+    <string notr="true">border-image: url(:/res/22_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -549,12 +549,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>765</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/23_act.png);</string>
+    <string notr="true">border-image: url(:/res/23_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -565,12 +565,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>825</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/25_act.png);</string>
+    <string notr="true">border-image: url(:/res/25_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -581,12 +581,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>825</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/24_act.png);</string>
+    <string notr="true">border-image: url(:/res/24_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -597,12 +597,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>955</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/26_act.png);</string>
+    <string notr="true">border-image: url(:/res/26_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -613,12 +613,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>895</x>
      <y>700</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/32_act.png);</string>
+    <string notr="true">border-image: url(:/res/32_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -629,12 +629,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>895</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/30_act.png);</string>
+    <string notr="true">border-image: url(:/res/30_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -645,12 +645,12 @@ background-color: rgb(16, 231, 231);
     <rect>
      <x>955</x>
      <y>650</y>
-     <width>55</width>
-     <height>45</height>
+     <width>60</width>
+     <height>50</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/28_act.png);</string>
+    <string notr="true">border-image: url(:/res/28_noact.png);</string>
    </property>
    <property name="text">
     <string/>

@@ -618,7 +618,7 @@ void *slideValueSetThread(void *param)    //播放进度条刷新线程
       {
           return NULL;
       }
-//      pthread_detach(pthread_self());
+      pthread_detach(pthread_self());
 
       while (1 == recordPlaypage->m_iThreadRunFlag)
       {
@@ -1327,7 +1327,7 @@ void recordManage::recordQueryEndSlot()
 
 void recordManage::SearchBtnClicked()
 {
-    int iRet = 0, i = 0;
+    int iRet = 0,  row = 0,i = 0;
     int year = 0, mon = 0, day = 0, hour = 0, min = 0, sec = 0;
     memset(m_pcRecordFileBuf, 0, MAX_RECORD_SEACH_NUM*MAX_RECFILE_PATH_LEN);
     m_iTotalLen = 0;
@@ -1336,6 +1336,16 @@ void recordManage::SearchBtnClicked()
     {
         memset(m_acFilePath[i], 0, MAX_RECFILE_PATH_LEN);
     }
+    memset(m_pcRecordFileBuf, 0, MAX_RECORD_SEACH_NUM*MAX_RECFILE_PATH_LEN);
+    m_iTotalLen = 0;
+
+    row = ui->recordFileTableWidget->rowCount();//获取录像文件列表总行数
+    for (i = 0; i < row; i++)
+    {
+        ui->recordFileTableWidget->removeRow(i);
+    }
+    ui->recordFileTableWidget->setRowCount(0);
+
 
     int iNvrNo = ui->carSeletionComboBox->currentIndex();
     int iIpcPos    = ui->cameraSelectionComboBox->currentIndex();
