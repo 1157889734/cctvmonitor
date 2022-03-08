@@ -31,8 +31,8 @@ void sysManage::getDevStateSignalCtrl()
             if (E_SERV_STATUS_CONNECT == PMSG_GetConnectStatus(m_NvrServerPhandle[i]))    //获取到服务器状态为在线
             {
                 DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] server %d status is online\n", __FUNCTION__, i+1);
-                 ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 5, new QTableWidgetItem(tr("在线")));
-                 ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 5)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+                 ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 4, new QTableWidgetItem(tr("在线")));
+                 ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 4)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
                  iRet = PMSG_SendPmsgData(m_NvrServerPhandle[i], CLI_SERV_MSG_TYPE_GET_NVR_STATUS, NULL, 0);
                  if (iRet < 0)
                  {
@@ -51,9 +51,9 @@ void sysManage::getDevStateSignalCtrl()
             else
             {
                 DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] server %d status is offline\n", __FUNCTION__, i+1);
-                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 5, new QTableWidgetItem(tr("离线")));
-                ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 5)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 4, new QTableWidgetItem(""));
+                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 4, new QTableWidgetItem(tr("离线")));
+                ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 4)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+//                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 4, new QTableWidgetItem(""));
 
             }
 
@@ -99,13 +99,13 @@ sysManage::sysManage(QWidget *parent) :
 
 
     ui->devStatusTableWidget->setFocusPolicy(Qt::NoFocus);
-    ui->devStatusTableWidget->setColumnCount(6);
+    ui->devStatusTableWidget->setColumnCount(5);
     ui->devStatusTableWidget->setRowCount(6);
     ui->devStatusTableWidget->setShowGrid(true);
 //    ui->devStatusTableWidget->setStyleSheet("QTableWidget::item:selected { background-color: rgb(252, 233, 79) }");
 
     QStringList header;
-    header<<tr("设备位置")<<tr("硬盘个数")<<tr("硬盘容量")<<tr("使用量")<<tr("硬盘状态")<<tr("在线状态");
+    header<<tr("设备位置")<<tr("硬盘容量")<<tr("使用量")<<tr("硬盘状态")<<tr("在线状态");
     ui->devStatusTableWidget->horizontalHeader()->setStyleSheet("background-color:white");
     ui->devStatusTableWidget->setHorizontalHeaderLabels(header);
     ui->devStatusTableWidget->horizontalHeader()->setVisible(true);//temp
@@ -121,7 +121,7 @@ sysManage::sysManage(QWidget *parent) :
     ui->devStatusTableWidget->horizontalHeader()->resizeSection(3,70);
     ui->devStatusTableWidget->horizontalHeader()->resizeSection(4,70);
     ui->devStatusTableWidget->horizontalHeader()->resizeSection(5,70);
-    ui->devStatusTableWidget->horizontalHeader()->resizeSection(6,70);
+//    ui->devStatusTableWidget->horizontalHeader()->resizeSection(6,70);
 
 
     ui->devLogTableWidget->setFocusPolicy(Qt::NoFocus);
@@ -225,25 +225,25 @@ void sysManage::getNvrStatusCtrl(PMSG_HANDLE pHandle, char *pcMsgData)
             {
                 if (1 == m_iCheckDiskErrFlag[i])
                 {
+                    ui->devStatusTableWidget->setItem(i, 1, new QTableWidgetItem("0G"));
+                    ui->devStatusTableWidget->item(i, 1)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
                     ui->devStatusTableWidget->setItem(i, 2, new QTableWidgetItem("0G"));
                     ui->devStatusTableWidget->item(i, 2)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-                    ui->devStatusTableWidget->setItem(i, 3, new QTableWidgetItem("0G"));
+                    ui->devStatusTableWidget->setItem(i, 3, new QTableWidgetItem(QString(tr("硬盘异常"))));
                     ui->devStatusTableWidget->item(i, 3)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-                    ui->devStatusTableWidget->setItem(i, 4, new QTableWidgetItem(QString(tr("硬盘异常"))));
-                    ui->devStatusTableWidget->item(i, 4)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
 
                 }
             }
             else
             {
-                ui->devStatusTableWidget->setItem(i, 2, new QTableWidgetItem(QString(QLatin1String(acDiskFull))));
+                ui->devStatusTableWidget->setItem(i, 1, new QTableWidgetItem(QString(QLatin1String(acDiskFull))));
+                ui->devStatusTableWidget->item(i, 1)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+                ui->devStatusTableWidget->setItem(i, 2, new QTableWidgetItem(QString(QLatin1String(acDiskUsed))));
                 ui->devStatusTableWidget->item(i, 2)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
 
-                ui->devStatusTableWidget->setItem(i, 3, new QTableWidgetItem(QString(QLatin1String(acDiskUsed))));
+                ui->devStatusTableWidget->setItem(i, 3, new QTableWidgetItem(QString(tr("正常"))));
                 ui->devStatusTableWidget->item(i, 3)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-
-                ui->devStatusTableWidget->setItem(i, 4, new QTableWidgetItem(QString(tr("正常"))));
-                ui->devStatusTableWidget->item(i, 4)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
 
             }
             break;
@@ -500,10 +500,17 @@ void sysManage::getTrainConfig()     //获取车型配置信息
         ui->devStatusTableWidget->setItem(row, 0, new QTableWidgetItem(item));  //新建一个文本列并插入到列表中
         ui->devStatusTableWidget->item(row, 0)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);    //设置列文件对齐方式为居中对齐
 
+//        item = "0";
+//        item += "个";
+//        ui->devStatusTableWidget->setItem(row, 1, new QTableWidgetItem(item));
+//        ui->devStatusTableWidget->item(row, 1)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+        item = "";
         item = "0";
-        item += "个";
+        item += tr("G");
         ui->devStatusTableWidget->setItem(row, 1, new QTableWidgetItem(item));
         ui->devStatusTableWidget->item(row, 1)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
 
         item = "";
         item = "0";
@@ -513,18 +520,11 @@ void sysManage::getTrainConfig()     //获取车型配置信息
 
 
         item = "";
-        item = "0";
-        item += tr("G");
-        ui->devStatusTableWidget->setItem(row, 3, new QTableWidgetItem(item));
-        ui->devStatusTableWidget->item(row, 3)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-
-
-        item = "";
         item = "离线";
-        ui->devStatusTableWidget->setItem(row, 5, new QTableWidgetItem(item));
-        ui->devStatusTableWidget->item(row, 5)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+        ui->devStatusTableWidget->setItem(row, 4, new QTableWidgetItem(item));
+        ui->devStatusTableWidget->item(row, 4)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
         const QColor color = QColor(255,0,0);
-        ui->devStatusTableWidget->item(row, 5)->setTextColor(color);
+        ui->devStatusTableWidget->item(row, 4)->setTextColor(color);
 
     }
 

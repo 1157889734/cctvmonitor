@@ -76,24 +76,30 @@ int main(int argc, char *argv[])
     g_mainforn = new mainforn();
     g_mainforn->hide();
 
-    for (int i = 0; i < 6; i++)
-    {
-        memset(acNvrServerIp, 0, sizeof(acNvrServerIp));
-        snprintf(acNvrServerIp, sizeof(acNvrServerIp), "192.168.%d.81", 100+i);
-//        snprintf(acNvrServerIp, sizeof(acNvrServerIp), "127.0.0.%d", 1);
-        iRet = PMSG_CreateConnect(acNvrServerIp, 10100);
-//        qDebug()<<"***********iRet=**"<<iRet<<__func__<<__LINE__;
 
+
+    for(int i = 0; i < 6; i++)
+    {
+        char acIp[24] = {0};
+        memset(acIp, 0, sizeof(acIp));
+        GetNvrIpAddr(i, acIp);
+        printf("***********acIp=%s----iNvrNo=%d\n",acIp,i);
+        if(acIp[0] == 0)
+        {
+            return -1;
+        }
+        iRet = PMSG_CreateConnect(acIp, 10100);
+        qDebug()<<"***********iRet=**"<<acIp<<__func__<<__LINE__;
         if (0 == iRet)
         {
-//            DebugPrint(DEBUG_UI_ERROR_PRINT, "create connection to server:%s error!\n",acNvrServerIp);
+            DebugPrint(DEBUG_ERROR_PRINT, "create connection to server:%s error!\n",acNvrServerIp);
             continue;
         }
         if(iRet != 0)
         {
             if (STATE_SetNvrServerPmsgHandle(i, (PMSG_HANDLE)iRet) < 0)
             {
-    //            DebugPrint(DEBUG_UI_ERROR_PRINT, "save server:%s pmsg handle error!\n",acNvrServerIp);
+                DebugPrint(DEBUG_ERROR_PRINT, "save server:%s pmsg handle error!\n",acNvrServerIp);
             }
 
         }
@@ -101,14 +107,14 @@ int main(int argc, char *argv[])
     }
 
 //    NVR_init();
-    InitPmsgproc();
+//    InitPmsgproc();
 
 //    g_hResUpdate = PMSG_CreateResConn(12016);
 
-    for(int i=0;i<4;i++)
-    {
-        g_aiNextFourVideoIdx[i] = GetVideoIdxAccordBtnPose(1,i);
-    }
+//    for(int i=0;i<4;i++)
+//    {
+//        g_aiNextFourVideoIdx[i] = GetVideoIdxAccordBtnPose(1,i);
+//    }
 
     QObject::connect(g_cctvtest,SIGNAL(showMonitorSignal()),g_mainforn,SLOT(showMainfornPage()));
     QObject::connect(g_mainforn,SIGNAL(sendhidesignal()),g_cctvtest,SLOT(showcctvPage()));
@@ -122,8 +128,8 @@ int main(int argc, char *argv[])
     delete  g_mainforn;
     g_mainforn = NULL;
 
-    UninitPmsgproc();
-    NVR_Uninit();
+//    UninitPmsgproc();
+//    NVR_Uninit();
     STATE_Uninit();
     DebugUninit();
     LOG_UnInit();

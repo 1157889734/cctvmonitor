@@ -154,7 +154,7 @@ background-color: rgb(16, 231, 231);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/res/1_noact.png);</string>
+    <string notr="true">border-image: url(:/res/27_noact.png);</string>
    </property>
    <property name="text">
     <string/>
@@ -592,7 +592,7 @@ background-color: rgb(16, 231, 231);
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6_6">
+  <widget class="QPushButton" name="pushButton_6_8">
    <property name="geometry">
     <rect>
      <x>955</x>
@@ -608,7 +608,7 @@ background-color: rgb(16, 231, 231);
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6_8">
+  <widget class="QPushButton" name="pushButton_6_6">
    <property name="geometry">
     <rect>
      <x>895</x>
@@ -624,7 +624,7 @@ background-color: rgb(16, 231, 231);
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6_7">
+  <widget class="QPushButton" name="pushButton_6_5">
    <property name="geometry">
     <rect>
      <x>895</x>
@@ -640,7 +640,7 @@ background-color: rgb(16, 231, 231);
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6_5">
+  <widget class="QPushButton" name="pushButton_6_7">
    <property name="geometry">
     <rect>
      <x>955</x>
@@ -751,10 +751,10 @@ font: 12pt &quot;Ubuntu&quot;;</string>
   <zorder>pushButton_6_2</zorder>
   <zorder>pushButton_6_4</zorder>
   <zorder>pushButton_6_3</zorder>
-  <zorder>pushButton_6_6</zorder>
   <zorder>pushButton_6_8</zorder>
-  <zorder>pushButton_6_7</zorder>
+  <zorder>pushButton_6_6</zorder>
   <zorder>pushButton_6_5</zorder>
+  <zorder>pushButton_6_7</zorder>
   <zorder>datelabel</zorder>
   <zorder>weeklabel</zorder>
   <zorder>timelabel</zorder>

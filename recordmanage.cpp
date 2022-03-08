@@ -674,6 +674,8 @@ void recordManage::recordPlayCtrl(int iRow, int iDex)
 {
     int iRet = 0;
     char acRtspAddr[128] = {0};
+    char szIp[24] = {0};
+
     QString playSpeedStr;
 
 
@@ -695,7 +697,14 @@ void recordManage::recordPlayCtrl(int iRow, int iDex)
     }
     ui->playSpeedlabel->setText(playSpeedStr);
 
-    snprintf(acRtspAddr, sizeof(acRtspAddr), "rtsp://192.168.%d.81:554%s",4+100, m_acFilePath[iRow]);
+    int iNvrNo = ui->carSeletionComboBox->currentIndex();
+    if(0 != GetNvrIpAddr(iNvrNo,szIp))
+    {
+        return;
+    }
+    sprintf(acRtspAddr,"rtsp://%s:554%s",szIp,m_acFilePath[iRow]);
+    qDebug()<<"*************"<<acRtspAddr<<__FUNCTION__<<__LINE__;
+//    snprintf(acRtspAddr, sizeof(acRtspAddr), "rtsp://192.168.%d.81:554%s",4+100, m_acFilePath[iRow]);
     if (NULL == m_cmpHandle)
     {
         m_RealMonitorVideos.hWnd = playWidget;
@@ -1015,7 +1024,14 @@ void recordManage::DownBtnClicked()
        m_iFtpServerIdex = idex;
 
 
-        snprintf(acIpAddr, sizeof(acIpAddr), "192.168.%d.81", 104);
+       if(0 != GetNvrIpAddr(idex,acIpAddr))
+       {
+           return;
+       }
+//       sprintf(acRtspAddr,"rtsp://%s:554%s",szIp,m_acFilePath[iRow]);
+//        snprintf(acIpAddr, sizeof(acIpAddr), "192.168.%d.81", 104);
+       qDebug()<<"*************"<<acIpAddr<<__FUNCTION__<<__LINE__;
+
        if(m_tFtpHandle[idex] == 0)
        {
            m_tFtpHandle[idex] = FTP_CreateConnect(acIpAddr, FTP_SERVER_PORT, PftpProc);

@@ -23,7 +23,7 @@ static int g_init_flag = 0;
 static int g_imult_init_flag[4] ={0,0,0,0};
 
 typedef  void*  CMPHandle;
-static   CMPHandle	g_pHplay[8] = {0};	  //最多只能同时存在4个播放句柄，多了会出问题
+static   CMPHandle	g_pHplay[8] = {0,0,0,0,0,0,0,0};	  //最多只能同时存在4个播放句柄，多了会出问题
 static int	g_iWarnNum = 0;
 static int	g_iWarn = 0;			//是否有报警
 
@@ -38,8 +38,10 @@ static E_PLAY_STYLE g_eCurPlayStyle = E_FOUR_VPLAY;   //当前播放风格
 static E_PLAY_STYLE g_eNextPlayStyle = g_eCurPlayStyle;
 static int  g_iCurSingleVideoIdx = -1;
 static int  g_iVideoCycleFlag = 1;  //轮询标志
+static int  g_iVideoCloseFlag = 0;  //轮询标志
+
 static int  g_iNextSingleVideoIdx = -1;
-static int g_iCycTime = 30;
+static int g_iCycTime = 3;
 static int  g_iWarnFreshed = 0;  //避免报警信息画面还未刷新，就被别的指令破坏
 
 
@@ -60,7 +62,10 @@ void cctvTest::UpdateCamStatefunc()
     E_PLAY_STYLE eStyle = g_eCurPlayStyle;
     int iNVRState =0;
     int iNvrNo = 0;
+    QIcon icon;
     int iVideoNum = GetVideoNum();
+    static int singleTempIndex = 0;
+    int fourTempIndex[4] = {-1,-1,-1,-1};
     for(int i=0;i<iVideoNum;i++)
     {
         int iGroup= -1,iPos =-1;
@@ -85,8 +90,9 @@ void cctvTest::UpdateCamStatefunc()
         {
             iOnline = 0;
         }
-        QIcon Nowicon = videoGroupBtn[iGroup][iPos]->icon();
-        QIcon icon = Nowicon;
+//        QIcon Nowicon = videoGroupBtn[iGroup][iPos]->icon();
+//        QIcon icon = Nowicon;
+
 
         if(E_SINGLE_VPLAY == eStyle )
         {
@@ -94,6 +100,8 @@ void cctvTest::UpdateCamStatefunc()
             {
                 iNowPlay = 1;
             }
+//            qDebug()<<"*********g_iNextSingleVideoIdx"<<g_iNextSingleVideoIdx<<__LINE__;
+
         }
 
         else if(E_FOUR_VPLAY == eStyle)
@@ -108,11 +116,14 @@ void cctvTest::UpdateCamStatefunc()
                 {
                     if(i == g_aiNextFourVideoIdx[iNum])
                     {
+//                        qDebug()<<"*********g_iNextSingleVideoIdx"<<g_aiNextFourVideoIdx[iNum]<<__LINE__;
                         iNowPlay = 1;
                         break;
                     }
                 }
             }
+//            qDebug()<<"*********g_iNextSingleVideoIdx"<<g_iNextSingleVideoIdx<<__LINE__;
+
 
         }
         if(iNowPlay)
@@ -128,18 +139,37 @@ void cctvTest::UpdateCamStatefunc()
             icon = pImageBtn[iImgIndex-1][4];
         }
 
+#if 0
+        if(E_SINGLE_VPLAY == eStyle )
+        {
+            qDebug()<<"***singleTempIndex******g_iNextSingleVideoIdx"<<singleTempIndex<<g_iNextSingleVideoIdx<<__LINE__;
 
-//        if(icon.name() != Nowicon.name())
+            iGroup = g_iNextSingleVideoIdx / 4;
+            iPos = g_iNextSingleVideoIdx % 4;
+            if(singleTempIndex != g_iNextSingleVideoIdx)
+            {
+
+                videoGroupBtn[iGroup][iPos]->setIcon(icon);
+                videoGroupBtn[iGroup][iPos]->setIconSize(QSize(60,50));
+                videoGroupBtn[iGroup][iPos]->hide();
+                videoGroupBtn[iGroup][iPos]->show();
+            }
+
+        }
+        else
         {
 
-            videoGroupBtn[iGroup][iPos]->setIcon(icon);
-            videoGroupBtn[iGroup][iPos]->setIconSize(QSize(60,50));
-            videoGroupBtn[iGroup][iPos]->hide();
-            videoGroupBtn[iGroup][iPos]->show();
+
         }
+#endif
+        videoGroupBtn[iGroup][iPos]->setIcon(icon);
+        videoGroupBtn[iGroup][iPos]->setIconSize(QSize(60,50));
+        videoGroupBtn[iGroup][iPos]->hide();
+        videoGroupBtn[iGroup][iPos]->show();
+
 
     }
-
+    singleTempIndex = g_iNextSingleVideoIdx;
 
 
 }
@@ -506,10 +536,10 @@ void cctvTest::getPLayStrameState()
 
 void cctvTest::FourPlayStylefunc()
 {
-//    qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
-
+//    qDebug()<<"*into*************"<<__FUNCTION__<<__LINE__;
     //单画面界面的视频发生了变化
     //从单到四 或从单到单 以及从四到单CMP_Init
+#if 1
     if(g_iNextSingleVideoIdx != g_iCurSingleVideoIdx)
     {
         qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
@@ -650,6 +680,8 @@ void cctvTest::FourPlayStylefunc()
     g_iNeedUpdateWarnIcon =1;
    }    //从四到四
    else if(-1 == g_iCurSingleVideoIdx )
+#endif
+
    {
 //        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
@@ -675,6 +707,7 @@ void cctvTest::FourPlayStylefunc()
           {
                if(g_aiNextFourVideoIdx[i]!=-1)
                {
+                   /*
                    int iFindIdx = -1;
 
                   for(int j=0;j<4;j++)
@@ -685,6 +718,7 @@ void cctvTest::FourPlayStylefunc()
                            break;
                        }
                   }
+
                   if((iFindIdx != -1) &&g_pHplay[iFindIdx +4])
                   {
                       qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
@@ -693,7 +727,7 @@ void cctvTest::FourPlayStylefunc()
                        g_aiBackFourVideoIdx[iFindIdx] = -1;
                        CMP_SetPlayEnable(g_pHplay[i],1);
                   }
-                  else
+                  else*/
                   {
                       //if(g_pHplay[i] == NULL)
                       {
@@ -714,7 +748,7 @@ void cctvTest::FourPlayStylefunc()
                           CMP_PlayMedia(g_pHplay[i]);
                           CMP_SetPlayEnable(g_pHplay[i],1);
                           m_nodes[i].empty();
-                        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
+                          qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
                       }
 
                   }
@@ -723,20 +757,9 @@ void cctvTest::FourPlayStylefunc()
                g_iNeedUpdateWarnIcon =1;
            }
        }
-
-        if(g_iNeedUpdateWarnIcon)
-        {
-            for(int i=0;i<4;i++)
-            {
-                if(!g_pHplay[i])
-                {
-                    qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
-                    //m_playWidget[i]->setStyleSheet("background-color: rgb(0,0,0)");
-                }
-            }
-        }
    }
 
+//    qDebug()<<"****end**********"<<__FUNCTION__<<__LINE__;
 
 }
 
@@ -747,12 +770,14 @@ void cctvTest::FourPlayStylefunc()
 void cctvTest::PlayCtrlFunSlot()
 {
 
-    UpdateCamStatefunc();
+    playTimer->stop();
+
+//    UpdateCamStatefunc();
 
 
     if(g_eCurPlayStyle != g_eNextPlayStyle)
     {
-        printf("g_eCurPlayStyle != g_eNextPlayStyle---%d \n", __LINE__);
+//        printf("g_eCurPlayStyle != g_eNextPlayStyle---%d \n", __LINE__);
         PlayStyleChangedfunc();
         g_eCurPlayStyle = g_eNextPlayStyle;
         g_iNeedUpdateWarnIcon = 1;
@@ -779,8 +804,10 @@ void cctvTest::PlayCtrlFunSlot()
     g_iWarnFreshed = 0;
 
 
-    getPLayStrameState();
+//    getPLayStrameState();
 
+
+    playTimer->start();
 
     return;
 
@@ -820,7 +847,10 @@ void *monitorTread(void *param)
     tSetTimeOldTime     = tSetTimeCurTime;
     tPollWarnStateOldTime = tPollWarnStateCurTime;
 
+
     pvmsMonitorPage->tPollingOparateTime = tPollingCurTime - iPollingTime;//保证线程一进来，就进行一次循环处理
+
+    pthread_detach(pthread_self());
 
     while (1 == pvmsMonitorPage->m_iThreadRunFlag)
     {
@@ -833,7 +863,7 @@ void *monitorTread(void *param)
 
         if((g_iVideoCycleFlag == 1) && ((tPollingCurTime-pvmsMonitorPage->tPollingOparateTime) >= iPollingTime)) //轮询
         {
-            pvmsMonitorPage->videoPollingfunction();
+//            pvmsMonitorPage->videoPollingfunction();
             pvmsMonitorPage->tPollingOparateTime = tPollingCurTime;
 
         }
@@ -895,6 +925,7 @@ void cctvTest::videoPollingfunction()
              GetNextSingleVideo(&g_iNextSingleVideoIdx);
 
          }
+        UpdateCamStatefunc();
 
     }
 
@@ -917,14 +948,15 @@ cctvTest::cctvTest(QWidget *parent)
     m_iPecuCount = 0;
     m_iDoorClipCount = 0;
     monitorthread = 0;
-    memset(g_pHplay,0,sizeof (g_pHplay));
+
+    memset(g_pHplay,0,sizeof(g_pHplay));
 
     memset(&m_RealMonitorVideos, 0, sizeof(m_RealMonitorVideos));
     memset(&m_RealMonitorSingleVideo, 0, sizeof(m_RealMonitorSingleVideo));
 
     setUi();
 
-    g_iCycTime = GetCycTime();
+//    g_iCycTime = GetCycTime();
 
     connect(ui->monitorManageButton,SIGNAL(clicked()),this,SLOT(showMonitorManagePage()));
     connect(ui->signalBUtton,SIGNAL(clicked()),this,SLOT(sigalePageSlot()));
@@ -941,13 +973,18 @@ cctvTest::cctvTest(QWidget *parent)
 
 
     playTimer = new QTimer(this);
-    playTimer->start(500);
+    playTimer->setInterval(500);
+    playTimer->start();
     connect(playTimer,SIGNAL(timeout()),this,SLOT(PlayCtrlFunSlot()));
 
-    updateWarnTimer = new QTimer();
-    updateWarnTimer->start(1000);
-    connect(updateWarnTimer,SIGNAL(timeout()),this,SLOT(updateWarnInfoSLot()));
+    updateWarnTimer = new QTimer(this);
+//    updateWarnTimer->start(1000);
+//    connect(updateWarnTimer,SIGNAL(timeout()),this,SLOT(updateWarnInfoSLot()));
 
+    pollTimer = new QTimer(this);
+    pollTimer->setInterval(1000*g_iCycTime);
+    pollTimer->start();
+    connect(pollTimer,SIGNAL(timeout()),this,SLOT(videoPollingfunction()));
 
 
 }
@@ -982,6 +1019,15 @@ cctvTest::~cctvTest()
         updateWarnTimer  = NULL;
     }
 
+    if (pollTimer != NULL)
+    {
+        if (pollTimer ->isActive())
+        {
+            pollTimer ->stop();
+        }
+        delete pollTimer;
+        pollTimer  = NULL;
+    }
 
     for(int i = 0; i <4; i++)
     {
@@ -1231,12 +1277,17 @@ void cctvTest::PlayWidCicked(int index)
         if(-1 != g_iCurSingleVideoIdx)  //当前如果为四画面播放
         {
             g_iNextSingleVideoIdx = -1;
+            pollTimer->start();
+            qDebug()<<"************"<<__FUNCTION__<<__LINE__;
         }
         else if(iPlayWidIndex >=0 && iPlayWidIndex <4)
         {
             if(g_pHplay[iPlayWidIndex] /*&& CMP_GetStreamState(g_pHplay[iPlayWidIndex])*/)
             {
                 g_iNextSingleVideoIdx = g_aiCurFourVideoIdx[iPlayWidIndex];
+                pollTimer->stop();
+                qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
+
             }
         }
 
@@ -2027,44 +2078,59 @@ void cctvTest::timeupdateSlot()
 
 void cctvTest::showcctvPage()
 {
-    //playTimer->start(500);
     this->show();
-
+    pollTimer->start();
     if(E_FOUR_VPLAY == g_eCurPlayStyle)
     {
         char acUrl[256] = {0};
         for(int i =0;i<4;i++)
         {
             //int  iNextVideoIdx = g_aiNextFourVideoIdx[i];
-            for(int i = 0; i< 4;i++)
+            m_playWidget[i]->show();
+//            if(g_pHplay[i])
             {
-                if(g_pHplay[i])
-                {
-                    CMP_SetPlayState(g_pHplay[i], CMP_STATE_PLAY);
-                    CMP_SetPlayEnable(g_pHplay[i],1);
-                }
+                qDebug()<<"*************"<<__FUNCTION__<<__LINE__;
 
+                GetVideoRtspUrl(g_aiNextFourVideoIdx[i] ,acUrl,sizeof(acUrl));
+
+                cmplayMultiInit(m_playWidget[i], i);
+                g_pHplay[i] = CMP_Init(&m_RealMonitorVideos[i],CMP_VDEC_NORMAL);
+
+                CMP_OpenMediaPreview(g_pHplay[i], acUrl, CMP_TCP);
+                CMP_PlayMedia(g_pHplay[i]);
+                CMP_SetPlayEnable(g_pHplay[i],1);
+                m_nodes[i].empty();
+
+//                CMP_SetPlayState(g_pHplay[i], CMP_STATE_PLAY);
+//                CMP_SetPlayEnable(g_pHplay[i],1);
             }
 
-
-
-
-
-
         }
-
 
           //此时为4画面显示
         g_iCurSingleVideoIdx = g_iNextSingleVideoIdx;
     }
     else
     {
-        if(g_hSinglePlay)
+        char acUrl[256] = {0};
+
+        m_playSingleWidget->show();
+//        if(g_hSinglePlay)
         {
             qDebug()<<"*************"<<__FUNCTION__<<__LINE__;
 
-            CMP_SetPlayState(g_hSinglePlay, CMP_STATE_PLAY);
+            GetVideoMainRtspUrl(g_iNextSingleVideoIdx ,acUrl,sizeof(acUrl));
+
+            cmplayInit(m_playSingleWidget);
+            g_hSinglePlay = CMP_Init(&m_RealMonitorSingleVideo,CMP_VDEC_NORMAL);
+
+            CMP_OpenMediaPreview(g_hSinglePlay, acUrl, CMP_TCP);
+            CMP_PlayMedia(g_hSinglePlay);
             CMP_SetPlayEnable(g_hSinglePlay,1);
+             single_node.empty();
+
+//            CMP_SetPlayState(g_hSinglePlay, CMP_STATE_PLAY);
+//            CMP_SetPlayEnable(g_hSinglePlay,1);
         }
 
 
@@ -2078,8 +2144,10 @@ void cctvTest::showcctvPage()
     {
         videoPollingfunction();
     }
-//    g_iVideoCycleFlag =1;
-
+//    if(g_iVideoCloseFlag == 1)
+//    {
+//        g_iVideoCycleFlag =0;
+//    }
 
 
 }
@@ -2088,6 +2156,7 @@ void cctvTest::showcctvPage()
 void cctvTest::showMonitorManagePage()
 {
 
+    pollTimer->stop();
 
     if(E_FOUR_VPLAY == g_eCurPlayStyle)
    {
@@ -2095,9 +2164,14 @@ void cctvTest::showMonitorManagePage()
        {
            if(g_pHplay[i])
            {
+               CMP_CloseMedia(g_pHplay[i]);
+//               CMP_UnInit(g_pHplay[i]);
+//               g_pHplay[i] = NULL;
 
-               CMP_SetPlayState(g_pHplay[i], CMP_STATE_PAUSE);
-               CMP_SetPlayEnable(g_pHplay[i],0);
+//               CMP_SetPlayState(g_pHplay[i], CMP_STATE_PAUSE);
+//               CMP_SetPlayEnable(g_pHplay[i],0);
+
+               qDebug()<<"*************"<<__FUNCTION__<<__LINE__;
 
 
            }
@@ -2113,15 +2187,22 @@ void cctvTest::showMonitorManagePage()
        if(g_hSinglePlay)
        {
 
+             CMP_CloseMedia(g_hSinglePlay);
+//             CMP_UnInit(g_hSinglePlay);
+//             g_hSinglePlay = NULL;
 
-           CMP_SetPlayState(g_hSinglePlay, CMP_STATE_PAUSE);
-           CMP_SetPlayEnable(g_hSinglePlay,0);
+//           CMP_SetPlayState(g_hSinglePlay, CMP_STATE_PAUSE);
+//           CMP_SetPlayEnable(g_hSinglePlay,0);
 
 
        }
 
    }
-//    g_iVideoCycleFlag =0;
+//    if(g_iVideoCycleFlag == 1)
+//    {
+//        g_iVideoCycleFlag =0;
+//    }
+
 
     this->hide();
     emit showMonitorSignal();
@@ -2240,7 +2321,7 @@ void cctvTest::closeVideoCyc()
     g_iVideoCycleFlag =0;
     ui->openPollButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_03_hig.png)}");
     ui->closePollButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_04_nor.png)}");
-
+    g_iVideoCloseFlag = 1;
 
 }
 
@@ -2273,6 +2354,7 @@ void cctvTest::cycleSlot()
             }
             ui->openPollButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_03_nor.png)}");
             ui->closePollButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_04_hig.png)}");
+            g_iVideoCloseFlag = 0;
 
         }
 

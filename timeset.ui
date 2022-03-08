@@ -66,6 +66,12 @@ background-color: rgb(186, 189, 182);
    <property name="text">
     <string>+</string>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
+   </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -125,6 +131,12 @@ background-color: rgb(238, 238, 236);</string>
    <property name="text">
     <string>+</string>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
+   </property>
   </widget>
   <widget class="QLabel" name="label_6">
    <property name="geometry">
@@ -159,6 +171,12 @@ background-color: rgb(186, 189, 182);
    <property name="text">
     <string>-</string>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
+   </property>
   </widget>
   <widget class="QPushButton" name="pushButton_4_1">
    <property name="geometry">
@@ -171,6 +189,12 @@ background-color: rgb(186, 189, 182);
    </property>
    <property name="text">
     <string>-</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
    </property>
   </widget>
   <widget class="QLabel" name="label_7">
@@ -206,6 +230,12 @@ background-color: rgb(186, 189, 182);
    <property name="text">
     <string>+</string>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
@@ -239,6 +269,12 @@ background-color: rgb(186, 189, 182);
    </property>
    <property name="text">
     <string>-</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -280,6 +316,12 @@ background-color: rgb(186, 189, 182);
      <height>16</height>
     </size>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
+   </property>
   </widget>
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
@@ -292,6 +334,12 @@ background-color: rgb(186, 189, 182);
    </property>
    <property name="text">
     <string>+</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_3">
@@ -306,6 +354,12 @@ background-color: rgb(186, 189, 182);
    <property name="text">
     <string>+</string>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
+   </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2_1">
    <property name="geometry">
@@ -318,6 +372,12 @@ background-color: rgb(186, 189, 182);
    </property>
    <property name="text">
     <string>-</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -359,6 +419,12 @@ background-color: rgb(186, 189, 182);
      <height>16</height>
     </size>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
+   </property>
   </widget>
   <widget class="QPushButton" name="pushButton_5_1">
    <property name="geometry">
@@ -371,6 +437,12 @@ background-color: rgb(186, 189, 182);
    </property>
    <property name="text">
     <string>-</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="autoRepeatDelay">
+    <number>1000</number>
    </property>
   </widget>
   <zorder>label</zorder>

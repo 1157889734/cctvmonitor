@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_cctvTest_t {
-    QByteArrayData data[23];
-    char stringdata0[354];
+    QByteArrayData data[24];
+    char stringdata0[375];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -54,7 +54,8 @@ QT_MOC_LITERAL(18, 255, 19), // "GroupButtonDoorSlot"
 QT_MOC_LITERAL(19, 275, 23), // "GroupButtonDoorclipSlot"
 QT_MOC_LITERAL(20, 299, 19), // "GroupButtonPecuSlot"
 QT_MOC_LITERAL(21, 319, 15), // "PlayCtrlFunSlot"
-QT_MOC_LITERAL(22, 335, 18) // "updateWarnInfoSLot"
+QT_MOC_LITERAL(22, 335, 18), // "updateWarnInfoSLot"
+QT_MOC_LITERAL(23, 354, 20) // "videoPollingfunction"
 
     },
     "cctvTest\0showMonitorSignal\0\0"
@@ -66,7 +67,7 @@ QT_MOC_LITERAL(22, 335, 18) // "updateWarnInfoSLot"
     "QAbstractButton*\0btn\0GroupButtonFireSlot\0"
     "GroupButtonDoorSlot\0GroupButtonDoorclipSlot\0"
     "GroupButtonPecuSlot\0PlayCtrlFunSlot\0"
-    "updateWarnInfoSLot"
+    "updateWarnInfoSLot\0videoPollingfunction"
 };
 #undef QT_MOC_LITERAL
 
@@ -76,7 +77,7 @@ static const uint qt_meta_data_cctvTest[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      18,   14, // methods
+      19,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -84,26 +85,27 @@ static const uint qt_meta_data_cctvTest[] = {
        4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,  104,    2, 0x06 /* Public */,
-       3,    1,  105,    2, 0x06 /* Public */,
-       5,    0,  108,    2, 0x06 /* Public */,
-       6,    0,  109,    2, 0x06 /* Public */,
+       1,    0,  109,    2, 0x06 /* Public */,
+       3,    1,  110,    2, 0x06 /* Public */,
+       5,    0,  113,    2, 0x06 /* Public */,
+       6,    0,  114,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       7,    0,  110,    2, 0x0a /* Public */,
-       8,    0,  111,    2, 0x0a /* Public */,
-       9,    0,  112,    2, 0x0a /* Public */,
-      10,    0,  113,    2, 0x0a /* Public */,
-      11,    0,  114,    2, 0x0a /* Public */,
-      12,    0,  115,    2, 0x0a /* Public */,
-      13,    1,  116,    2, 0x0a /* Public */,
-      14,    1,  119,    2, 0x0a /* Public */,
-      17,    1,  122,    2, 0x0a /* Public */,
-      18,    1,  125,    2, 0x0a /* Public */,
-      19,    1,  128,    2, 0x0a /* Public */,
-      20,    1,  131,    2, 0x0a /* Public */,
-      21,    0,  134,    2, 0x0a /* Public */,
-      22,    0,  135,    2, 0x0a /* Public */,
+       7,    0,  115,    2, 0x0a /* Public */,
+       8,    0,  116,    2, 0x0a /* Public */,
+       9,    0,  117,    2, 0x0a /* Public */,
+      10,    0,  118,    2, 0x0a /* Public */,
+      11,    0,  119,    2, 0x0a /* Public */,
+      12,    0,  120,    2, 0x0a /* Public */,
+      13,    1,  121,    2, 0x0a /* Public */,
+      14,    1,  124,    2, 0x0a /* Public */,
+      17,    1,  127,    2, 0x0a /* Public */,
+      18,    1,  130,    2, 0x0a /* Public */,
+      19,    1,  133,    2, 0x0a /* Public */,
+      20,    1,  136,    2, 0x0a /* Public */,
+      21,    0,  139,    2, 0x0a /* Public */,
+      22,    0,  140,    2, 0x0a /* Public */,
+      23,    0,  141,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -124,6 +126,7 @@ static const uint qt_meta_data_cctvTest[] = {
     QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -154,6 +157,7 @@ void cctvTest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 15: _t->GroupButtonPecuSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 16: _t->PlayCtrlFunSlot(); break;
         case 17: _t->updateWarnInfoSLot(); break;
+        case 18: _t->videoPollingfunction(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -229,13 +233,13 @@ int cctvTest::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 18)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 19;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 18)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 19;
     }
     return _id;
 }

@@ -31,7 +31,6 @@ public:
     int GetNextFourVideo(int* piVideo);
     int GetNextSingleVideo(int *piVideo);
 
-    void videoPollingfunction();
 
     void triggerGetDevStateSignal();
     void triggerSetTimeSignal();
@@ -126,6 +125,8 @@ public slots:
     void PlayCtrlFunSlot();
 
     void updateWarnInfoSLot();
+    void videoPollingfunction();
+
 
 signals:
     void showMonitorSignal();
@@ -137,7 +138,7 @@ private:
     Ui::cctvTest *ui;
     QTimer *playTimer;
     QTimer *updateWarnTimer;
-
+    QTimer *pollTimer;
 
 };
 #endif // CCTVTEST_H
