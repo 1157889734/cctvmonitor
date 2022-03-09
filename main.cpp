@@ -107,14 +107,14 @@ int main(int argc, char *argv[])
     }
 
 //    NVR_init();
-//    InitPmsgproc();
+    InitPmsgproc();
 
 //    g_hResUpdate = PMSG_CreateResConn(12016);
 
-//    for(int i=0;i<4;i++)
-//    {
-//        g_aiNextFourVideoIdx[i] = GetVideoIdxAccordBtnPose(1,i);
-//    }
+    for(int i=0;i<4;i++)
+    {
+        g_aiNextFourVideoIdx[i] = GetVideoIdxAccordBtnPose(1,i);
+    }
 
     QObject::connect(g_cctvtest,SIGNAL(showMonitorSignal()),g_mainforn,SLOT(showMainfornPage()));
     QObject::connect(g_mainforn,SIGNAL(sendhidesignal()),g_cctvtest,SLOT(showcctvPage()));

@@ -41,7 +41,7 @@ static int  g_iVideoCycleFlag = 1;  //轮询标志
 static int  g_iVideoCloseFlag = 0;  //轮询标志
 
 static int  g_iNextSingleVideoIdx = -1;
-static int g_iCycTime = 3;
+static int g_iCycTime = 30;
 static int  g_iWarnFreshed = 0;  //避免报警信息画面还未刷新，就被别的指令破坏
 
 
@@ -64,8 +64,6 @@ void cctvTest::UpdateCamStatefunc()
     int iNvrNo = 0;
     QIcon icon;
     int iVideoNum = GetVideoNum();
-    static int singleTempIndex = 0;
-    int fourTempIndex[4] = {-1,-1,-1,-1};
     for(int i=0;i<iVideoNum;i++)
     {
         int iGroup= -1,iPos =-1;
@@ -100,7 +98,6 @@ void cctvTest::UpdateCamStatefunc()
             {
                 iNowPlay = 1;
             }
-//            qDebug()<<"*********g_iNextSingleVideoIdx"<<g_iNextSingleVideoIdx<<__LINE__;
 
         }
 
@@ -116,14 +113,11 @@ void cctvTest::UpdateCamStatefunc()
                 {
                     if(i == g_aiNextFourVideoIdx[iNum])
                     {
-//                        qDebug()<<"*********g_iNextSingleVideoIdx"<<g_aiNextFourVideoIdx[iNum]<<__LINE__;
                         iNowPlay = 1;
                         break;
                     }
                 }
             }
-//            qDebug()<<"*********g_iNextSingleVideoIdx"<<g_iNextSingleVideoIdx<<__LINE__;
-
 
         }
         if(iNowPlay)
@@ -139,29 +133,7 @@ void cctvTest::UpdateCamStatefunc()
             icon = pImageBtn[iImgIndex-1][4];
         }
 
-#if 0
-        if(E_SINGLE_VPLAY == eStyle )
-        {
-            qDebug()<<"***singleTempIndex******g_iNextSingleVideoIdx"<<singleTempIndex<<g_iNextSingleVideoIdx<<__LINE__;
 
-            iGroup = g_iNextSingleVideoIdx / 4;
-            iPos = g_iNextSingleVideoIdx % 4;
-            if(singleTempIndex != g_iNextSingleVideoIdx)
-            {
-
-                videoGroupBtn[iGroup][iPos]->setIcon(icon);
-                videoGroupBtn[iGroup][iPos]->setIconSize(QSize(60,50));
-                videoGroupBtn[iGroup][iPos]->hide();
-                videoGroupBtn[iGroup][iPos]->show();
-            }
-
-        }
-        else
-        {
-
-
-        }
-#endif
         videoGroupBtn[iGroup][iPos]->setIcon(icon);
         videoGroupBtn[iGroup][iPos]->setIconSize(QSize(60,50));
         videoGroupBtn[iGroup][iPos]->hide();
@@ -169,7 +141,6 @@ void cctvTest::UpdateCamStatefunc()
 
 
     }
-    singleTempIndex = g_iNextSingleVideoIdx;
 
 
 }
@@ -457,14 +428,11 @@ void cctvTest::SinglePlayStylefunc()
 
                 }
 
-
-
             }
 
             qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
         }
-
 
        g_iCurSingleVideoIdx = g_iNextSingleVideoIdx;
 
@@ -539,7 +507,6 @@ void cctvTest::FourPlayStylefunc()
 //    qDebug()<<"*into*************"<<__FUNCTION__<<__LINE__;
     //单画面界面的视频发生了变化
     //从单到四 或从单到单 以及从四到单CMP_Init
-#if 1
     if(g_iNextSingleVideoIdx != g_iCurSingleVideoIdx)
     {
         qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
@@ -680,8 +647,6 @@ void cctvTest::FourPlayStylefunc()
     g_iNeedUpdateWarnIcon =1;
    }    //从四到四
    else if(-1 == g_iCurSingleVideoIdx )
-#endif
-
    {
 //        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
@@ -804,7 +769,7 @@ void cctvTest::PlayCtrlFunSlot()
     g_iWarnFreshed = 0;
 
 
-//    getPLayStrameState();
+    getPLayStrameState();
 
 
     playTimer->start();
@@ -978,8 +943,8 @@ cctvTest::cctvTest(QWidget *parent)
     connect(playTimer,SIGNAL(timeout()),this,SLOT(PlayCtrlFunSlot()));
 
     updateWarnTimer = new QTimer(this);
-//    updateWarnTimer->start(1000);
-//    connect(updateWarnTimer,SIGNAL(timeout()),this,SLOT(updateWarnInfoSLot()));
+    updateWarnTimer->start(1000);
+    connect(updateWarnTimer,SIGNAL(timeout()),this,SLOT(updateWarnInfoSLot()));
 
     pollTimer = new QTimer(this);
     pollTimer->setInterval(1000*g_iCycTime);
