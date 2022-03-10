@@ -30,7 +30,7 @@ static int GetTLCDSoftVersion(char *pcVersion,int iLen)
     int iStrLen = 0;
 
     memset(pcVersion,0,iLen);
-    fp = fopen("/home/user/version.info", "rb");
+    fp = fopen("/home/data/version.info", "rb");
     if (NULL == fp)
     {
         printf("[%s]can not open file\n", __FUNCTION__);

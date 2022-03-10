@@ -34,7 +34,7 @@ mainforn::mainforn(QWidget *parent) :
 
 
     m_PmsgTimer = new QTimer(this);
-    m_PmsgTimer->start(50);
+    m_PmsgTimer->start(500);
     connect(m_PmsgTimer, SIGNAL(timeout()), this, SLOT(pmsgTimerFunc()));
 
     ui->sysyPushButton->setChecked(true);
@@ -147,7 +147,7 @@ void mainforn::recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *p
 {
 //    int iAlarmType = 0, iDevPos = 0, iShadeAlarmEnableFlag = 0, i = 0;
 //    int iCarriageNO;
-    qDebug()<<"**************ucMsgCmd="<<ucMsgCmd<<__func__<<__LINE__;
+//    qDebug()<<"**************ucMsgCmd="<<ucMsgCmd<<__func__<<__LINE__;
     switch(ucMsgCmd)    //不同的应答消息类型分发给不同的页面处理
     {
         case SERV_CLI_MSG_TYPE_GET_RECORD_TIME_LEN_RESP:

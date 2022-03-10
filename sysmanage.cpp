@@ -15,6 +15,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <QFile>
+#include <QScrollBar>
+
 static int g_statusflag = 0;
 
 void sysManage::getDevStateSignalCtrl()
@@ -50,6 +53,19 @@ void sysManage::getDevStateSignalCtrl()
             }
             else
             {
+
+                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 1, new QTableWidgetItem("0G"));
+                ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 1)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+
+                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 2, new QTableWidgetItem("0G"));
+                ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 2)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 3, new QTableWidgetItem(" "));
+                ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 3)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+
+
                 DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] server %d status is offline\n", __FUNCTION__, i+1);
                 ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 4, new QTableWidgetItem(tr("离线")));
                 ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 4)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
@@ -142,9 +158,9 @@ sysManage::sysManage(QWidget *parent) :
     ui->devLogTableWidget->setSelectionMode(QAbstractItemView::SingleSelection); //设置只能选择一行，不能多行选中
     ui->devLogTableWidget->verticalHeader()->setVisible(false);
 
-    ui->devLogTableWidget->horizontalHeader()->resizeSection(1,40);
-    ui->devLogTableWidget->horizontalHeader()->resizeSection(2,70);
-    ui->devLogTableWidget->horizontalHeader()->resizeSection(3,170);
+    ui->devLogTableWidget->horizontalHeader()->resizeSection(1,100);
+    ui->devLogTableWidget->horizontalHeader()->resizeSection(2,170);
+    ui->devLogTableWidget->horizontalHeader()->resizeSection(3,200);
     ui->devLogTableWidget->horizontalHeader()->resizeSection(4,430);
 
 
@@ -209,15 +225,15 @@ void sysManage::getNvrStatusCtrl(PMSG_HANDLE pHandle, char *pcMsgData)
         {
 
             /*第一次连上服务器的3分钟之内不检测硬盘是否异常*/
-//            if (0 == m_iCheckDiskErrFlag[i])
-//            {
-//                m_iNoCheckDiskErrNum[i]++;
-//                if (18 == m_iNoCheckDiskErrNum[i])
-//                {
-//                    m_iCheckDiskErrFlag[i] = 1;
-//                    m_iNoCheckDiskErrNum[i] = 0;
-//                }
-//            }
+            if (0 == m_iCheckDiskErrFlag[i])
+            {
+                m_iNoCheckDiskErrNum[i]++;
+                if (18 == m_iNoCheckDiskErrNum[i])
+                {
+                    m_iCheckDiskErrFlag[i] = 1;
+                    m_iNoCheckDiskErrNum[i] = 0;
+                }
+            }
             m_iCheckDiskErrFlag[i] = 1;
 
 
@@ -285,31 +301,123 @@ int sysManage::pmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsg
 
 void sysManage::searchSystermLog()
 {
+    QObject* Sender = sender();     //Sender->objectName(),可区分不同的信号来源，也就是不同的按钮按键
+
+    if(Sender==0)
+    {
+        return ;
+    }
 
 
+    QFile file("/home/data/tmp.log");
+    int rowCount = 0;
+    QString type = "";
+    QStringList time;
+    QStringList datalog;
+
+    T_LOG_TIME_INFO tTime;
+    tTime.year = ui->yearLabel->text().toInt();
+    tTime.month = ui->monthLabel->text().toInt();
+    tTime.day = ui->dayLabel->text().toInt();
+    QString searchTime = QString("%1%2%3").arg(tTime.year).arg(tTime.month).arg(tTime.day);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&file);
+        while(!stream.atEnd())
+        {
+            QStringList list = stream.readLine().split(QRegExp("\\s{2}"));
+
+            QString strtype = list.at(0).toLocal8Bit().data();
+            QString strtime = list.at(0).toLocal8Bit().data();
+
+            if(Sender->objectName() == "searchSystermLogButton")
+            {
+                if(strtype.startsWith("s",Qt::CaseSensitive))
+                {
+                    type = "systerm";
+                }
+                else
+                {
+                    continue;
+                }
+
+                strtime.replace(QRegExp("s"),"");
+
+            }
+            else
+            {
+                if(strtype.startsWith("o",Qt::CaseSensitive))
+                {
+                    type = "Operator";
+                }
+                else
+                {
+                    continue;
+                }
+
+                strtime.replace(QRegExp("o"),"");
+
+
+            }
+
+
+            QString datetime =  strtime.section(" ",0,0);
+            int ret = QString::compare(searchTime,datetime);
+            if(ret <= 0)
+            {
+                time<<strtime;
+                rowCount++;
+            }
+            else
+            {
+                continue;
+            }
+
+            datalog<<list.at(1).toLocal8Bit().data();
+
+        }
+    }
+
+    file.close();
+    ui->devLogTableWidget->setRowCount(rowCount);
+
+    total_pages = main_pages + rowCount/10;
+
+    for(int i = 0; i < rowCount; i++)
+    {
+        ui->devLogTableWidget->setItem(i,0,new QTableWidgetItem(QString::number(i+1)));
+        ui->devLogTableWidget->setItem(i,1,new QTableWidgetItem(type));
+        ui->devLogTableWidget->setItem(i,2,new QTableWidgetItem((time.at(i).toLocal8Bit().data())));
+        ui->devLogTableWidget->setItem(i,3,new QTableWidgetItem((datalog.at(i).toLocal8Bit().data())));
+
+    }
+    ui->devLogTableWidget->scrollToTop();
 
 }
 
-void sysManage::searchWorkLog()
-{
-
-
-
-
-}
 
 void sysManage::lastpageSlot()
 {
+    cur_pages_index--;
+    if(cur_pages_index <= 0)
+    {
+        cur_pages_index = 0;
+    }
 
-
-
+    ui->devLogTableWidget->verticalScrollBar()->setSliderPosition(cur_pages_index*rows_per_page -rows_per_page);
 
 
 }
 
 void sysManage::nextPageSlot()
 {
+    cur_pages_index++;
+    if(cur_pages_index > total_pages)
+    {
+        cur_pages_index = total_pages;
+    }
 
+    ui->devLogTableWidget->verticalScrollBar()->setSliderPosition(cur_pages_index*rows_per_page -rows_per_page);
 
 
 }
@@ -500,10 +608,6 @@ void sysManage::getTrainConfig()     //获取车型配置信息
         ui->devStatusTableWidget->setItem(row, 0, new QTableWidgetItem(item));  //新建一个文本列并插入到列表中
         ui->devStatusTableWidget->item(row, 0)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);    //设置列文件对齐方式为居中对齐
 
-//        item = "0";
-//        item += "个";
-//        ui->devStatusTableWidget->setItem(row, 1, new QTableWidgetItem(item));
-//        ui->devStatusTableWidget->item(row, 1)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
 
         item = "";
         item = "0";

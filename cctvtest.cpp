@@ -41,7 +41,7 @@ static int  g_iVideoCycleFlag = 1;  //轮询标志
 static int  g_iVideoCloseFlag = 0;  //轮询标志
 
 static int  g_iNextSingleVideoIdx = -1;
-static int g_iCycTime = 30;
+static int g_iCycTime = 10;
 static int  g_iWarnFreshed = 0;  //避免报警信息画面还未刷新，就被别的指令破坏
 
 
@@ -737,18 +737,13 @@ void cctvTest::PlayCtrlFunSlot()
 
     playTimer->stop();
 
-//    UpdateCamStatefunc();
-
-
     if(g_eCurPlayStyle != g_eNextPlayStyle)
     {
-//        printf("g_eCurPlayStyle != g_eNextPlayStyle---%d \n", __LINE__);
         PlayStyleChangedfunc();
         g_eCurPlayStyle = g_eNextPlayStyle;
         g_iNeedUpdateWarnIcon = 1;
     }
 
-    //printf("---------g_eCurPlayStyle =%d, g_eNextPlayStyle---%d \n", g_eCurPlayStyle, __LINE__);
     if(E_FOUR_VPLAY == g_eCurPlayStyle)
     {
         FourPlayStylefunc();
@@ -765,6 +760,10 @@ void cctvTest::PlayCtrlFunSlot()
     {
         g_iNeedUpdateWarnIcon =0;
         UpdateWarnBtnfunc();
+    }
+    if(g_iWarnFreshed == 1)
+    {
+        UpdateCamStatefunc();
     }
     g_iWarnFreshed = 0;
 
@@ -921,7 +920,7 @@ cctvTest::cctvTest(QWidget *parent)
 
     setUi();
 
-//    g_iCycTime = GetCycTime();
+    g_iCycTime = GetCycTime();
 
     connect(ui->monitorManageButton,SIGNAL(clicked()),this,SLOT(showMonitorManagePage()));
     connect(ui->signalBUtton,SIGNAL(clicked()),this,SLOT(sigalePageSlot()));
@@ -1552,6 +1551,7 @@ void cctvTest::setUi()
     {
         m_pBoxFire[i]= new QPushButton(this);
         m_pBoxFire[i]->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
+        m_pBoxFire[i]->setFont(QFont("宋体",16));
         m_pBoxFire[i]->setFlat(true);
         m_pBoxFire[i]->setStyleSheet("QPushButton{border:none;background:transparent;color:rgb(255,255,255)}");
         m_pBoxFire[i]->setGeometry(20,10+50*i,100,45);
@@ -1584,6 +1584,7 @@ void cctvTest::setUi()
         {
             m_pBoxDoor[i*12+j] = new QPushButton(this);
             m_pBoxDoor[i*12+j]->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
+            m_pBoxDoor[i*12+j]->setFont(QFont("宋体",16));
             m_pBoxDoor[i*12+j]->setFlat(true);
             m_pBoxDoor[i*12+j]->setStyleSheet("QPushButton{border:none;background:transparent;color:rgb(255,255,255)}");
             m_pBoxDoor[i*12+j]->setGeometry(130+i*115,10+50*j,100,45);
@@ -1594,6 +1595,7 @@ void cctvTest::setUi()
 
             m_pBoxDoorClip[i*12+j] = new QPushButton(this);
             m_pBoxDoorClip[i*12+j]->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
+            m_pBoxDoorClip[i*12+j]->setFont(QFont("宋体",16));
             m_pBoxDoorClip[i*12+j]->setFlat(true);
             m_pBoxDoorClip[i*12+j]->setStyleSheet("QPushButton{border:none;background:transparent;color:rgb(255,255,255)}");
             m_pBoxDoorClip[i*12+j]->setGeometry(360+i*115,10+50*j,100,45);
@@ -1604,6 +1606,7 @@ void cctvTest::setUi()
 
             m_pBoxPecu[i*12+j] = new QPushButton(this);
             m_pBoxPecu[i*12+j]->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint| Qt::Dialog);
+            m_pBoxPecu[i*12+j]->setFont(QFont("宋体",16));
             m_pBoxPecu[i*12+j]->setFlat(true);
             m_pBoxPecu[i*12+j]->setStyleSheet("QPushButton{border:none;background:transparent;color:rgb(255,255,255)}");
             m_pBoxPecu[i*12+j]->setGeometry(590+i*115,10+50*j,100,45);
@@ -1872,6 +1875,7 @@ void cctvTest::updateWarnInfoSLot()
             for(int i=0;i<4;i++)
             {
                 int iStillWarn = 0;
+                iChanged = 0;
 
                 if(g_aiCurFourVideoIdx[i] != -1)
                 {
@@ -2183,6 +2187,7 @@ void cctvTest::sigalePageSlot()
     }
     m_tLastTime  = tTime;
 
+
     if(E_SINGLE_VPLAY == g_eCurPlayStyle )
     {
         return ;
@@ -2192,6 +2197,7 @@ void cctvTest::sigalePageSlot()
         ui->fourpushButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_01_hig.png)}");
         ui->signalBUtton->setStyleSheet("QPushButton{border-image: url(:/res/btn_02_nor.png)}");
         g_eNextPlayStyle = E_SINGLE_VPLAY;
+
         if(g_iCurSingleVideoIdx != -1)
         {
             g_iNextSingleVideoIdx = g_iCurSingleVideoIdx;
@@ -2219,9 +2225,12 @@ void cctvTest::sigalePageSlot()
             g_eCurPlayStyle = g_eNextPlayStyle;
             g_iNeedUpdateWarnIcon = 1;
         }
+
+        UpdateCamStatefunc();
         return ;
 
     }
+
 
 }
 
@@ -2236,6 +2245,7 @@ void cctvTest::fourPageSlot()
     }
     m_tLastTime  = tTime;
 
+
     if(E_FOUR_VPLAY == g_eCurPlayStyle )
     {
         return ;
@@ -2247,6 +2257,7 @@ void cctvTest::fourPageSlot()
         ui->fourpushButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_01_nor.png)}");
         ui->signalBUtton->setStyleSheet("QPushButton{border-image: url(:/res/btn_02_hig.png)}");
         g_eNextPlayStyle = E_FOUR_VPLAY;
+
         if(-1 != g_iCurSingleVideoIdx)
         {
             GetBtnPoseAccordVideoIdx(g_iCurSingleVideoIdx, &iGroup, &iPos);
@@ -2274,6 +2285,8 @@ void cctvTest::fourPageSlot()
             g_eCurPlayStyle = g_eNextPlayStyle;
             g_iNeedUpdateWarnIcon = 1;
         }
+
+        UpdateCamStatefunc();
         return ;
 
     }

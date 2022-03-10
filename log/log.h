@@ -5,7 +5,7 @@
 extern "C"{
 #endif /* End of #ifdef __cplusplus */
 
-#define LOG_FILE_NAME "sys_tmp.log"
+#define LOG_FILE_NAME "tmp.log"
 #define LOG_FILE_DIR  "/home/data"
 #define	MAX_LOG_NUMBER	10000
 
@@ -26,13 +26,13 @@ typedef struct _T_LOG_INFO
 
 typedef struct  _T_LOG_TIME_INFO
 {
-    short year; 
-    char month;
-    char day;
-	char hour;
-	char minute;
-	char second;
-	char unusd; 
+    int  year;
+    int  month;
+    int  day;
+    int  hour;
+    int  minute;
+    int  second;
+    int  unusd;
 }__attribute__((packed))T_LOG_TIME_INFO, *PT_LOG_TIME_INFO;
 
 typedef struct _T_MSG_QUERY_TIME_INFO

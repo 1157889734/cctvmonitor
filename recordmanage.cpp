@@ -1389,13 +1389,24 @@ void recordManage::SearchBtnClicked()
         +(m_tEndTime.mon - m_tStartTime.mon)*30*24*3600
         +(m_tEndTime.day - m_tStartTime.day)*24*3600
         +(m_tEndTime.hour - m_tStartTime.hour)*3600
-        +(m_tEndTime.min - m_tStartTime.min)*3600
-        +(m_tEndTime.sec - m_tStartTime.sec)*3600;
+        +(m_tEndTime.min - m_tStartTime.min)*60
+        +(m_tEndTime.sec - m_tStartTime.sec);
+
 
 
     if(iDiscTime <= 0)
     {
         static QMessageBox box(QMessageBox::Warning,QString::fromUtf8("warning"),QString::fromUtf8("开始时间不能大于结束时间!"));
+        box.setWindowFlags(Qt::FramelessWindowHint);
+        box.setStandardButtons (QMessageBox::Ok);
+        box.setButtonText (QMessageBox::Ok,QString::fromUtf8("OK"));
+        box.exec();
+        return;
+    }
+
+    if(iDiscTime > 345600)
+    {
+        static QMessageBox box(QMessageBox::Warning,QString::fromUtf8("warning"),QString::fromUtf8("搜索时间不能超过三天!"));
         box.setWindowFlags(Qt::FramelessWindowHint);
         box.setStandardButtons (QMessageBox::Ok);
         box.setButtonText (QMessageBox::Ok,QString::fromUtf8("OK"));

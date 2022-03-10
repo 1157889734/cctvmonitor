@@ -161,12 +161,12 @@ int LOG_WriteLog(PT_LOG_INFO ptLog)
        // fseek(pFile, 0, SEEK_END);
         if (LOG_TYPE_EVENT == ptLog->iLogType)
         {
-            snprintf(acBuf, sizeof(acBuf), "e%s %s\r\n", 
+            snprintf(acBuf, sizeof(acBuf), "e%s  %s\r\n",
                          acLogTime, ptLog->acLogDesc);
         }
         else
         {
-            snprintf(acBuf, sizeof(acBuf), "s%s %s\r\n", 
+            snprintf(acBuf, sizeof(acBuf), "s%s  %s\r\n",
                          acLogTime, ptLog->acLogDesc);
         }
         //printf("[%s] %s\n", __FUNCTION__, acBuf);
@@ -219,12 +219,12 @@ int LOG_WriteLog(PT_LOG_INFO ptLog)
 
         if (LOG_TYPE_EVENT == ptLog->iLogType)
         {
-            snprintf(acBuf, sizeof(acBuf), "e%s %s\r\n", 
+            snprintf(acBuf, sizeof(acBuf), "e%s  %s\r\n",
                          acLogTime, ptLog->acLogDesc);
         }
         else
         {
-            snprintf(acBuf, sizeof(acBuf), "s%s %s\r\n", 
+            snprintf(acBuf, sizeof(acBuf), "s%s  %s\r\n",
                          acLogTime, ptLog->acLogDesc);
         }
 		fputs(acBuf, pNewFile);
@@ -325,11 +325,11 @@ static time_t COMM_MakeTime(int year, int month, int day, int hour, int minute, 
 
 int CompareTime(PT_LOG_TIME_INFO ptLogTime, PT_LOG_TIME_INFO ptSearchTime)
 {
-    /*time_t tLogTime;
+   time_t tLogTime;
     time_t tSearchTime;
     
     tLogTime 	= COMM_MakeTime(ptLogTime->year, ptLogTime->month, ptLogTime->day,0,0,0);
-    tSearchTime = COMM_MakeTime(ptLogTime->year, ptLogTime->month, ptLogTime->day,0,0,0);*/
+    tSearchTime = COMM_MakeTime(ptLogTime->year, ptLogTime->month, ptLogTime->day,0,0,0);
     if(ptLogTime->year == ptSearchTime->year && ptLogTime->month == ptSearchTime->month
 		&& ptLogTime->day == ptSearchTime->day)
     {

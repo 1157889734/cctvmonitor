@@ -10,6 +10,7 @@ CONFIG += c++11
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
+TARGET = decctest
 
 QMAKE_CFLAGS += $(STRIP) $(TAR_FILE)
 QMAKE_CXXFLAGS += $(STRIP) $(TAR_FILE)
