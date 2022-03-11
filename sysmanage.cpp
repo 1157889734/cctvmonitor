@@ -106,9 +106,9 @@ sysManage::sysManage(QWidget *parent) :
 
     m_GetDevStatethreadId = 0;
 
-    QPalette palette;
-    palette.setBrush(QPalette::Background,QBrush(QPixmap(":/res/bg_system.png")));
-    this->setPalette(palette);
+//    QPalette palette;
+//    palette.setBrush(QPalette::Background,QBrush(QPixmap(":/res/bg_system.png")));
+//    this->setPalette(palette);
 
     connect(ui->backButton,SIGNAL(clicked()),this,SLOT(hideSysPageSlots()));
 
@@ -363,7 +363,7 @@ void sysManage::searchSystermLog()
 
             QString datetime =  strtime.section(" ",0,0);
             int ret = QString::compare(searchTime,datetime);
-            if(ret <= 0)
+            if(ret == 0)
             {
                 time<<strtime;
                 rowCount++;

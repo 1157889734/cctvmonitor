@@ -286,7 +286,7 @@ void cctvTest::PlayStyleChangedfunc()
                qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
             }
-//            m_playWidget[i]->hide();
+            m_playWidget[i]->hide();
 
         }
 
@@ -490,11 +490,8 @@ void cctvTest::getPLayStrameState()
             single_node.iStreamState = ret;
             if(ret == 0)
             {
-                if(ret == 0)
-                {
-                    CMP_FillDisplayBk(g_hSinglePlay,0);
+                CMP_FillDisplayBk(g_hSinglePlay,0);
 
-                }
             }
         }
 
@@ -513,6 +510,7 @@ void cctvTest::FourPlayStylefunc()
 
         if(g_hSinglePlay)   //切换时都需要把前面单播放句柄的先关掉
         {
+
             CMP_CloseMedia(g_hSinglePlay);
             CMP_UnInit(g_hSinglePlay);
             g_hSinglePlay = NULL;
@@ -554,6 +552,7 @@ void cctvTest::FourPlayStylefunc()
 //                 qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
             }
+
 //             qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
 
@@ -563,7 +562,7 @@ void cctvTest::FourPlayStylefunc()
         {
             qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
-//            m_playSingleWidget->hide();
+            m_playSingleWidget->hide();
             for(int i=0;i<4;i++)
             {
 
@@ -724,7 +723,6 @@ void cctvTest::FourPlayStylefunc()
        }
    }
 
-//    qDebug()<<"****end**********"<<__FUNCTION__<<__LINE__;
 
 }
 

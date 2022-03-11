@@ -14,7 +14,7 @@ mainforn::mainforn(QWidget *parent) :
     this->setWindowFlags(Qt::FramelessWindowHint);
 
     QPalette palette;
-    palette.setBrush(QPalette::Background,QBrush(QPixmap(":/res/bg_system0.png")));
+    palette.setBrush(QPalette::Background,QBrush(QPixmap(":/res/bg_manforn.png")));
     this->setPalette(palette);
 
     g_recordManage = new recordManage(this);

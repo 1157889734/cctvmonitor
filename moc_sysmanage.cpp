@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_sysManage_t {
-    QByteArrayData data[11];
-    char stringdata0[146];
+    QByteArrayData data[10];
+    char stringdata0[132];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,15 +39,14 @@ QT_MOC_LITERAL(3, 23, 16), // "hideSysPageSlots"
 QT_MOC_LITERAL(4, 40, 20), // "GroupButtonClickSlot"
 QT_MOC_LITERAL(5, 61, 5), // "index"
 QT_MOC_LITERAL(6, 67, 16), // "searchSystermLog"
-QT_MOC_LITERAL(7, 84, 13), // "searchWorkLog"
-QT_MOC_LITERAL(8, 98, 12), // "lastpageSlot"
-QT_MOC_LITERAL(9, 111, 12), // "nextPageSlot"
-QT_MOC_LITERAL(10, 124, 21) // "getDevStateSignalCtrl"
+QT_MOC_LITERAL(7, 84, 12), // "lastpageSlot"
+QT_MOC_LITERAL(8, 97, 12), // "nextPageSlot"
+QT_MOC_LITERAL(9, 110, 21) // "getDevStateSignalCtrl"
 
     },
     "sysManage\0hideSysPage\0\0hideSysPageSlots\0"
     "GroupButtonClickSlot\0index\0searchSystermLog\0"
-    "searchWorkLog\0lastpageSlot\0nextPageSlot\0"
+    "lastpageSlot\0nextPageSlot\0"
     "getDevStateSignalCtrl"
 };
 #undef QT_MOC_LITERAL
@@ -58,7 +57,7 @@ static const uint qt_meta_data_sysManage[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -66,16 +65,15 @@ static const uint qt_meta_data_sysManage[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   54,    2, 0x06 /* Public */,
+       1,    0,   49,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   55,    2, 0x0a /* Public */,
-       4,    1,   56,    2, 0x0a /* Public */,
-       6,    0,   59,    2, 0x0a /* Public */,
-       7,    0,   60,    2, 0x0a /* Public */,
-       8,    0,   61,    2, 0x0a /* Public */,
-       9,    0,   62,    2, 0x0a /* Public */,
-      10,    0,   63,    2, 0x0a /* Public */,
+       3,    0,   50,    2, 0x0a /* Public */,
+       4,    1,   51,    2, 0x0a /* Public */,
+       6,    0,   54,    2, 0x0a /* Public */,
+       7,    0,   55,    2, 0x0a /* Public */,
+       8,    0,   56,    2, 0x0a /* Public */,
+       9,    0,   57,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -83,7 +81,6 @@ static const uint qt_meta_data_sysManage[] = {
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    5,
-    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -102,10 +99,9 @@ void sysManage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         case 1: _t->hideSysPageSlots(); break;
         case 2: _t->GroupButtonClickSlot((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 3: _t->searchSystermLog(); break;
-        case 4: _t->searchWorkLog(); break;
-        case 5: _t->lastpageSlot(); break;
-        case 6: _t->nextPageSlot(); break;
-        case 7: _t->getDevStateSignalCtrl(); break;
+        case 4: _t->lastpageSlot(); break;
+        case 5: _t->nextPageSlot(); break;
+        case 6: _t->getDevStateSignalCtrl(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -149,13 +145,13 @@ int sysManage::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 7;
     }
     return _id;
 }
