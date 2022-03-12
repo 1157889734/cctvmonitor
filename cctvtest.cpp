@@ -448,11 +448,11 @@ void cctvTest::getPLayStrameState()
     {
         for(int i = 0; i< 4; i++)
         {
-            m_nodes[i].iIndex++;
-            if(m_nodes[i].iIndex < 4)//2s
-            {
-                continue;
-            }
+//            m_nodes[i].iIndex++;
+//            if(m_nodes[i].iIndex < 4)//2s
+//            {
+//                continue;
+//            }
 
             if(CMP_STATE_PLAY != CMP_GetPlayStatus(g_pHplay[i]))
             {
@@ -474,11 +474,11 @@ void cctvTest::getPLayStrameState()
     }
     else
     {
-        single_node.iIndex++;
-        if(single_node.iIndex < 4)//2s
-        {
-            return;
-        }
+//        single_node.iIndex++;
+//        if(single_node.iIndex < 4)//2s
+//        {
+//            return;
+//        }
 
         if(CMP_STATE_PLAY != CMP_GetPlayStatus(g_hSinglePlay))
         {
@@ -733,7 +733,7 @@ void cctvTest::FourPlayStylefunc()
 void cctvTest::PlayCtrlFunSlot()
 {
 
-    playTimer->stop();
+//    playTimer->stop();
 
     if(g_eCurPlayStyle != g_eNextPlayStyle)
     {
@@ -769,11 +769,32 @@ void cctvTest::PlayCtrlFunSlot()
     getPLayStrameState();
 
 
-    playTimer->start();
+//    playTimer->start();
 
     return;
 
 }
+
+void *PlayThreadFun(void* param)
+{//
+
+    cctvTest *pvmsMonitorPage = (cctvTest *)param;
+    if (NULL == pvmsMonitorPage)
+    {
+        return NULL;
+    }
+    while (1)
+    {
+        emit pvmsMonitorPage->sendPLaySignal();
+
+        usleep(10*1000);
+    }
+
+    return NULL;
+
+}
+
+
 
 
 #define GET_DEVSTATE_MONITOR_TIME 10     //获取设备状态间隔时间，单位秒
@@ -910,6 +931,7 @@ cctvTest::cctvTest(QWidget *parent)
     m_iPecuCount = 0;
     m_iDoorClipCount = 0;
     monitorthread = 0;
+    playthread = 0;
 
     memset(g_pHplay,0,sizeof(g_pHplay));
 
@@ -933,11 +955,15 @@ cctvTest::cctvTest(QWidget *parent)
     m_iThreadRunFlag = 1;
     pthread_create(&monitorthread, NULL, monitorTread, (void *)this);
 
+    pthread_create(&playthread, NULL, PlayThreadFun, (void *)this);
 
-    playTimer = new QTimer(this);
-    playTimer->setInterval(500);
-    playTimer->start();
-    connect(playTimer,SIGNAL(timeout()),this,SLOT(PlayCtrlFunSlot()));
+
+    connect(this,SIGNAL(sendPLaySignal()),this,SLOT(PlayCtrlFunSlot()));
+
+//    playTimer = new QTimer(this);
+//    playTimer->setInterval(500);
+//    playTimer->start();
+//    connect(playTimer,SIGNAL(timeout()),this,SLOT(PlayCtrlFunSlot()));
 
     updateWarnTimer = new QTimer(this);
     updateWarnTimer->start(1000);
@@ -961,15 +987,21 @@ cctvTest::~cctvTest()
         m_iThreadRunFlag = 0;
     }
 
-    if (playTimer != NULL)
+    if (playthread != 0)
     {
-        if (playTimer ->isActive())
-        {
-            playTimer ->stop();
-        }
-        delete playTimer;
-        playTimer  = NULL;
+        pthread_join(playthread, NULL);
+        playthread = 0;
     }
+
+//    if (playTimer != NULL)
+//    {
+//        if (playTimer ->isActive())
+//        {
+//            playTimer ->stop();
+//        }
+//        delete playTimer;
+//        playTimer  = NULL;
+//    }
 
     if (updateWarnTimer != NULL)
     {

@@ -39,6 +39,8 @@ public:
 
     bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
     pthread_t monitorthread;
+    pthread_t playthread;
+
     int     m_iThreadRunFlag;
 
     QWidget *m_playWidget[4];
@@ -134,6 +136,8 @@ signals:
 
     void getDevStateSignal();
     void setTimeSignal();
+
+    void sendPLaySignal();
 private:
     Ui::cctvTest *ui;
     QTimer *playTimer;

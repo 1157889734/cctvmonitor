@@ -1,6 +1,6 @@
 #ifndef RECORDMANAGE_H
 #define RECORDMANAGE_H
-
+#include <QLabel>
 #include <QWidget>
 #include "myslider.h"
 #include <QStyle>
@@ -68,6 +68,7 @@ public:
     int         m_iFtpServerIdex;    //当前ftp服务器索引编号
     int         recordPlayFlag;
     double      m_dPlaySpeed;   //播放速度
+    QLabel      *messageLable;
 
 public slots:
     void hideRecPageSlots();
