@@ -10,7 +10,7 @@ CONFIG += c++11
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-TARGET = cctv
+TARGET = cctvtest
 
 QMAKE_CFLAGS += $(STRIP) $(TAR_FILE)
 QMAKE_CXXFLAGS += $(STRIP) $(TAR_FILE)
@@ -36,85 +36,54 @@ LIBS += -L$$PWD/lib/  -ldl -lz -lbz2 -lrockchip_mpp -lrga -lpthread -lwayland-cl
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    NVRMsgProc.cxx \
-    comm.cxx \
+    cctv/NVRMsgProc.cpp \
+    cctv/cctv.cpp \
+    cctv/comm.cpp \
+    cctv/main.cpp \
+    cctv/mainforn.cpp \
+    cctv/mutex.cpp \
+    cctv/myslider.cpp \
+    cctv/recordmanage.cpp \
+    cctv/sysmanage.cpp \
+    cctv/timeset.cpp \
     debugout/debug.c \
     ftp/ftpApi.c \
     ftp/gb2312_utf8.c \
     log/log.c \
-    main.cpp \
-    cctvtest.cpp \
-    mainforn.cpp \
-    mutex.cpp \
-    myslider.cpp \
-#    playwidget.cpp \
-#    playwind.cpp \
     pmsg/multicast.c \
     pmsg/pmsgcli.c \
     pmsg/pmsgproc.c \
-    recordmanage.cpp \
-#    rtsp/Base64EncDec.c \
-#    rtsp/md5.c \
-#    rtsp/ourMD5.c \
-#    rtsp/rtcp.c \
-#    rtsp/rtp.c \
-#    rtsp/rtsp.c \
-#    rtsp/rtspApi.c \
-#    rtsp/rtspComm.c \
     state/fileConfig.c \
     state/state.c \
-    sysmanage.cpp \
-#    vdec/cmplayer.cpp \
-#    vdec/rgaapi.cpp \
-#    vdec/shm.cpp \
-#    vdec/vdec.cpp \
-    timeset.cpp
 
 HEADERS += \
-    NVRMsgProc.h \
-    cctvtest.h \
-    comm.h \
+    cctv/NVRMsgProc.h \
+    cctv/cctv.h \
+    cctv/comm.h \
+    cctv/mainforn.h \
+    cctv/mutex.h \
+    cctv/myslider.h \
+    cctv/recordmanage.h \
+    cctv/sysmanage.h \
+    cctv/timeset.h \
+    cctv/types.h \
     debugout/debug.h \
     ftp/ftpApi.h \
     ftp/gb2312_utf8.h \
     log/log.h \
-    mainforn.h \
-    mutex.h \
-    myslider.h \
-#    playwidget.h \
-#    playwind.h \
     pmsg/multicast.h \
     pmsg/pmsgcli.h \
     pmsg/pmsgproc.h \
-    recordmanage.h \
-#    rtsp/Base64EncDec.h \
-#    rtsp/md5.h \
-#    rtsp/mutex.h \
-#    rtsp/ourMD5.h \
-#    rtsp/rtcp.h \
-#    rtsp/rtp.h \
-#    rtsp/rtsp.h \
-#    rtsp/rtspApi.h \
-#    rtsp/rtspComm.h \
-#    rtsp/types.h \
     state/fileConfig.h \
     state/state.h \
-    sysmanage.h \
-    timeset.h \
-    types.h \
-#    vdec/cmplayer.h \
-#    vdec/rga_api.h \
-#    vdec/rgaapi.h \
-#    vdec/shm.h \
-#    vdec/vdec.h
+
 
 FORMS += \
-    cctvtest.ui \
-    mainforn.ui \
-#    playwind.ui \
-    recordmanage.ui \
-    sysmanage.ui \
-    timeset.ui
+    cctv/cctv.ui \
+    cctv/mainforn.ui \
+    cctv/recordmanage.ui \
+    cctv/sysmanage.ui \
+    cctv/timeset.ui \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

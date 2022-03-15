@@ -58,7 +58,7 @@ typedef unsigned short		UINT16;
 typedef unsigned short          USHORT;
 typedef	unsigned short		ushort_t;
 
-typedef int                     HANDLE;         // note that handle here is assumed to be
+//typedef int                     HANDLE;         // note that handle here is assumed to be
 typedef int                     BOOLEAN;
 typedef int			PT_FILEHANDLE;
 typedef int*                    PHANDLE;
