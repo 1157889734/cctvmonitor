@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     delete  g_mainforn;
     g_mainforn = NULL;
 
-//    UninitPmsgproc();
+    UninitPmsgproc();
 //    NVR_Uninit();
     STATE_Uninit();
     DebugUninit();
