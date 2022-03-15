@@ -1,7 +1,7 @@
 #ifndef  __PMSG_CLI_H__
 #define __PMSG_CLI_H__
 
-#include "types.h"
+#include "./cctv/types.h"
 
 #ifdef __cplusplus
 extern "C"{

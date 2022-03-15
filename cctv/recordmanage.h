@@ -11,7 +11,7 @@
 #include "./log/log.h"
 
 #include "debugout/debug.h"
-#include "includeVdecc/CMPlayerInterface.h"
+#include "./include/CMPlayerInterface.h"
 #include <QTableWidgetItem>
 
 #define MAX_RECORD_SEACH_NUM 10000

@@ -722,7 +722,7 @@ void recordManage::recordPlayCtrl(int iRow, int iDex)
 
     }
     CMP_PlayMedia(m_cmpHandle);
-    CMP_SetPlayEnable(m_cmpHandle,1);
+    CMP_SetDisplayEnable(m_cmpHandle,1);
     if(iRet < 0)
     {
         return;
@@ -1176,7 +1176,7 @@ void recordManage::closePlayWin()
 
     if (m_cmpHandle != NULL)    //关闭已打开的回放
     {
-        CMP_SetPlayEnable(m_cmpHandle, 0);
+        CMP_SetDisplayEnable(m_cmpHandle, 0);
         CMP_CloseMedia(m_cmpHandle);
         CMP_UnInit(m_cmpHandle);
 

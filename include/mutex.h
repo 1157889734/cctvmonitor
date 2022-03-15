@@ -1,46 +1,32 @@
-#ifndef MUTEX_H
-#define MUTEX_H
+#ifndef __MUTEX_H_H
+#define __MUTEX_H_H
 
-#ifdef WIN
-    typedef HANDLE Mutex;
+#ifdef _WIN32
+#include <atlbase.h>
 #else
-    typedef pthread_mutex_t Mutex;
-#endif
+#include <pthread.h>
+#include <unistd.h>
+typedef void* HANDLE;
+#endif // _WIN32
 
-// initialize mutex
-#ifdef WIN
-    #define MUTEX_INIT( MutexPtr ) *MutexPtr = CreateMutex( NULL, false, NULL )
+// 互拆锁
+class CMutexLock
+{
+    CMutexLock(const CMutexLock &);
+    CMutexLock &operator=(const CMutexLock &);
+public:
+	CMutexLock();
+	virtual ~CMutexLock();
+
+	void Lock();
+	void Unlock();
+
+private:
+#ifdef _WIN32
+    CRITICAL_SECTION mutex;
 #else
-    #define MUTEX_INIT( MutexPtr ) pthread_mutex_init( MutexPtr, NULL )
+	pthread_mutex_t  mutex;
 #endif
+};
 
-// lock the mutex variable
-#ifdef WIN
-    #define MUTEX_LOCK( MutexPtr ) WaitForSingleObject( *MutexPtr, INFINITE )
-#else
-    #define MUTEX_LOCK( MutexPtr ) pthread_mutex_lock( MutexPtr )
-#endif
-
-// unlock the mutex variable
-#ifdef WIN
-    #define MUTEX_UNLOCK( MutexPtr ) ReleaseMutex( *MutexPtr )
-#else
-    #define MUTEX_UNLOCK( MutexPtr ) pthread_mutex_unlock( MutexPtr )
-#endif
-
-
-// destroy, making sure mutex is unlocked
-#ifdef WIN
-    #define MUTEX_DESTROY( MutexPtr ) CloseHandle( *MutexPtr )
-#else
-    #define MUTEX_DESTROY( MutexPtr )  do {         \
-        int rc = pthread_mutex_destroy( MutexPtr ); \
-        if ( rc == EBUSY ) {                        \
-            MUTEX_UNLOCK( MutexPtr );               \
-            pthread_mutex_destroy( MutexPtr );      \
-        }                                           \
-    } while ( 0 )    
-#endif
-
-
-#endif // MUTEX_H
+#endif//__MUTEX_H_H

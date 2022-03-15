@@ -4,19 +4,19 @@
 #include "./log/log.h"
 #include "./pmsg/pmsgcli.h"
 #include "./pmsg/pmsgproc.h"
-#include "mainforn.h"
+#include "menuwidget.h"
 #include "recordmanage.h"
 #include "sysmanage.h"
 #include "NVRMsgProc.h"
 #include <QDebug>
-#include "msgapp.h"
+//#include "msgapp.h"
 
 #include <QApplication>
 
 #define LOG_FILE_DIR  "/home/data"
 
-cctvTest *g_cctvtest = NULL;
-mainforn *g_mainforn = NULL;
+cctv *g_cctvtest = NULL;
+menuwidget *g_mainforn = NULL;
 #define DEBUG_PORT 9880
 static char g_acCCTVVersion[28] ={0};
 static int  g_aiNextFourVideoIdx[4] = {-1,-1,-1,-1};
@@ -63,16 +63,12 @@ int main(int argc, char *argv[])
 
     DebugInit(DEBUG_PORT);    //调试信息模块初始化
 
-    iRet = STATE_Init();
-    if(0 != iRet)
-    {
+    STATE_Init();
 
-    }
-
-    g_cctvtest = new cctvTest();
+    g_cctvtest = new cctv();
     g_cctvtest->show();
 
-    g_mainforn = new mainforn();
+    g_mainforn = new menuwidget();
     g_mainforn->hide();
 
 
@@ -107,8 +103,6 @@ int main(int argc, char *argv[])
 
 //    NVR_init();
     InitPmsgproc();
-
-//    g_hResUpdate = PMSG_CreateResConn(12016);
 
     for(int i=0;i<4;i++)
     {

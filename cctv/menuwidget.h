@@ -6,16 +6,16 @@
 #include "recordmanage.h"
 
 namespace Ui {
-class mainforn;
+class menuwidget;
 }
 
-class mainforn : public QWidget
+class menuwidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit mainforn(QWidget *parent = nullptr);
-    ~mainforn();
+    explicit menuwidget(QWidget *parent = nullptr);
+    ~menuwidget();
     void recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsgData, int iMsgDataLen);
 
 public slots:
@@ -30,7 +30,7 @@ signals:
     void sendDeviceSignal();
 
 private:
-    Ui::mainforn *ui;
+    Ui::menuwidget *ui;
     recordManage *g_recordManage;
     sysManage *g_sysManage;
     QTimer *m_PmsgTimer;

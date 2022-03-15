@@ -56,7 +56,7 @@ SOURCES       = cctv/NVRMsgProc.cpp \
 		cctv/cctv.cpp \
 		cctv/comm.cpp \
 		cctv/main.cpp \
-		cctv/mainforn.cpp \
+		cctv/menuwidget.cpp \
 		cctv/mutex.cpp \
 		cctv/myslider.cpp \
 		cctv/recordmanage.cpp \
@@ -72,7 +72,7 @@ SOURCES       = cctv/NVRMsgProc.cpp \
 		state/fileConfig.c \
 		state/state.c qrc_res.cpp \
 		moc_cctv.cpp \
-		moc_mainforn.cpp \
+		moc_menuwidget.cpp \
 		moc_myslider.cpp \
 		moc_recordmanage.cpp \
 		moc_sysmanage.cpp \
@@ -81,7 +81,7 @@ OBJECTS       = NVRMsgProc.o \
 		cctv.o \
 		comm.o \
 		main.o \
-		mainforn.o \
+		menuwidget.o \
 		mutex.o \
 		myslider.o \
 		recordmanage.o \
@@ -98,7 +98,7 @@ OBJECTS       = NVRMsgProc.o \
 		state.o \
 		qrc_res.o \
 		moc_cctv.o \
-		moc_mainforn.o \
+		moc_menuwidget.o \
 		moc_myslider.o \
 		moc_recordmanage.o \
 		moc_sysmanage.o \
@@ -259,7 +259,7 @@ DIST          = ../../toolchain/host/mkspecs/features/spec_pre.prf \
 		cctest.pro cctv/NVRMsgProc.h \
 		cctv/cctv.h \
 		cctv/comm.h \
-		cctv/mainforn.h \
+		cctv/menuwidget.h \
 		cctv/mutex.h \
 		cctv/myslider.h \
 		cctv/recordmanage.h \
@@ -269,6 +269,12 @@ DIST          = ../../toolchain/host/mkspecs/features/spec_pre.prf \
 		debugout/debug.h \
 		ftp/ftpApi.h \
 		ftp/gb2312_utf8.h \
+		include/CMPlayerInterface.h \
+		include/debug.h \
+		include/mutex.h \
+		include/rtspApi.h \
+		include/rtspComm.h \
+		include/vdec.h \
 		log/log.h \
 		pmsg/multicast.h \
 		pmsg/pmsgcli.h \
@@ -278,7 +284,7 @@ DIST          = ../../toolchain/host/mkspecs/features/spec_pre.prf \
 		cctv/cctv.cpp \
 		cctv/comm.cpp \
 		cctv/main.cpp \
-		cctv/mainforn.cpp \
+		cctv/menuwidget.cpp \
 		cctv/mutex.cpp \
 		cctv/myslider.cpp \
 		cctv/recordmanage.cpp \
@@ -301,7 +307,7 @@ TARGET        = cctvtest
 first: all
 ####### Build rules
 
-cctvtest: ui_cctv.h ui_mainforn.h ui_recordmanage.h ui_sysmanage.h ui_timeset.h $(OBJECTS)  
+cctvtest: ui_cctv.h ui_menuwidget.h ui_recordmanage.h ui_sysmanage.h ui_timeset.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: cctest.pro ../../toolchain/host/mkspecs/devices/linux-buildroot-g++/qmake.conf ../../toolchain/host/mkspecs/features/spec_pre.prf \
@@ -631,9 +637,9 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents res.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../toolchain/host/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents cctv/NVRMsgProc.h cctv/cctv.h cctv/comm.h cctv/mainforn.h cctv/mutex.h cctv/myslider.h cctv/recordmanage.h cctv/sysmanage.h cctv/timeset.h cctv/types.h debugout/debug.h ftp/ftpApi.h ftp/gb2312_utf8.h log/log.h pmsg/multicast.h pmsg/pmsgcli.h pmsg/pmsgproc.h state/fileConfig.h state/state.h $(DISTDIR)/
-	$(COPY_FILE) --parents cctv/NVRMsgProc.cpp cctv/cctv.cpp cctv/comm.cpp cctv/main.cpp cctv/mainforn.cpp cctv/mutex.cpp cctv/myslider.cpp cctv/recordmanage.cpp cctv/sysmanage.cpp cctv/timeset.cpp debugout/debug.c ftp/ftpApi.c ftp/gb2312_utf8.c log/log.c pmsg/multicast.c pmsg/pmsgcli.c pmsg/pmsgproc.c state/fileConfig.c state/state.c $(DISTDIR)/
-	$(COPY_FILE) --parents cctv/cctv.ui cctv/mainforn.ui cctv/recordmanage.ui cctv/sysmanage.ui cctv/timeset.ui $(DISTDIR)/
+	$(COPY_FILE) --parents cctv/NVRMsgProc.h cctv/cctv.h cctv/comm.h cctv/menuwidget.h cctv/mutex.h cctv/myslider.h cctv/recordmanage.h cctv/sysmanage.h cctv/timeset.h cctv/types.h debugout/debug.h ftp/ftpApi.h ftp/gb2312_utf8.h include/CMPlayerInterface.h include/debug.h include/mutex.h include/rtspApi.h include/rtspComm.h include/vdec.h log/log.h pmsg/multicast.h pmsg/pmsgcli.h pmsg/pmsgproc.h state/fileConfig.h state/state.h $(DISTDIR)/
+	$(COPY_FILE) --parents cctv/NVRMsgProc.cpp cctv/cctv.cpp cctv/comm.cpp cctv/main.cpp cctv/menuwidget.cpp cctv/mutex.cpp cctv/myslider.cpp cctv/recordmanage.cpp cctv/sysmanage.cpp cctv/timeset.cpp debugout/debug.c ftp/ftpApi.c ftp/gb2312_utf8.c log/log.c pmsg/multicast.c pmsg/pmsgcli.c pmsg/pmsgproc.c state/fileConfig.c state/state.c $(DISTDIR)/
+	$(COPY_FILE) --parents cctv/cctv.ui cctv/menuwidget.ui cctv/recordmanage.ui cctv/sysmanage.ui cctv/timeset.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -852,9 +858,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../toolchain/host/mkspecs/features/data/dummy.cpp
 	/home/cftc/toolchain/host/bin/aarch64-buildroot-linux-gnu-g++ -pipe -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Os --sysroot=/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot $(STRIP) $(TAR_FILE) -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h ../../toolchain/host/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_cctv.cpp moc_mainforn.cpp moc_myslider.cpp moc_recordmanage.cpp moc_sysmanage.cpp moc_timeset.cpp
+compiler_moc_header_make_all: moc_cctv.cpp moc_menuwidget.cpp moc_myslider.cpp moc_recordmanage.cpp moc_sysmanage.cpp moc_timeset.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_cctv.cpp moc_mainforn.cpp moc_myslider.cpp moc_recordmanage.cpp moc_sysmanage.cpp moc_timeset.cpp
+	-$(DEL_FILE) moc_cctv.cpp moc_menuwidget.cpp moc_myslider.cpp moc_recordmanage.cpp moc_sysmanage.cpp moc_timeset.cpp
 moc_cctv.cpp: cctv/cctv.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QWidget \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qwidget.h \
@@ -978,7 +984,7 @@ moc_cctv.cpp: cctv/cctv.h \
 		../../toolchain/host/bin/moc
 	/home/cftc/toolchain/host/bin/moc $(DEFINES) --include /home/cftc/project/cctest/moc_predefs.h -I/home/cftc/toolchain/host/mkspecs/devices/linux-buildroot-g++ -I/home/cftc/project/cctest -I/home/cftc/project/cctest/include -I/home/cftc/project/cctest/includeVdecc -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5 -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include/c++/9.3.0 -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include/c++/9.3.0/aarch64-buildroot-linux-gnu -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include/c++/9.3.0/backward -I/home/cftc/toolchain/host/lib/gcc/aarch64-buildroot-linux-gnu/9.3.0/include -I/home/cftc/toolchain/host/lib/gcc/aarch64-buildroot-linux-gnu/9.3.0/include-fixed -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include cctv/cctv.h -o moc_cctv.cpp
 
-moc_mainforn.cpp: cctv/mainforn.h \
+moc_menuwidget.cpp: cctv/menuwidget.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QWidget \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qwidget.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qtwidgetsglobal.h \
@@ -1103,7 +1109,6 @@ moc_mainforn.cpp: cctv/mainforn.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qstylefactory.h \
 		cctv/timeset.h \
 		pmsg/pmsgcli.h \
-		include/types.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QTimer \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qtimer.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qbasictimer.h \
@@ -1130,7 +1135,7 @@ moc_mainforn.cpp: cctv/mainforn.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qrubberband.h \
 		moc_predefs.h \
 		../../toolchain/host/bin/moc
-	/home/cftc/toolchain/host/bin/moc $(DEFINES) --include /home/cftc/project/cctest/moc_predefs.h -I/home/cftc/toolchain/host/mkspecs/devices/linux-buildroot-g++ -I/home/cftc/project/cctest -I/home/cftc/project/cctest/include -I/home/cftc/project/cctest/includeVdecc -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5 -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include/c++/9.3.0 -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include/c++/9.3.0/aarch64-buildroot-linux-gnu -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include/c++/9.3.0/backward -I/home/cftc/toolchain/host/lib/gcc/aarch64-buildroot-linux-gnu/9.3.0/include -I/home/cftc/toolchain/host/lib/gcc/aarch64-buildroot-linux-gnu/9.3.0/include-fixed -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include cctv/mainforn.h -o moc_mainforn.cpp
+	/home/cftc/toolchain/host/bin/moc $(DEFINES) --include /home/cftc/project/cctest/moc_predefs.h -I/home/cftc/toolchain/host/mkspecs/devices/linux-buildroot-g++ -I/home/cftc/project/cctest -I/home/cftc/project/cctest/include -I/home/cftc/project/cctest/includeVdecc -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5 -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include/c++/9.3.0 -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include/c++/9.3.0/aarch64-buildroot-linux-gnu -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include/c++/9.3.0/backward -I/home/cftc/toolchain/host/lib/gcc/aarch64-buildroot-linux-gnu/9.3.0/include -I/home/cftc/toolchain/host/lib/gcc/aarch64-buildroot-linux-gnu/9.3.0/include-fixed -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/include -I/home/cftc/toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include cctv/menuwidget.h -o moc_menuwidget.cpp
 
 moc_myslider.cpp: cctv/myslider.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QSlider \
@@ -1364,7 +1369,6 @@ moc_recordmanage.cpp: cctv/recordmanage.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qstylefactory.h \
 		cctv/timeset.h \
 		pmsg/pmsgcli.h \
-		include/types.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QTimer \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qtimer.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qbasictimer.h \
@@ -1618,16 +1622,16 @@ compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_cctv.h ui_mainforn.h ui_recordmanage.h ui_sysmanage.h ui_timeset.h
+compiler_uic_make_all: ui_cctv.h ui_menuwidget.h ui_recordmanage.h ui_sysmanage.h ui_timeset.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_cctv.h ui_mainforn.h ui_recordmanage.h ui_sysmanage.h ui_timeset.h
+	-$(DEL_FILE) ui_cctv.h ui_menuwidget.h ui_recordmanage.h ui_sysmanage.h ui_timeset.h
 ui_cctv.h: cctv/cctv.ui \
 		../../toolchain/host/bin/uic
 	/home/cftc/toolchain/host/bin/uic cctv/cctv.ui -o ui_cctv.h
 
-ui_mainforn.h: cctv/mainforn.ui \
+ui_menuwidget.h: cctv/menuwidget.ui \
 		../../toolchain/host/bin/uic
-	/home/cftc/toolchain/host/bin/uic cctv/mainforn.ui -o ui_mainforn.h
+	/home/cftc/toolchain/host/bin/uic cctv/menuwidget.ui -o ui_menuwidget.h
 
 ui_recordmanage.h: cctv/recordmanage.ui \
 		../../toolchain/host/bin/uic
@@ -1654,7 +1658,6 @@ compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_heade
 NVRMsgProc.o: cctv/NVRMsgProc.cpp cctv/NVRMsgProc.h \
 		state/state.h \
 		pmsg/pmsgcli.h \
-		include/types.h \
 		log/log.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDebug \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qdebug.h \
@@ -1842,18 +1845,7 @@ cctv.o: cctv/cctv.cpp cctv/cctv.h \
 		includeVdecc/vdec.h \
 		includeVdecc/mutex.h \
 		includeVdecc/debug.h \
-		ui_cctvtest.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QVariant \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QApplication \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qcoreapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qeventloop.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qdesktopwidget.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qguiapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qinputmethod.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QLabel \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qlabel.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qframe.h \
+		ui_cctv.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDate \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qdatetime.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDateTime \
@@ -1863,8 +1855,7 @@ cctv.o: cctv/cctv.cpp cctv/cctv.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDebug \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/QMouseEvent \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QEvent \
-		pmsg/pmsgcli.h \
-		include/types.h
+		pmsg/pmsgcli.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cctv.o cctv/cctv.cpp
 
 comm.o: cctv/comm.cpp cctv/comm.h
@@ -1993,9 +1984,8 @@ main.o: cctv/main.cpp cctv/cctv.h \
 		debugout/debug.h \
 		log/log.h \
 		pmsg/pmsgcli.h \
-		include/types.h \
 		pmsg/pmsgproc.h \
-		cctv/mainforn.h \
+		cctv/menuwidget.h \
 		cctv/sysmanage.h \
 		cctv/recordmanage.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QLabel \
@@ -2028,7 +2018,6 @@ main.o: cctv/main.cpp cctv/cctv.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qrubberband.h \
 		cctv/NVRMsgProc.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDebug \
-		include/msgapp.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QApplication \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qapplication.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qcoreapplication.h \
@@ -2038,8 +2027,8 @@ main.o: cctv/main.cpp cctv/cctv.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o cctv/main.cpp
 
-mainforn.o: cctv/mainforn.cpp debugout/debug.h \
-		cctv/mainforn.h \
+menuwidget.o: cctv/menuwidget.cpp debugout/debug.h \
+		cctv/menuwidget.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QWidget \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qwidget.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qtwidgetsglobal.h \
@@ -2164,7 +2153,6 @@ mainforn.o: cctv/mainforn.cpp debugout/debug.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qstylefactory.h \
 		cctv/timeset.h \
 		pmsg/pmsgcli.h \
-		include/types.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QTimer \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qtimer.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qbasictimer.h \
@@ -2188,21 +2176,10 @@ mainforn.o: cctv/mainforn.cpp debugout/debug.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qtabbar.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qtabwidget.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qrubberband.h \
-		ui_mainforn.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QVariant \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QApplication \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qcoreapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qeventloop.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qdesktopwidget.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qguiapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qinputmethod.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QPushButton \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qpushbutton.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qabstractbutton.h \
+		ui_menuwidget.h \
 		cctv/NVRMsgProc.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDebug
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainforn.o cctv/mainforn.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o menuwidget.o cctv/menuwidget.cpp
 
 mutex.o: cctv/mutex.cpp cctv/mutex.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mutex.o cctv/mutex.cpp
@@ -2437,7 +2414,6 @@ recordmanage.o: cctv/recordmanage.cpp cctv/recordmanage.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qstylefactory.h \
 		cctv/timeset.h \
 		pmsg/pmsgcli.h \
-		include/types.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QTimer \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qtimer.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qbasictimer.h \
@@ -2463,24 +2439,6 @@ recordmanage.o: cctv/recordmanage.cpp cctv/recordmanage.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qtabwidget.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qrubberband.h \
 		ui_recordmanage.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QVariant \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QApplication \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qcoreapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qeventloop.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qdesktopwidget.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qguiapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qinputmethod.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QComboBox \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qcombobox.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QHeaderView \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qheaderview.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QProgressBar \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qprogressbar.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QPushButton \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qpushbutton.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qabstractbutton.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QTableWidget \
 		state/state.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDebug \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QMessageBox \
@@ -2490,6 +2448,7 @@ recordmanage.o: cctv/recordmanage.cpp cctv/recordmanage.h \
 		ftp/ftpApi.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QCheckBox \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qcheckbox.h \
+		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qabstractbutton.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QHBoxLayout \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qboxlayout.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qlayout.h \
@@ -2606,16 +2565,7 @@ sysmanage.o: cctv/sysmanage.cpp cctv/sysmanage.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qbuttongroup.h \
 		state/state.h \
 		ui_sysmanage.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QVariant \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QApplication \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qcoreapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qeventloop.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qdesktopwidget.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qguiapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qinputmethod.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QHeaderView \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qheaderview.h \
+		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QAbstractItemView \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qabstractitemview.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qabstractscrollarea.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qframe.h \
@@ -2633,15 +2583,9 @@ sysmanage.o: cctv/sysmanage.cpp cctv/sysmanage.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qtabbar.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qtabwidget.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qrubberband.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QLabel \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qlabel.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QPushButton \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qpushbutton.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qabstractbutton.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QTableWidget \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qtablewidget.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qtableview.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QAbstractItemView \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDebug \
 		cctv/comm.h \
 		log/log.h \
@@ -2649,7 +2593,6 @@ sysmanage.o: cctv/sysmanage.cpp cctv/sysmanage.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QTime \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qdatetime.h \
 		pmsg/pmsgcli.h \
-		include/types.h \
 		debugout/debug.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QFile \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QScrollBar \
@@ -2762,21 +2705,6 @@ timeset.o: cctv/timeset.cpp cctv/timeset.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qvector2d.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qtouchdevice.h \
 		ui_timeset.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QVariant \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QApplication \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qcoreapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qeventloop.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qdesktopwidget.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qguiapplication.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qinputmethod.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QLabel \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qlabel.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qframe.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/QPushButton \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qpushbutton.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtWidgets/qabstractbutton.h \
-		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtGui/qicon.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDateTime \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/qdatetime.h \
 		../../toolchain/host/aarch64-buildroot-linux-gnu/sysroot/usr/include/qt5/QtCore/QDebug
@@ -2803,7 +2731,6 @@ multicast.o: pmsg/multicast.c state/state.h \
 	$(CC) -c $(CFLAGS) $(INCPATH) -o multicast.o pmsg/multicast.c
 
 pmsgcli.o: pmsg/pmsgcli.c pmsg/pmsgcli.h \
-		include/types.h \
 		debugout/debug.h \
 		log/log.h \
 		state/state.h
@@ -2831,8 +2758,8 @@ qrc_res.o: qrc_res.cpp
 moc_cctv.o: moc_cctv.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_cctv.o moc_cctv.cpp
 
-moc_mainforn.o: moc_mainforn.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainforn.o moc_mainforn.cpp
+moc_menuwidget.o: moc_menuwidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_menuwidget.o moc_menuwidget.cpp
 
 moc_myslider.o: moc_myslider.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_myslider.o moc_myslider.cpp

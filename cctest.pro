@@ -40,7 +40,7 @@ SOURCES += \
     cctv/cctv.cpp \
     cctv/comm.cpp \
     cctv/main.cpp \
-    cctv/mainforn.cpp \
+    cctv/menuwidget.cpp \
     cctv/mutex.cpp \
     cctv/myslider.cpp \
     cctv/recordmanage.cpp \
@@ -60,7 +60,7 @@ HEADERS += \
     cctv/NVRMsgProc.h \
     cctv/cctv.h \
     cctv/comm.h \
-    cctv/mainforn.h \
+    cctv/menuwidget.h \
     cctv/mutex.h \
     cctv/myslider.h \
     cctv/recordmanage.h \
@@ -70,6 +70,12 @@ HEADERS += \
     debugout/debug.h \
     ftp/ftpApi.h \
     ftp/gb2312_utf8.h \
+    include/CMPlayerInterface.h \
+    include/debug.h \
+    include/mutex.h \
+    include/rtspApi.h \
+    include/rtspComm.h \
+    include/vdec.h \
     log/log.h \
     pmsg/multicast.h \
     pmsg/pmsgcli.h \
@@ -80,7 +86,7 @@ HEADERS += \
 
 FORMS += \
     cctv/cctv.ui \
-    cctv/mainforn.ui \
+    cctv/menuwidget.ui \
     cctv/recordmanage.ui \
     cctv/sysmanage.ui \
     cctv/timeset.ui \
@@ -93,16 +99,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     res.qrc
 
-DISTFILES += \
-#    rtsp/Base64EncDec.o \
-#    rtsp/Makefile \
-#    rtsp/Makefile.bak \
-#    rtsp/librtsp.a \
-#    rtsp/md5.o \
-#    rtsp/ourMD5.o \
-#    rtsp/rtcp.o \
-#    rtsp/rtp.o \
-#    rtsp/rtsp.h.bak \
-#    rtsp/rtsp.o \
-#    rtsp/rtspApi.o \
-#    rtsp/rtspComm.o
+

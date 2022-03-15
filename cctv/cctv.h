@@ -7,19 +7,19 @@
 #include <QButtonGroup>
 #include <QWidget>
 #include "types.h"
-#include "includeVdecc/CMPlayerInterface.h"
+#include "./include/CMPlayerInterface.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class cctvTest; }
+namespace Ui { class cctv; }
 QT_END_NAMESPACE
 
-class cctvTest : public QWidget
+class cctv : public QWidget
 {
     Q_OBJECT
 
 public:
-    cctvTest(QWidget *parent = nullptr);
-    ~cctvTest();
+    cctv(QWidget *parent = nullptr);
+    ~cctv();
     void closeVideoCyc();
     void setUi();
     void cmplayInit(QWidget *g_widget);
@@ -80,8 +80,10 @@ public:
     unsigned int    m_iPecuInfo;		//Pecu报警的值
     int m_iMousePosX;
     int m_iMousePosY;
-    T_WND_INFO                     m_RealMonitorVideos[8];
-    T_WND_INFO                     m_RealMonitorSingleVideo;
+    HWND                     m_RealMonitorVideos[8];
+    HWND                     m_RealMonitorSingleVideo;
+
+
 
     struct T_Node
     {
@@ -141,7 +143,7 @@ signals:
 
     void sendPLaySignal();
 private:
-    Ui::cctvTest *ui;
+    Ui::cctv *ui;
     QTimer *playTimer;
     QTimer *updateWarnTimer;
     QTimer *pollTimer;

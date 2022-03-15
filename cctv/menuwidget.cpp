@@ -1,14 +1,14 @@
 #include "./debugout/debug.h"
-#include "mainforn.h"
-#include "ui_mainforn.h"
+#include "menuwidget.h"
+#include "ui_menuwidget.h"
 #include "NVRMsgProc.h"
 #include "./state/state.h"
 #include "./pmsg/pmsgcli.h"
 #include <QDebug>
 
-mainforn::mainforn(QWidget *parent) :
+menuwidget::menuwidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::mainforn)
+    ui(new Ui::menuwidget)
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
@@ -43,7 +43,7 @@ mainforn::mainforn(QWidget *parent) :
 
 }
 
-mainforn::~mainforn()
+menuwidget::~menuwidget()
 {
     if (m_PmsgTimer != NULL)
     {
@@ -64,14 +64,14 @@ mainforn::~mainforn()
     delete ui;
 }
 
-void mainforn::hidePageSlots()
+void menuwidget::hidePageSlots()
 {
     this->hide();
     emit  sendhidesignal();
 }
 
 
-void mainforn::showMainfornPage()
+void menuwidget::showMainfornPage()
 {
     ui->sysyPushButton->setStyleSheet("background-color: rgb(252, 233, 79)");
     ui->recpushButton->setStyleSheet("background-color: rgb(23, 119, 244)");
@@ -79,13 +79,13 @@ void mainforn::showMainfornPage()
     this->show();
 }
 
-void mainforn::getDevStateSlot()
+void menuwidget::getDevStateSlot()
 {
     emit sendDeviceSignal();
 
 }
 
-void mainforn::menuButtonClick()
+void menuwidget::menuButtonClick()
 {
     QObject* Sender = sender();     //Sender->objectName(),可区分不同的信号来源，也就是不同的按钮按键
 
@@ -116,7 +116,7 @@ void mainforn::menuButtonClick()
 
 }
 
-void mainforn::pmsgTimerFunc()
+void menuwidget::pmsgTimerFunc()
 {
     int i = 0, iRet = 0;
     T_PMSG_PACKET tPkt;
@@ -143,11 +143,9 @@ void mainforn::pmsgTimerFunc()
 
 }
 
-void mainforn::recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsgData, int iMsgDataLen)
+void menuwidget::recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsgData, int iMsgDataLen)
 {
-//    int iAlarmType = 0, iDevPos = 0, iShadeAlarmEnableFlag = 0, i = 0;
-//    int iCarriageNO;
-//    qDebug()<<"**************ucMsgCmd="<<ucMsgCmd<<__func__<<__LINE__;
+
     switch(ucMsgCmd)    //不同的应答消息类型分发给不同的页面处理
     {
         case SERV_CLI_MSG_TYPE_GET_RECORD_TIME_LEN_RESP:
@@ -178,8 +176,7 @@ void mainforn::recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *p
 
             }
         }
-//        case SERV_CLI_MSG_TYPE_HDISK_ALARM_REPORT:
-//            break;
+
 
         default:
             break;
