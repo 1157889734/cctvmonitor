@@ -266,9 +266,27 @@ void sysManage::getNvrStatusCtrl(PMSG_HANDLE pHandle, char *pcMsgData)
 
 }
 
+static int FindHandleNo(PMSG_HANDLE PHandle)
+{
+    for(int i=0;i<6;i++)
+    {
+//        nvrServerPmsgHandle[iServerIdex]
+//        if(nvrServerPmsgHandle[iServerIdex] == PHandle)
+        if(STATE_GetNvrServerPmsgHandle(i) == PHandle)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
 
 int sysManage::pmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsgData, int iMsgDataLen)     //与服务器通信消息处理
 {
+    int iIPCNum = 0;
+    int iNvrNo = FindHandleNo(pHandle);
+    int iNum =0;
+
+//    qDebug()<<"*****************ucMsgCmd"<<ucMsgCmd<<__FUNCTION__<<__LINE__;
     switch(ucMsgCmd)
     {
         case SERV_CLI_MSG_TYPE_GET_NVR_STATUS_RESP:
@@ -285,6 +303,16 @@ int sysManage::pmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsg
         }
         case SERV_CLI_MSG_TYPE_GET_IPC_STATUS_RESP:
         {
+        iIPCNum = (pcMsgData[0]<<8 )| pcMsgData[1];
+        iNum = GetNvrVideoNum(iNvrNo);
+        qDebug()<<"*********iIPCNum="<<iIPCNum<<"*********iNum="<<iNum<<__LINE__;
+        for(int i=0; i<iNum;i++)
+        {
+            int iIndex = GetNvrVideoIdx(iNvrNo, i);
+            SetVideoOnlineState(iIndex,
+pcMsgData[2+iIndex]); //前面iIndex个为在线状态
+            SetVideoWarnState(iIndex, pcMsgData[2 +iIndex +iIPCNum]);//后面为遮挡状态
+        }
             break;
         }
 

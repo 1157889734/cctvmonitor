@@ -15,8 +15,8 @@
 
 #define LOG_FILE_DIR  "/home/data"
 
-cctv *g_cctvtest = NULL;
-menuwidget *g_mainforn = NULL;
+cctv *g_cctvwidget = NULL;
+menuwidget *g_menuwidget = NULL;
 #define DEBUG_PORT 9880
 static char g_acCCTVVersion[28] ={0};
 static int  g_aiNextFourVideoIdx[4] = {-1,-1,-1,-1};
@@ -65,14 +65,14 @@ int main(int argc, char *argv[])
 
     STATE_Init();
 
-    g_cctvtest = new cctv();
-    g_cctvtest->show();
+    g_cctvwidget = new cctv();
+    g_cctvwidget->show();
 
-    g_mainforn = new menuwidget();
-    g_mainforn->hide();
+    g_menuwidget = new menuwidget();
+    g_menuwidget->hide();
 
 
-
+#if 1
     for(int i = 0; i < 6; i++)
     {
         char acIp[24] = {0};
@@ -100,6 +100,7 @@ int main(int argc, char *argv[])
         }
 
     }
+#endif
 
 //    NVR_init();
     InitPmsgproc();
@@ -109,17 +110,17 @@ int main(int argc, char *argv[])
         g_aiNextFourVideoIdx[i] = GetVideoIdxAccordBtnPose(1,i);
     }
 
-    QObject::connect(g_cctvtest,SIGNAL(showMonitorSignal()),g_mainforn,SLOT(showMainfornPage()));
-    QObject::connect(g_mainforn,SIGNAL(sendhidesignal()),g_cctvtest,SLOT(showcctvPage()));
-    QObject::connect(g_cctvtest,SIGNAL(getDevStateSignal()),g_mainforn,SLOT(getDevStateSlot()));
+    QObject::connect(g_cctvwidget,SIGNAL(showMonitorSignal()),g_menuwidget,SLOT(showMainfornPage()));
+    QObject::connect(g_menuwidget,SIGNAL(sendhidesignal()),g_cctvwidget,SLOT(showcctvPage()));
+    QObject::connect(g_cctvwidget,SIGNAL(getDevStateSignal()),g_menuwidget,SLOT(getDevStateSlot()));
 
     return a.exec();
 
-    delete g_cctvtest;
-    g_cctvtest = NULL;
+    delete g_cctvwidget;
+    g_cctvwidget = NULL;
 
-    delete  g_mainforn;
-    g_mainforn = NULL;
+    delete  g_menuwidget;
+    g_menuwidget = NULL;
 
     UninitPmsgproc();
 //    NVR_Uninit();

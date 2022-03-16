@@ -145,13 +145,18 @@ void menuwidget::pmsgTimerFunc()
 
 void menuwidget::recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsgData, int iMsgDataLen)
 {
-
+//    qDebug()<<"*************ucMsgCmd****"<<ucMsgCmd<<__FUNCTION__<<__LINE__;
     switch(ucMsgCmd)    //不同的应答消息类型分发给不同的页面处理
     {
         case SERV_CLI_MSG_TYPE_GET_RECORD_TIME_LEN_RESP:
         case SERV_CLI_MSG_TYPE_GET_RECORD_FILE_RESP:
         {
             DebugPrint(DEBUG_PMSG_NORMAL_PRINT, "pvmsMenu Widget get pmsg message 0x%x, msgDataLen=%d\n",(int)ucMsgCmd, iMsgDataLen);
+            if (pcMsgData == NULL)
+            {
+                break;
+            }
+
             if (g_recordManage != NULL)
             {
                 g_recordManage->pmsgCtrl(pHandle, ucMsgCmd, pcMsgData, iMsgDataLen);
@@ -163,7 +168,7 @@ void menuwidget::recvPmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char 
 //        case SERV_CLI_MSG_TYPE_PISMSG_REPORT:
         case SERV_CLI_MSG_TYPE_GET_IPC_STATUS_RESP:
         {
-            if (pcMsgData == NULL || iMsgDataLen != 18)
+            if (pcMsgData == NULL)
             {
                 break;
             }

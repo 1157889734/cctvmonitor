@@ -1,4 +1,4 @@
-﻿#include "pmsg/pmsgcli.h"
+#include "pmsg/pmsgcli.h"
 #include "debugout/debug.h"
 #include "log/log.h"
 #include "state/state.h"

@@ -1375,8 +1375,9 @@ void recordManage::SearchBtnClicked()
     ui->recordFileTableWidget->setRowCount(0);
 
 
-    int iNvrNo = ui->carSeletionComboBox->currentIndex();
-    int iIpcPos    = ui->cameraSelectionComboBox->currentIndex();
+    int iNvrNo = ui->carSeletionComboBox->currentIndex() + 1;
+    int iIpcPos    = ui->cameraSelectionComboBox->currentIndex() + 1;
+    int iVideoIdx = -1;
 
     int iDiscTime = 0;
 
@@ -1447,9 +1448,10 @@ void recordManage::SearchBtnClicked()
         tRecordSeach.tEndTime.i8Min     =  m_tEndTime.min;
         tRecordSeach.tEndTime.i8Sec     =  m_tEndTime.sec;
 
-        tRecordSeach.iCarriageNo =iNvrNo;
-        tRecordSeach.iIpcPos = 8+iIpcPos;
 
+        iVideoIdx = GetNvrVideoIdx(m_iNvrNo, iIpcPos);
+        tRecordSeach.iCarriageNo =iNvrNo + 1;
+        tRecordSeach.iIpcPos = iVideoIdx + 1;
 
         iRet = PMSG_SendPmsgData(m_Phandle[iNvrNo], CLI_SERV_MSG_TYPE_GET_RECORD_FILE, (char *)&tRecordSeach, sizeof(T_NVR_SEARCH_RECORD));
         if (iRet < 0)
@@ -1482,60 +1484,19 @@ void recordManage::SearchBtnClicked()
 
 void recordManage::carNoChangeSlot()
 {
-    int i = 0, j =0,idex = ui->carSeletionComboBox->currentIndex();    //获取当前车厢选择下拉框的索引
-    QString item = "";
+    int iNvrNo = ui->carSeletionComboBox->currentIndex();
     ui->cameraSelectionComboBox->setCurrentIndex(-1);
     ui->cameraSelectionComboBox->clear();
-
-    if(idex ==0 || idex == 5)
+    int iNum = GetNvrVideoNum(iNvrNo);
+    for(int i=0;i<iNum;i++)
     {
-        for(i = 0; i < 8; i++)
-        {
-            item = "";
-            item = QString::number(idex+1);
-            if(i == 0)
-                item += tr("F");
-            else if(i == 1)
-                item += tr("G");
-            else if(i == 2)
-                item += tr("E");
-            else if(i == 3)
-            {
-                item = "";
-                item += tr("G");
-                item += QString::number(idex+1);
-            }
-            else if(i == 4)
-                item += tr("A");
-            else if(i == 5)
-                item += tr("B");
-            else if(i == 6)
-                item += tr("C");
-            else
-                item += tr("D");
-            ui->cameraSelectionComboBox->addItem(item);
-        }
+        char acName[8]={0};
+        int iVideoIdx = GetNvrVideoIdx(iNvrNo, i);
+        GetVideoName(iVideoIdx,acName, sizeof(acName)-1);
+        ui->cameraSelectionComboBox->addItem(acName);
 
     }
-    else if ((idex > 0) && ( idex < 5))
-    {
-        for(i = 0; i < 4; i++)
-        {
-            item = "";
-            item = QString::number(idex+1);
 
-            if(i == 0)
-                item += tr("A");
-            else if(i == 1)
-                item += tr("B");
-            else if(i == 2)
-                item += tr("C");
-            else
-                item += tr("D");
-            ui->cameraSelectionComboBox->addItem(item);
-        }
-
-    }
 
 }
 
@@ -1551,35 +1512,22 @@ void recordManage::getTrainConfig()
         item +=tr("车");
         ui->carSeletionComboBox->addItem(item);
 //        m_Phandle[i] = STATE_GetNvrServerPmsgHandle(i);
-//        qDebug()<<"**********m_Phandle[i]"<<m_Phandle[i]<<__func__<<__LINE__;
     }
 
-    for(i = 0; i < 8; i++)
+    int iNvrNo = 1;
+    ui->cameraSelectionComboBox->setCurrentIndex(-1);
+    ui->cameraSelectionComboBox->clear();
+    int iNum = GetNvrVideoNum(iNvrNo);
+    for(int i=0;i<iNum;i++)
     {
-        item = "";
-        item = QString::number(j+1);
-        if(i == 0)
-            item += tr("F");
-        else if(i == 1)
-            item += tr("G");
-        else if(i == 2)
-            item += tr("E");
-        else if(i == 3)
-        {
-            item = "";
-            item += tr("G");
-            item += QString::number(j+1);
-        }
-        else if(i == 4)
-            item += tr("A");
-        else if(i == 5)
-            item += tr("B");
-        else if(i == 6)
-            item += tr("C");
-        else
-            item += tr("D");
-        ui->cameraSelectionComboBox->addItem(item);
+        char acName[8]={0};
+        int iVideoIdx = GetNvrVideoIdx(iNvrNo, i);
+        GetVideoName(iVideoIdx,acName, sizeof(acName)-1);
+        ui->cameraSelectionComboBox->addItem(acName);
+
     }
+
+
 
     for(i = 0; i < 4; i++)
     {
