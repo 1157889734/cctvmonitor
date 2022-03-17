@@ -99,7 +99,7 @@ recordManage::recordManage(QWidget *parent) :
 
     //参数初始化
     memset(&m_RealMonitorVideos, 0, sizeof(m_RealMonitorVideos));
-    m_RealMonitorVideos.pRenderHandle = NULL;
+//    m_RealMonitorVideos.pRenderHandle = NULL;
     FileSearchTimer = NULL;
     m_pcRecordFileBuf = (char *)malloc(MAX_RECORD_SEACH_NUM*MAX_RECFILE_PATH_LEN);
     m_cmpHandle = NULL;
@@ -241,20 +241,6 @@ recordManage::~recordManage()
     delete ui;
 }
 
-void recordManage::cmplaybackInit()
-{
-    if( m_RealMonitorVideos.pRenderHandle)
-        return;
-    QRect rt;
-    QPoint pt;
-    QWidget *pWnd = playWidget; //
-    rt = pWnd->geometry();
-    pt = pWnd->mapToGlobal(QPoint(0, 0));
-
-    m_RealMonitorVideos.hWnd = (HWND)pWnd;
-    m_RealMonitorVideos.pRenderHandle = NULL;
-
-}
 
 
 static char *parseFileName(char *pcSrcStr)     //根据录像文件路径全名解析得到单纯的录像文件名
@@ -675,6 +661,12 @@ void *slideValueSetThread(void *param)    //播放进度条刷新线程
 
 }
 
+void recordManage::cmplayInit(QWidget *g_widget)
+{
+    m_RealMonitorVideos = g_widget;
+
+}
+
 void recordManage::recordPlayCtrl(int iRow, int iDex)
 {
     int iRet = 0;
@@ -708,12 +700,11 @@ void recordManage::recordPlayCtrl(int iRow, int iDex)
         return;
     }
     sprintf(acRtspAddr,"rtsp://%s:554%s",szIp,m_acFilePath[iRow]);
-    qDebug()<<"*************"<<acRtspAddr<<__FUNCTION__<<__LINE__;
 //    snprintf(acRtspAddr, sizeof(acRtspAddr), "rtsp://192.168.%d.81:554%s",4+100, m_acFilePath[iRow]);
     if (NULL == m_cmpHandle)
     {
-        m_RealMonitorVideos.hWnd = playWidget;
-        m_cmpHandle = CMP_Init(&m_RealMonitorVideos,CMP_VDEC_NORMAL);
+        cmplayInit(playWidget);
+        m_cmpHandle = CMP_Init(m_RealMonitorVideos,CMP_VDEC_NORMAL);
         CMP_OpenMediaFile(m_cmpHandle, acRtspAddr, CMP_TCP);
         if(NULL == m_cmpHandle)
         {
@@ -723,6 +714,7 @@ void recordManage::recordPlayCtrl(int iRow, int iDex)
     }
     CMP_PlayMedia(m_cmpHandle);
     CMP_SetDisplayEnable(m_cmpHandle,1);
+
     if(iRet < 0)
     {
         return;
@@ -1317,6 +1309,8 @@ void recordManage::recordQueryEndSlot()
             delete FileSearchTimer;
             FileSearchTimer = NULL;
         }
+
+        messageLable->hide();
     }
     else
     {
@@ -1375,8 +1369,8 @@ void recordManage::SearchBtnClicked()
     ui->recordFileTableWidget->setRowCount(0);
 
 
-    int iNvrNo = ui->carSeletionComboBox->currentIndex() + 1;
-    int iIpcPos    = ui->cameraSelectionComboBox->currentIndex() + 1;
+    int iNvrNo = ui->carSeletionComboBox->currentIndex();
+    int iIpcPos    = ui->cameraSelectionComboBox->currentIndex();
     int iVideoIdx = -1;
 
     int iDiscTime = 0;

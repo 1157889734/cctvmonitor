@@ -33,8 +33,8 @@ public:
     ~recordManage();
     int pmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsgData, int iMsgDataLen);     //与服务器通信消息处理
     void recordQueryCtrl(char *pcMsgData, int iMsgDataLen);
-    void cmplaybackInit();
     void closePlayWin();
+    void cmplayInit(QWidget *g_widget);
 
     void getTrainConfig();
     void recordPlayCtrl(int iRow, int iDex);
@@ -58,7 +58,9 @@ public:
     int			m_iTotolTime;
     int			m_iTimeCount;
     QWidget     *playWidget;
-    T_WND_INFO                     m_RealMonitorVideos;
+
+
+    HWND                     m_RealMonitorVideos;
     PFTP_HANDLE m_tFtpHandle[MAX_SERVER_NUM];  //FTP句柄
     CMPHandle   m_cmpHandle;   //客户端媒体播放句柄
     int         m_iSliderValue;     //进度条当前值

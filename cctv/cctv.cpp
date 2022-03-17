@@ -32,7 +32,7 @@ static int  g_iCurSingleVideoIdx = -1;
 static int  g_iVideoCycleFlag = 1;  //轮询标志
 
 static int  g_iNextSingleVideoIdx = -1;
-static int g_iCycTime = 5;
+static int g_iCycTime = 30;
 static int  g_iWarnFreshed = 0;  //避免报警信息画面还未刷新，就被别的指令破坏
 
 
@@ -69,11 +69,16 @@ void cctv::UpdateCamStatefunc()
         }
         GetBtnPoseAccordVideoIdx(i, &iGroup, &iPos);
         iNvrNo = GetVideoNvrNo(i);
-        iNVRState = NVR_GetConnectStatus((iNvrNo/2)*2);
+
+        m_NvrServerPhandle[(iNvrNo/2)*2] = STATE_GetNvrServerPmsgHandle((iNvrNo/2)*2);
+        m_NvrServerPhandle[(iNvrNo/2)*2+1] = STATE_GetNvrServerPmsgHandle((iNvrNo/2)*2+1);
+
+        iNVRState = PMSG_GetConnectStatus(m_NvrServerPhandle[(iNvrNo/2)*2]);
 
         if(E_SERV_STATUS_CONNECT != iNVRState)
         {
-            iNVRState = NVR_GetConnectStatus((iNvrNo/2)*2+1);
+            iNVRState = PMSG_GetConnectStatus(m_NvrServerPhandle[(iNvrNo/2)*2+1]);
+
         }
         if(E_SERV_STATUS_CONNECT != iNVRState )
         {
@@ -855,7 +860,7 @@ cctv::cctv(QWidget *parent)
 
     setUi();
 
-//    g_iCycTime = GetCycTime();
+    g_iCycTime = GetCycTime();
 
     connect(ui->monitorManageButton,SIGNAL(clicked()),this,SLOT(showMonitorManagePage()));
     connect(ui->signalBUtton,SIGNAL(clicked()),this,SLOT(sigalePageSlot()));

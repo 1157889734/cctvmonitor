@@ -8,6 +8,8 @@
 #include <QWidget>
 #include "types.h"
 #include "./include/CMPlayerInterface.h"
+#define MAX_SERVER_NUM 6    //最大服务器个数
+typedef  unsigned long PMSG_HANDLE;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class cctv; }
@@ -83,6 +85,7 @@ public:
     HWND                     m_RealMonitorVideos[8];
     HWND                     m_RealMonitorSingleVideo;
 
+    PMSG_HANDLE     m_NvrServerPhandle[MAX_SERVER_NUM];    //nvr服务器PMSG通信句柄
 
 
     struct T_Node
