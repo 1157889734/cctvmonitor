@@ -72,19 +72,16 @@ int main(int argc, char *argv[])
     g_menuwidget->hide();
 
 
-#if 1
     for(int i = 0; i < 6; i++)
     {
         char acIp[24] = {0};
         memset(acIp, 0, sizeof(acIp));
         GetNvrIpAddr(i, acIp);
-        printf("***********acIp=%s----iNvrNo=%d\n",acIp,i);
         if(acIp[0] == 0)
         {
             return -1;
         }
         iRet = PMSG_CreateConnect(acIp, 10100);
-        qDebug()<<"***********iRet=**"<<acIp<<__func__<<__LINE__;
         if (0 == iRet)
         {
             DebugPrint(DEBUG_ERROR_PRINT, "create connection to server:%s error!\n",acNvrServerIp);
@@ -100,9 +97,7 @@ int main(int argc, char *argv[])
         }
 
     }
-#endif
 
-//    NVR_init();
     InitPmsgproc();
 
     for(int i=0;i<4;i++)
@@ -123,7 +118,6 @@ int main(int argc, char *argv[])
     g_menuwidget = NULL;
 
     UninitPmsgproc();
-//    NVR_Uninit();
     STATE_Uninit();
     DebugUninit();
     LOG_UnInit();

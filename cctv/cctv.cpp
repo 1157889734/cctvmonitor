@@ -188,6 +188,8 @@ void cctv::UpdateWarnBtnfunc()
 
 void cctv::PlayStyleChangedfunc()
 {
+    char acUrl[256] = {0};
+
     if(g_eNextPlayStyle == E_FOUR_VPLAY)
     {
         //将之前的单画面播放句柄关掉
@@ -231,7 +233,6 @@ void cctv::PlayStyleChangedfunc()
         for(int i=0;i<4;i++)
         {
             int  iNextVideoIdx = g_aiNextFourVideoIdx[i];
-            char acUrl[256] = {0};
 
             m_playWidget[i]->show();
 
@@ -239,6 +240,7 @@ void cctv::PlayStyleChangedfunc()
             {
                 if(g_pHplay[i] == NULL)
                 {
+                    memset(acUrl,0,sizeof (acUrl));
                     GetVideoRtspUrl(iNextVideoIdx,acUrl,sizeof(acUrl));
                     cmplayMultiInit(m_playWidget[i], i);
                     g_pHplay[i] = CMP_Init(m_RealMonitorVideos[i],CMP_VDEC_NORMAL);
@@ -291,7 +293,6 @@ void cctv::PlayStyleChangedfunc()
         if(g_iCurSingleVideoIdx != g_iNextSingleVideoIdx)
         {
             m_playSingleWidget->show();
-            char acUrl[256] = {0};
 
             if(g_hSinglePlay)
             {
@@ -299,7 +300,7 @@ void cctv::PlayStyleChangedfunc()
                 CMP_UnInit(g_hSinglePlay);
                 g_hSinglePlay = NULL;
             }
-
+            memset(acUrl,0,sizeof (acUrl));
             cmplayInit(m_playSingleWidget);
             GetVideoMainRtspUrl(g_iNextSingleVideoIdx,acUrl,sizeof(acUrl));
             g_hSinglePlay = CMP_Init(m_RealMonitorSingleVideo,CMP_VDEC_NORMAL);
@@ -323,6 +324,7 @@ void cctv::PlayStyleChangedfunc()
 
 void cctv::SinglePlayStylefunc()
 {
+    char acUrl[256] = {0};
 
     if(g_iNextSingleVideoIdx != g_iCurSingleVideoIdx)
     {
@@ -360,18 +362,14 @@ void cctv::SinglePlayStylefunc()
             {
                 CMP_CloseMedia(g_hSinglePlay);
                 g_iCurSingleVideoIdx = -1;
-
             }
             else
             {
-
                 iTmpCurIdx = g_iCurSingleVideoIdx;
                 hTmp = g_hSinglePlay;
                 g_hSinglePlay = NULL;
                 g_iCurSingleVideoIdx = -1;
                 CMP_SetDisplayEnable(hTmp,0);
-
-
             }
 
         }
@@ -386,7 +384,7 @@ void cctv::SinglePlayStylefunc()
             }
             else
             {
-                char acUrl[256] = {0};
+                memset(acUrl,0,sizeof (acUrl));
                 m_playSingleWidget->show();
                 GetVideoMainRtspUrl(g_iNextSingleVideoIdx ,acUrl,sizeof(acUrl));
 
@@ -473,18 +471,15 @@ void cctv::FourPlayStylefunc()
 {
     //单画面界面的视频发生了变化
     //从单到四 或从单到单 以及从四到单CMP_Init
+    char acUrl[256] = {0};
+
     if(g_iNextSingleVideoIdx != g_iCurSingleVideoIdx)
     {
-        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
-
         if(g_hSinglePlay)   //切换时都需要把前面单播放句柄的先关掉
         {
-
             CMP_CloseMedia(g_hSinglePlay);
             CMP_UnInit(g_hSinglePlay);
             g_hSinglePlay = NULL;
-            qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
-
         }
 
         if(g_iNextSingleVideoIdx != -1)   	//接下来要播放的为单画面视频
@@ -496,33 +491,25 @@ void cctv::FourPlayStylefunc()
                        //不需要播放的四画面视频关闭显示了
                     CMP_SetDisplayEnable(g_pHplay[i],0);
                     CMP_SetPlayState(g_pHplay[i], CMP_STATE_PAUSE);
-
                 }
-                qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
-
             }
-
-             char acUrl[256] = {0};
 
              m_playSingleWidget->show();
             if(g_hSinglePlay == NULL)
             {
-                 GetVideoMainRtspUrl(g_iNextSingleVideoIdx,acUrl,sizeof(acUrl));
-                 cmplayInit(m_playSingleWidget);
-                 g_hSinglePlay = CMP_Init(m_RealMonitorSingleVideo,CMP_VDEC_NORMAL);
-                 CMP_OpenMediaPreview(g_hSinglePlay, acUrl, CMP_TCP);
-                 CMP_PlayMedia(g_hSinglePlay);
-                 CMP_SetDisplayEnable(g_hSinglePlay,1);
-//                 qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
+                memset(acUrl,0,sizeof (acUrl));
+                GetVideoMainRtspUrl(g_iNextSingleVideoIdx,acUrl,sizeof(acUrl));
+                cmplayInit(m_playSingleWidget);
+                g_hSinglePlay = CMP_Init(m_RealMonitorSingleVideo,CMP_VDEC_NORMAL);
+                CMP_OpenMediaPreview(g_hSinglePlay, acUrl, CMP_TCP);
+                CMP_PlayMedia(g_hSinglePlay);
+                CMP_SetDisplayEnable(g_hSinglePlay,1);
 
             }
-
 
         }
         else   //接下来播放的是四视频
         {
-            qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
-
             m_playSingleWidget->hide();
             for(int i=0;i<4;i++)
             {
@@ -534,8 +521,6 @@ void cctv::FourPlayStylefunc()
                         CMP_CloseMedia(g_pHplay[i]);
                         CMP_UnInit(g_pHplay[i]);
                         g_pHplay[i] = NULL;
-                        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
-
                     }
                     g_aiCurFourVideoIdx[i] = -1;
                 }
@@ -565,18 +550,17 @@ void cctv::FourPlayStylefunc()
                          }
 
                         if(g_pHplay[i] == NULL)
-                         {
-                            qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
+                        {
 
-                              char acUrl[256] = {0};
-                              GetVideoRtspUrl(g_aiNextFourVideoIdx[i] ,acUrl,sizeof(acUrl));
-                              cmplayMultiInit(m_playWidget[i], i);
-                              g_pHplay[i] = CMP_Init(m_RealMonitorVideos[i],CMP_VDEC_NORMAL);
-                              CMP_OpenMediaPreview(g_pHplay[i], acUrl, CMP_TCP);
-                              CMP_PlayMedia(g_pHplay[i]);
-                              CMP_SetDisplayEnable(g_pHplay[i],1);
+                            memset(acUrl,0,sizeof (acUrl));
+                            GetVideoRtspUrl(g_aiNextFourVideoIdx[i] ,acUrl,sizeof(acUrl));
+                            cmplayMultiInit(m_playWidget[i], i);
+                            g_pHplay[i] = CMP_Init(m_RealMonitorVideos[i],CMP_VDEC_NORMAL);
+                            CMP_OpenMediaPreview(g_pHplay[i], acUrl, CMP_TCP);
+                            CMP_PlayMedia(g_pHplay[i]);
+                            CMP_SetDisplayEnable(g_pHplay[i],1);
 
-                          }
+                        }
                     }
                     g_aiCurFourVideoIdx[i] = g_aiNextFourVideoIdx[i];
                 }
@@ -584,7 +568,6 @@ void cctv::FourPlayStylefunc()
                 {
                     if(g_pHplay[i])
                     {
-                        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
                         CMP_SetPlayState(g_pHplay[i], CMP_STATE_PLAY);
                         CMP_SetDisplayEnable(g_pHplay[i],1);
                     }
@@ -601,10 +584,8 @@ void cctv::FourPlayStylefunc()
    }    //从四到四
    else if(-1 == g_iCurSingleVideoIdx )
    {
-//        qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
         m_playSingleWidget->hide();
-
        for(int i=0;i<4;i++)
        {
           if(g_aiCurFourVideoIdx[i] != g_aiNextFourVideoIdx[i])
@@ -624,14 +605,13 @@ void cctv::FourPlayStylefunc()
           {
                if(g_aiNextFourVideoIdx[i]!=-1)
                {
-                    char acUrl[256] = {0};
+                    memset(acUrl,0,sizeof (acUrl));
                     m_playWidget[i]->show();
                     GetVideoRtspUrl(g_aiNextFourVideoIdx[i] ,acUrl,sizeof(acUrl));
 
                     if(!g_imult_init_flag[i])
                     {
                       g_imult_init_flag[i] = 1;
-                      qDebug()<<"*******CMP_Init*******"<<__FUNCTION__<<__LINE__;
                       cmplayMultiInit(m_playWidget[i], i);
                       g_pHplay[i] = CMP_Init(m_RealMonitorVideos[i],CMP_VDEC_NORMAL);
                     }
@@ -640,7 +620,6 @@ void cctv::FourPlayStylefunc()
                     CMP_PlayMedia(g_pHplay[i]);
                     CMP_SetDisplayEnable(g_pHplay[i],1);
                     m_nodes[i].empty();
-                    qDebug()<<"**************"<<__FUNCTION__<<__LINE__;
 
                }
                g_aiCurFourVideoIdx[i] = g_aiNextFourVideoIdx[i];
@@ -1997,15 +1976,16 @@ void cctv::timeupdateSlot()
 void cctv::showcctvPage()
 {
     this->show();
+    char acUrl[256] = {0};
+
     if(E_FOUR_VPLAY == g_eCurPlayStyle)
     {
-        char acUrl[256] = {0};
         for(int i =0;i<4;i++)
         {
             m_playWidget[i]->show();
             if(g_pHplay[i] == NULL)
             {
-
+                memset(acUrl,0,sizeof (acUrl));
                 GetVideoRtspUrl(g_aiNextFourVideoIdx[i] ,acUrl,sizeof(acUrl));
 
                 cmplayMultiInit(m_playWidget[i], i);
@@ -2024,11 +2004,10 @@ void cctv::showcctvPage()
     }
     else
     {
-        char acUrl[256] = {0};
-
         m_playSingleWidget->show();
         if(g_hSinglePlay == NULL)
         {
+            memset(acUrl,0,sizeof (acUrl));
             GetVideoMainRtspUrl(g_iNextSingleVideoIdx ,acUrl,sizeof(acUrl));
 
             cmplayInit(m_playSingleWidget);
@@ -2064,15 +2043,15 @@ void cctv::showMonitorManagePage()
 
     if(E_FOUR_VPLAY == g_eCurPlayStyle)
     {
-       for(int i =0;i<4;i++)
-       {
-           if(g_pHplay[i])
-           {
+        for(int i =0;i<4;i++)
+        {
+            if(g_pHplay[i])
+            {
                CMP_CloseMedia(g_pHplay[i]);
                CMP_UnInit(g_pHplay[i]);
                g_pHplay[i] = NULL;
-           }
-      }
+            }
+        }
 
     }
     else
@@ -2083,7 +2062,6 @@ void cctv::showMonitorManagePage()
             CMP_CloseMedia(g_hSinglePlay);
             CMP_UnInit(g_hSinglePlay);
             g_hSinglePlay = NULL;
-
        }
 
    }

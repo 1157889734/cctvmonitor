@@ -69,7 +69,6 @@ void sysManage::getDevStateSignalCtrl()
                 DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] server %d status is offline\n", __FUNCTION__, i+1);
                 ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 4, new QTableWidgetItem(tr("离线")));
                 ui->devStatusTableWidget->item(m_aiServerIdex[i]-1, 4)->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-//                ui->devStatusTableWidget->setItem(m_aiServerIdex[i]-1, 4, new QTableWidgetItem(""));
 
             }
 
@@ -169,8 +168,6 @@ sysManage::sysManage(QWidget *parent) :
         for (int j = 0; j < MAX_CAMERA_OFSERVER; j++)
         {
             m_aiNvrOnlineFlag[i] = 0;
-//            m_aiCameraIdex[i][j] = 0;
-//            m_aiCameraOnlineFlag[i][j] = 0;
         }
     }
 

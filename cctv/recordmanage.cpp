@@ -99,7 +99,6 @@ recordManage::recordManage(QWidget *parent) :
 
     //参数初始化
     memset(&m_RealMonitorVideos, 0, sizeof(m_RealMonitorVideos));
-//    m_RealMonitorVideos.pRenderHandle = NULL;
     FileSearchTimer = NULL;
     m_pcRecordFileBuf = (char *)malloc(MAX_RECORD_SEACH_NUM*MAX_RECFILE_PATH_LEN);
     m_cmpHandle = NULL;
@@ -700,7 +699,6 @@ void recordManage::recordPlayCtrl(int iRow, int iDex)
         return;
     }
     sprintf(acRtspAddr,"rtsp://%s:554%s",szIp,m_acFilePath[iRow]);
-//    snprintf(acRtspAddr, sizeof(acRtspAddr), "rtsp://192.168.%d.81:554%s",4+100, m_acFilePath[iRow]);
     if (NULL == m_cmpHandle)
     {
         cmplayInit(playWidget);
@@ -786,10 +784,7 @@ void recordManage::NextBtnClicked()
        return;
     }
 
-
     closePlayWin();   //先关闭之前的
-//    emit setRecordPlayFlagSignal(1);
-
 
     recordPlayCtrl(iRow, iDex);
 
@@ -933,7 +928,6 @@ void recordManage::PrevBtnClicked()
     }
 
     closePlayWin();   //先关闭之前的
-//    emit setRecordPlayFlagSignal(1);
 
     recordPlayCtrl(iRow, iDex);
     ui->playNextOnePushButton->setEnabled(false);
@@ -1015,7 +1009,6 @@ void recordManage::DownBtnClicked()
 
 
 
-       qDebug()<<"****************"<<__FUNCTION__<<__LINE__;
        idex = ui->carSeletionComboBox->currentIndex();
 
        if (idex < 0)
@@ -1030,8 +1023,6 @@ void recordManage::DownBtnClicked()
        {
            return;
        }
-//       sprintf(acRtspAddr,"rtsp://%s:554%s",szIp,m_acFilePath[iRow]);
-//        snprintf(acIpAddr, sizeof(acIpAddr), "192.168.%d.81", 104);
        qDebug()<<"*************"<<acIpAddr<<__FUNCTION__<<__LINE__;
 
        if(m_tFtpHandle[idex] == 0)
@@ -1109,7 +1100,6 @@ void recordManage::recordPlaySlot(QTableWidgetItem *item)
     int iRow = 0, iDex = 0;
     closePlayWin();   //先关闭之前的
 
-//    emit setRecordPlayFlagSignal(1);
     iRow = item->row();
 
     ui->recordFileTableWidget->setEnabled(false);
@@ -1173,7 +1163,6 @@ void recordManage::closePlayWin()
         CMP_UnInit(m_cmpHandle);
 
         m_cmpHandle= NULL;
-//        emit setRecordPlayFlagSignal(0);
     }
 
     if (m_iRecordIdex >= 0 && ui->recordFileTableWidget->item(m_iRecordIdex, 2) != NULL && 0 == ui->recordFileTableWidget->item(m_iRecordIdex, 2)->text().contains("tmp"))
@@ -1505,7 +1494,6 @@ void recordManage::getTrainConfig()
         item = QString::number(i+1);
         item +=tr("车");
         ui->carSeletionComboBox->addItem(item);
-//        m_Phandle[i] = STATE_GetNvrServerPmsgHandle(i);
     }
 
     int iNvrNo = 1;
