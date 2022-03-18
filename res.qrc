@@ -182,5 +182,6 @@
         <file>res/time_dec.png</file>
         <file>res/time_dec_pressed.png</file>
         <file>res/bg_manforn.png</file>
+        <file>res/br2.png</file>
     </qresource>
 </RCC>

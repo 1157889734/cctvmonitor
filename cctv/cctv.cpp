@@ -689,15 +689,9 @@ void cctv::PlayCtrlFunSlot()
 
 void *monitorTread(void *param)
 {
-//    int i = 0, iRet = 0;
-    int iPollingTime = 0;
 
-//    int iPollingFlag = 0;
-    time_t tPollWarnStateCurTime = 0,tPollWarnStateOldTime = 0;
-    time_t tPollingCurTime = 0;
     time_t tGetDevStateCurTime = 0, tGetDevStateOldTime = 0;
     time_t tSetTimeCurTime = 0, tSetTimeOldTime = 0;
-    time_t tPlayTimeCurTime = 0, tPLayTimeOldTime = 0;
 
     struct sysinfo s_info;
 
@@ -706,18 +700,12 @@ void *monitorTread(void *param)
     {
         return NULL;
     }
-    tPollingCurTime = s_info.uptime;
     tGetDevStateCurTime = s_info.uptime;
     tSetTimeCurTime = s_info.uptime;
-    tPollWarnStateCurTime = s_info.uptime;
-    tPlayTimeCurTime = s_info.uptime;
 
     tGetDevStateOldTime = tGetDevStateCurTime;
     tSetTimeOldTime     = tSetTimeCurTime;
-    tPollWarnStateOldTime = tPollWarnStateCurTime;
-    tPLayTimeOldTime = tPlayTimeCurTime;
 
-    pvmsMonitorPage->tPollingOparateTime = tPollingCurTime - iPollingTime;//保证线程一进来，就进行一次循环处理
 
     pvmsMonitorPage->videoPollingfunction();
 
@@ -725,20 +713,6 @@ void *monitorTread(void *param)
 
     while (1 == pvmsMonitorPage->m_iThreadRunFlag)
     {
-        iPollingTime = g_iCycTime;
-        if (iPollingTime < 0)
-        {
-            usleep(500*1000);
-            continue;
-        }
-
-        if((g_iVideoCycleFlag == 1) && ((tPollingCurTime-pvmsMonitorPage->tPollingOparateTime) >= iPollingTime)) //轮询
-        {
-//            pvmsMonitorPage->videoPollingfunction();
-//            pvmsMonitorPage->triggerPollSignal();
-            pvmsMonitorPage->tPollingOparateTime = tPollingCurTime;
-
-        }
 
         if ((tGetDevStateCurTime - tGetDevStateOldTime) >= GET_DEVSTATE_MONITOR_TIME)  //设备状态更新
         {
@@ -757,56 +731,29 @@ void *monitorTread(void *param)
 
         }
 
-        if ((tPollWarnStateCurTime - tPollWarnStateOldTime) >= GET_DEVSTATE_WARN_TIME) //报警信息更新
-        {
-
-
-//            pvmsMonitorPage->triggerWarnInfoSignal();
-            tPollWarnStateOldTime = tPollWarnStateCurTime;
-
-        }
-
-//        if ((tPlayTimeCurTime - tPLayTimeOldTime) >= GET_VIDEO_PLAY_TIME) //
-        {
-
-
-//            pvmsMonitorPage->triggerPlaySignal();
-            tPLayTimeOldTime = tPlayTimeCurTime;
-
-        }
-
-
         usleep(200*1000);
         if(sysinfo(&s_info))
         {
             printf("\n\ncode error\n");
         }
-        tPollingCurTime = s_info.uptime;
         tGetDevStateCurTime = s_info.uptime;
         tSetTimeCurTime = s_info.uptime;
-        tPollWarnStateCurTime = s_info.uptime;
-        tPlayTimeCurTime =s_info.uptime;
     }
-
 
     return NULL;
 }
 void cctv::videoPollingfunction()
 {
-
     if(g_iVideoCycleFlag == 1)
     {
-
         if(E_FOUR_VPLAY == g_eCurPlayStyle)
          {
              g_iNextSingleVideoIdx = -1; //此时不能单画面显示了
              GetNextFourVideo(g_aiNextFourVideoIdx);
-
          }
          else
          {
              GetNextSingleVideo(&g_iNextSingleVideoIdx);
-
          }
         UpdateCamStatefunc();
 
@@ -849,9 +796,6 @@ cctv::cctv(QWidget *parent)
 
     connect(this,SIGNAL(sendWindIndexSignal(int)),this,SLOT(PlayWidCicked(int)));
     connect(this, SIGNAL(setTimeSignal()), this, SLOT(timeupdateSlot()));
-//    connect(this,SIGNAL(sendWarnSignal()),this,SLOT(updateWarnInfoSLot()));
-//    connect(this,SIGNAL(sendPollSignal()),this,SLOT(videoPollingfunction()));
-//    connect(this,SIGNAL(sendPlaySignal()),this,SLOT(PlayCtrlFunSlot()));
 
 
     m_iThreadRunFlag = 1;
@@ -952,21 +896,6 @@ void cctv::triggerSetTimeSignal()
 {
     emit setTimeSignal();
 }
-void cctv::triggerWarnInfoSignal()
-{
-    emit sendWarnSignal();
-}
-
-void cctv::triggerPlaySignal()
-{
-    emit sendPlaySignal();
-
-}
-void cctv::triggerPollSignal()
-{
-    emit sendPollSignal();
-}
-
 
 
 void cctv::cmplayInit(QWidget *g_widget)
@@ -1173,14 +1102,14 @@ void cctv::PlayWidCicked(int index)
         if(-1 != g_iCurSingleVideoIdx)  //当前如果为四画面播放
         {
             g_iNextSingleVideoIdx = -1;
-            pollTimer->start();
+//            pollTimer->start();
         }
         else if(iPlayWidIndex >=0 && iPlayWidIndex <4)
         {
             if(g_pHplay[iPlayWidIndex] /*&& CMP_GetStreamState(g_pHplay[iPlayWidIndex])*/)
             {
                 g_iNextSingleVideoIdx = g_aiCurFourVideoIdx[iPlayWidIndex];
-                pollTimer->stop();
+//                pollTimer->stop();
 
             }
         }
@@ -1354,14 +1283,16 @@ void cctv::setUi()
 
     }
 
-    videoGroupBtn[1][0] = ui->pushButton_1_1;
-    videoGroupBtn[1][1] = ui->pushButton_1_2;
-    videoGroupBtn[1][2] = ui->pushButton_1_3;
-    videoGroupBtn[1][3] = ui->pushButton_1_4;
     videoGroupBtn[0][0] = ui->pushButton_1_5;
     videoGroupBtn[0][1] = ui->pushButton_1_6;
     videoGroupBtn[0][2] = ui->pushButton_1_7;
     videoGroupBtn[0][3] = ui->pushButton_1_8;
+
+    videoGroupBtn[1][0] = ui->pushButton_1_1;
+    videoGroupBtn[1][1] = ui->pushButton_1_2;
+    videoGroupBtn[1][2] = ui->pushButton_1_3;
+    videoGroupBtn[1][3] = ui->pushButton_1_4;
+
 
     videoGroupBtn[2][0] = ui->pushButton_2_1;
     videoGroupBtn[2][1] = ui->pushButton_2_2;
@@ -1424,30 +1355,28 @@ void cctv::setUi()
 
     }
 
-
-
     m_playWidget[0] = new QWidget(this);
-    m_playWidget[0]->setGeometry(0,0,416,320);
+    m_playWidget[0]->setGeometry(0,0,416,304);
     m_playWidget[0]->setObjectName("m_playWidget0");
 
 
     m_playWidget[2] = new QWidget(this);
-    m_playWidget[2]->setGeometry(0,321,416,320);
+    m_playWidget[2]->setGeometry(0,305,416,304);
     m_playWidget[2]->setObjectName("m_playWidget1");
 
 
     m_playWidget[1] = new QWidget(this);
-    m_playWidget[1]->setGeometry(417,0,416,320);
+    m_playWidget[1]->setGeometry(417,0,416,304);
     m_playWidget[1]->setObjectName("m_playWidget2");
 
 
     m_playWidget[3] = new QWidget(this);
-    m_playWidget[3]->setGeometry(417,321,416,320);
+    m_playWidget[3]->setGeometry(417,305,416,304);
     m_playWidget[3]->setObjectName("m_playWidget3");
 
 
     m_playSingleWidget =new QWidget(this);
-    m_playSingleWidget->setGeometry(0,0,832,640);
+    m_playSingleWidget->setGeometry(0,0,832,608);
     m_playSingleWidget->setObjectName("m_playWidget");
 
 
@@ -1796,7 +1725,6 @@ void cctv::updateWarnInfoSLot()
                 ui->fourpushButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_01_nor.png)}");
                 g_eNextPlayStyle = E_FOUR_VPLAY;
                 g_iNextSingleVideoIdx  = -1;
-
             }
 
             //先找出不需要动的
@@ -2222,7 +2150,6 @@ void cctv::closeVideoCyc()
     if(g_iVideoCycleFlag == 1)
     {
         g_iVideoCycleFlag =0;
-
     }
 
     ui->openPollButton->setStyleSheet("QPushButton{border-image: url(:/res/btn_03_hig.png)}");

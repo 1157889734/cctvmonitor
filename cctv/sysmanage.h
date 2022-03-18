@@ -48,6 +48,7 @@ public slots:
     void lastpageSlot();
     void nextPageSlot();
     void getDevStateSignalCtrl();
+    void rebootSlot();
 
 signals:
     void hideSysPage();

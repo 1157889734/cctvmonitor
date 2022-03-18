@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#sysManage { 
-border-image: url(:/res/bg_system.png);} 
+border-image: url(:/res/bg_system0.png);} 
 #sysManage * { 
 border-image:url(); 
 }
@@ -24,11 +24,16 @@ border-image:url();
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>480</x>
      <y>330</y>
      <width>91</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(255, 255, 255);</string>
@@ -37,27 +42,11 @@ border-image:url();
     <string>   设备状态</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>750</x>
-     <y>330</y>
-     <width>91</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>   密码管理</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="restartButton">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>590</y>
+     <y>650</y>
      <width>91</width>
      <height>41</height>
     </rect>
@@ -79,7 +68,7 @@ background-color: rgb(252, 233, 79);</string>
    <property name="geometry">
     <rect>
      <x>910</x>
-     <y>660</y>
+     <y>650</y>
      <width>91</width>
      <height>41</height>
     </rect>
@@ -102,19 +91,20 @@ background-color: rgb(70, 173, 223);</string>
     <rect>
      <x>20</x>
      <y>360</y>
-     <width>482</width>
-     <height>200</height>
+     <width>981</width>
+     <height>261</height>
     </rect>
    </property>
    <property name="focusPolicy">
     <enum>Qt::NoFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-style: none;
-background-color: rgb(255, 255, 255);
+    <string notr="true">background-color: rgb(255, 255, 255);
 gridline-color: rgb(130, 135, 144);
 border-color: rgb(130, 135, 144);
-border-width: 1px;border-style: solid;</string>
+border-width: 2px;border-style: solid;
+
+</string>
    </property>
    <attribute name="horizontalHeaderVisible">
     <bool>true</bool>
@@ -128,6 +118,11 @@ border-width: 1px;border-style: solid;</string>
      <width>67</width>
      <height>17</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(255, 255, 255);</string>
@@ -149,11 +144,10 @@ border-width: 1px;border-style: solid;</string>
     <enum>Qt::NoFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-style: none;
-background-color: rgb(255, 255, 255);
+    <string notr="true">background-color: rgb(255, 255, 255);
 gridline-color: rgb(130, 135, 144);
 border-color: rgb(130, 135, 144);
-border-width: 1px;border-style: solid;</string>
+border-width: 2px;border-style: solid;</string>
    </property>
   </widget>
   <widget class="QLabel" name="yearLabel">
@@ -435,7 +429,6 @@ background-color: rgb(70, 173, 223);</string>
    </property>
   </widget>
   <zorder>label</zorder>
-  <zorder>label_2</zorder>
   <zorder>restartButton</zorder>
   <zorder>backButton</zorder>
   <zorder>devStatusTableWidget</zorder>

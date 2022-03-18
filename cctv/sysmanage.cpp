@@ -17,6 +17,8 @@
 #include <arpa/inet.h>
 #include <QFile>
 #include <QScrollBar>
+#include <QMessageBox>
+#include <QProcess>
 
 static int g_statusflag = 0;
 
@@ -127,11 +129,12 @@ sysManage::sysManage(QWidget *parent) :
     ui->devStatusTableWidget->setSelectionMode(QAbstractItemView::SingleSelection); //设置只能选择一行，不能多行选中
     ui->devStatusTableWidget->verticalHeader()->setVisible(false);
 
-    ui->devStatusTableWidget->horizontalHeader()->resizeSection(1,70);
-    ui->devStatusTableWidget->horizontalHeader()->resizeSection(2,70);
-    ui->devStatusTableWidget->horizontalHeader()->resizeSection(3,70);
-    ui->devStatusTableWidget->horizontalHeader()->resizeSection(4,70);
-    ui->devStatusTableWidget->horizontalHeader()->resizeSection(5,70);
+    ui->devStatusTableWidget->horizontalHeader()->resizeSection(0,150);
+    ui->devStatusTableWidget->horizontalHeader()->resizeSection(1,150);
+    ui->devStatusTableWidget->horizontalHeader()->resizeSection(2,150);
+    ui->devStatusTableWidget->horizontalHeader()->resizeSection(3,150);
+    ui->devStatusTableWidget->horizontalHeader()->resizeSection(4,150);
+//    ui->devStatusTableWidget->horizontalHeader()->resizeSection(5,200);
 //    ui->devStatusTableWidget->horizontalHeader()->resizeSection(6,70);
 
 
@@ -186,7 +189,7 @@ sysManage::sysManage(QWidget *parent) :
     connect(ui->searchWorkLogButton,SIGNAL(clicked()),this,SLOT(searchSystermLog()));
     connect(ui->LastPageButton,SIGNAL(clicked()),this,SLOT(lastpageSlot()));
     connect(ui->NextPageButton,SIGNAL(clicked()),this,SLOT(nextPageSlot()));
-
+    connect(ui->restartButton,SIGNAL(clicked()),this,SLOT(rebootSlot()));
 
     getTrainConfig();
 
@@ -200,6 +203,31 @@ sysManage::~sysManage()
 
 
     delete ui;
+}
+
+void sysManage::rebootSlot()
+{
+    static QMessageBox msgBox(QMessageBox::Question,QString(tr("提示")),QString(tr("是否重启？")));
+    msgBox.setWindowFlags(Qt::FramelessWindowHint);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.button(QMessageBox::Yes)->setText("Yes");
+    msgBox.button(QMessageBox::No)->setText("NO");
+    int iRet=msgBox.exec();
+    if(iRet != QMessageBox::Yes)
+    {
+        return;
+    }
+
+    T_LOG_INFO tLog;
+
+    memset(&tLog,0,sizeof(tLog));
+    tLog.iLogType = LOG_TYPE_SYS;
+    sprintf(tLog.acLogDesc,"cctv Client reboot");
+    LOG_WriteLog(&tLog);
+
+    QProcess *pro = new QProcess;
+    pro->start("reboot");
+
 }
 
 void sysManage::getNvrStatusCtrl(PMSG_HANDLE pHandle, char *pcMsgData)

@@ -1039,6 +1039,7 @@ void recordManage::DownBtnClicked()
     //               DebugPrint(DEBUG_UI_ERROR_PRINT, "[%s] connect to ftp server:%s error!\n", __FUNCTION__, acIpAddr);
            return;
        }
+       messageLable->hide();
 
        memset(acSaveFileName,0,sizeof (acSaveFileName));
        for (row = 0; row < ui->recordFileTableWidget->rowCount(); row++)
@@ -1073,6 +1074,7 @@ void recordManage::DownBtnClicked()
                }
 
            }
+
        }
 
        iRet = FTP_FileDownLoad(m_tFtpHandle[idex]);

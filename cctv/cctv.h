@@ -33,9 +33,9 @@ public:
 
     void triggerGetDevStateSignal();
     void triggerSetTimeSignal();
-    void triggerWarnInfoSignal();
-    void triggerPlaySignal();
-    void triggerPollSignal();
+//    void triggerWarnInfoSignal();
+//    void triggerPlaySignal();
+//    void triggerPollSignal();
 
     int FindCameBtnInfo(QAbstractButton* pbtn,int &iGroup,int &iNo);
 
@@ -140,9 +140,6 @@ signals:
     void getDevStateSignal();
     void setTimeSignal();
 
-    void sendWarnSignal();
-    void sendPlaySignal();
-    void sendPollSignal();
 
     void sendPLaySignal();
 private:

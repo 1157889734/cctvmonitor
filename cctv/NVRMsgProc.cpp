@@ -372,7 +372,7 @@ int NVR_GetFileInfo(int iNvrNo,T_CMD_PACKET *ptPkt)
 
 int NVR_CleanFileInfo(int iNvrNo)
 {
-    printf("*********iNvrNo=%d---g_tNVRNetnfo[iNvrNo].NVRMsgHandle=%s",iNvrNo,g_tNVRNetnfo[iNvrNo].NVRMsgHandle);
+//    printf("*********iNvrNo=%d---g_tNVRNetnfo[iNvrNo].NVRMsgHandle=%s",iNvrNo,g_tNVRNetnfo[iNvrNo].NVRMsgHandle);
 
 	if(iNvrNo <0 || iNvrNo >5 || 0 ==  g_tNVRNetnfo[iNvrNo].NVRMsgHandle)
 	{
