@@ -312,7 +312,12 @@ int sysManage::pmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsg
         }
         case SERV_CLI_MSG_TYPE_GET_IPC_STATUS_RESP:
         {
-
+            if (pcMsgData == NULL || iMsgDataLen != 16)
+            {
+                break;
+            }
+            else
+            {
                 T_IPC_STATUS *ptIpcstaus = (T_IPC_STATUS *)pcMsgData;
 
                 int iIndex = GetNvrVideoIdx(ptIpcstaus->i8CarriageNo, ptIpcstaus->i8DevPos);
@@ -321,6 +326,9 @@ int sysManage::pmsgCtrl(PMSG_HANDLE pHandle, unsigned char ucMsgCmd, char *pcMsg
                 GetVideoOnlineState(iIndex);
 
                 break;
+
+            }
+
         }
 
         default:

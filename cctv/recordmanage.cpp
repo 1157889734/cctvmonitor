@@ -984,15 +984,19 @@ void recordManage::DownBtnClicked()
        for (row = 0; row < ui->recordFileTableWidget->rowCount(); row++)    //先判断一次是否没有录像文件被选中，没有则弹框提示
        {
 
-           if(QWidget *w = ui->recordFileTableWidget->cellWidget(row,0))
+           if (ui->recordFileTableWidget->item(row, 0)->checkState() == Qt::Checked)
            {
-               QCheckBox *checkBox = (QCheckBox*)(w->children().at(0));
-
-               if(checkBox->checkState() == Qt::Checked)
-               {
-                  break;
-               }
+               break;
            }
+//           if(QWidget *w = ui->recordFileTableWidget->cellWidget(row,0))
+//           {
+//               QCheckBox *checkBox = (QCheckBox*)(w->children().at(0));
+
+//               if(checkBox->checkState() == Qt::Checked)
+//               {
+//                  break;
+//               }
+//           }
        }
 
        if (row == ui->recordFileTableWidget->rowCount())
@@ -1045,10 +1049,11 @@ void recordManage::DownBtnClicked()
        for (row = 0; row < ui->recordFileTableWidget->rowCount(); row++)
        {
 
-           if(QWidget *w = ui->recordFileTableWidget->cellWidget(row,0))
+           if (ui->recordFileTableWidget->item(row, 0)->checkState() == Qt::Checked)
+//           if(QWidget *w = ui->recordFileTableWidget->cellWidget(row,0))
            {
-               QCheckBox *checkBox = (QCheckBox*)(w->children().at(0));
-               if(checkBox->checkState() == Qt::Checked)
+//               QCheckBox *checkBox = (QCheckBox*)(w->children().at(0));
+//               if(checkBox->checkState() == Qt::Checked)
                {
                    if (parseFileName(m_acFilePath[row]) != NULL)
                    {
@@ -1209,19 +1214,24 @@ void recordManage::recordTableWidgetFillFunc()
 
         ui->recordFileTableWidget->insertRow(iParseIdex-1);//添加新的一行
 
+        QTableWidgetItem *checkBox = new QTableWidgetItem();
+        checkBox->setCheckState(Qt::Unchecked);
+        ui->recordFileTableWidget->setItem(iParseIdex-1, 0, checkBox);
+        ui->recordFileTableWidget->item(iParseIdex-1, 0)->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 
-        QWidget *checkWidget= new QWidget(this); //创建一个widget
 
-        QCheckBox *checkBox = new QCheckBox(checkWidget);
-        checkBox->setChecked(Qt::Unchecked);
-        QHBoxLayout *hLayout = new QHBoxLayout(); //创建布局
-        hLayout->addWidget(checkBox); //添加checkbox
-        hLayout->setMargin(0); //设置边缘距离 否则会很难看
-        hLayout->setAlignment(checkBox, Qt::AlignCenter); //居中
-        checkWidget->setLayout(hLayout); //设置widget的布局
+//        QWidget *checkWidget= new QWidget(this); //创建一个widget
 
-        checkBox->setStyleSheet(QString("QCheckBox {margin:3px;border:3px; border-color: rgb(170, 170, 170);border-width: 2px;border-style: solid}QCheckBox::indicator {width: %1px; height: %1px;}").arg(30));
-        ui->recordFileTableWidget->setCellWidget(iParseIdex-1, 0, checkWidget);
+//        QCheckBox *checkBox = new QCheckBox(checkWidget);
+//        checkBox->setChecked(Qt::Unchecked);
+//        QHBoxLayout *hLayout = new QHBoxLayout(); //创建布局
+//        hLayout->addWidget(checkBox); //添加checkbox
+//        hLayout->setMargin(0); //设置边缘距离 否则会很难看
+//        hLayout->setAlignment(checkBox, Qt::AlignCenter); //居中
+//        checkWidget->setLayout(hLayout); //设置widget的布局
+
+//        checkBox->setStyleSheet(QString("QCheckBox {margin:3px;border:3px; border-color: rgb(170, 170, 170);border-width: 2px;border-style: solid}QCheckBox::indicator {width: 25px; height: %1px;}").arg(20));
+//        ui->recordFileTableWidget->setCellWidget(iParseIdex-1, 0, checkWidget);
 
 
         item = QString::number(iParseIdex);
@@ -1342,8 +1352,8 @@ void recordManage::SearchBtnClicked()
 {
     int iRet = 0,  row = 0,i = 0;
     int year = 0, mon = 0, day = 0, hour = 0, min = 0, sec = 0;
-    memset(m_pcRecordFileBuf, 0, MAX_RECORD_SEACH_NUM*MAX_RECFILE_PATH_LEN);
-    m_iTotalLen = 0;
+//    memset(m_pcRecordFileBuf, 0, MAX_RECORD_SEACH_NUM*MAX_RECFILE_PATH_LEN);
+//    m_iTotalLen = 0;
 
     for (i = 0; i < MAX_RECORD_SEACH_NUM; i++)
     {

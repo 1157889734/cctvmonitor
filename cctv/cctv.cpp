@@ -1952,11 +1952,6 @@ void cctv::showcctvPage()
 
     g_iNeedUpdateWarnIcon = 1;
 
-    if(g_iVideoCycleFlag)
-    {
-        videoPollingfunction();
-    }
-
     usleep(1*1000);
     pollTimer->start();
 
