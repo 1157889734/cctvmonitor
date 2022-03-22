@@ -358,7 +358,7 @@ void sysManage::searchSystermLog()
     tTime.year = ui->yearLabel->text().toInt();
     tTime.month = ui->monthLabel->text().toInt();
     tTime.day = ui->dayLabel->text().toInt();
-    QString searchTime = QString("%1%2%3").arg(tTime.year).arg(tTime.month).arg(tTime.day);
+    QString searchTime = QString("%1%2%3").arg(tTime.year).arg(tTime.month,2,10,QLatin1Char('0')).arg(tTime.day,2,10,QLatin1Char('0'));
     if(file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);

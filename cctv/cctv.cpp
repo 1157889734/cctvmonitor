@@ -1102,14 +1102,12 @@ void cctv::PlayWidCicked(int index)
         if(-1 != g_iCurSingleVideoIdx)  //当前如果为四画面播放
         {
             g_iNextSingleVideoIdx = -1;
-//            pollTimer->start();
         }
         else if(iPlayWidIndex >=0 && iPlayWidIndex <4)
         {
             if(g_pHplay[iPlayWidIndex] /*&& CMP_GetStreamState(g_pHplay[iPlayWidIndex])*/)
             {
                 g_iNextSingleVideoIdx = g_aiCurFourVideoIdx[iPlayWidIndex];
-//                pollTimer->stop();
 
             }
         }

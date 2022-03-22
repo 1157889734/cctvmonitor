@@ -9,6 +9,7 @@
 #include "sysmanage.h"
 #include "NVRMsgProc.h"
 #include <QDebug>
+#include "signal.h"
 //#include "msgapp.h"
 
 #include <QApplication>
@@ -53,6 +54,8 @@ int main(int argc, char *argv[])
     int iRet = 0;
     T_LOG_INFO tLog;
     char acNvrServerIp[128] = {0};
+    signal(SIGPIPE,SIG_IGN);
+
     LOG_Init(LOG_FILE_DIR);    //本地日志模块初始化
 
     GetTLCDSoftVersion(g_acCCTVVersion,sizeof(g_acCCTVVersion));
