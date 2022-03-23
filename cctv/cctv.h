@@ -39,6 +39,14 @@ public:
 
     int FindCameBtnInfo(QAbstractButton* pbtn,int &iGroup,int &iNo);
 
+    int FindDoorBtnInfo(QAbstractButton* pbtn);
+
+    int FindDoorClipBtnInfo(QAbstractButton* pbtn);
+
+    int FindBoxPecuBtnInfo(QAbstractButton* pbtn);
+
+    int FindBoxFireBtnInfo(QAbstractButton* pbtn);
+
     bool eventFilter(QObject *target, QEvent *event);  //事件过滤器
     pthread_t monitorthread;
     int     m_iThreadRunFlag;
@@ -121,10 +129,10 @@ public slots:
     void timeupdateSlot();
     void PlayWidCicked(int index);
     void GroupButtonVideoClickSlot(QAbstractButton* btn);
-    void GroupButtonFireSlot(int index);
-    void GroupButtonDoorSlot(int index);
-    void GroupButtonDoorclipSlot(int index);
-    void GroupButtonPecuSlot(int index);
+    void GroupButtonFireSlot(QAbstractButton* btn);
+    void GroupButtonDoorSlot(QAbstractButton *btn);
+    void GroupButtonDoorclipSlot(QAbstractButton *btn);
+    void GroupButtonPecuSlot(QAbstractButton *btn);
     void PlayCtrlFunSlot();
 
     void updateWarnInfoSLot();

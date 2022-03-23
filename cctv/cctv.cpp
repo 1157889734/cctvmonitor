@@ -926,6 +926,61 @@ int cctv::FindCameBtnInfo(QAbstractButton* pbtn,int &iGroup,int &iNo)
     }
     return 0;
 }
+
+int cctv::FindDoorBtnInfo(QAbstractButton* pbtn)
+{
+
+    for(int i = 0; i < 24; i++)
+    {
+        if(m_pBoxDoor[i] == pbtn)
+        {
+            return i;
+        }
+    }
+    return 0;
+
+}
+
+int cctv::FindDoorClipBtnInfo(QAbstractButton* pbtn)
+{
+    for(int i = 0; i < 24; i++)
+    {
+        if(m_pBoxDoorClip[i] == pbtn)
+        {
+            return i;
+        }
+    }
+    return 0;
+
+}
+
+int cctv::FindBoxPecuBtnInfo(QAbstractButton* pbtn)
+{
+    for(int i = 0; i < 24; i++)
+    {
+        if(m_pBoxPecu[i] == pbtn)
+        {
+            return i;
+        }
+    }
+    return 0;
+
+}
+
+
+int cctv::FindBoxFireBtnInfo(QAbstractButton* pbtn)
+{
+    for(int i = 0; i < 6; i++)
+    {
+        if(m_pBoxFire[i] == pbtn)
+        {
+            return i;
+        }
+    }
+    return 0;
+
+}
+
 int cctv::GetNextFourVideo(int* piVideo)
 {
     int iGroup = -1,iPos = -1;
@@ -1195,60 +1250,77 @@ void cctv::GroupButtonVideoClickSlot(QAbstractButton* pbtn)
 
 }
 
-void cctv::GroupButtonFireSlot(int index)
+void cctv::GroupButtonFireSlot(QAbstractButton* btn)
 {
+    int index = 0;
     if(g_iWarnFreshed)
     {
         return ;
     }
 
+    index = FindBoxFireBtnInfo(btn);
     if(index >=0 )
     {
         g_iNextSingleVideoIdx = m_aiFireIdx[index];
     }
 
+    UpdateCamStatefunc();
 }
 
 
-void cctv::GroupButtonDoorSlot(int index)
+
+void cctv::GroupButtonDoorSlot(QAbstractButton *btn)
 {
+    int index = 0;
+
     if(g_iWarnFreshed)
     {
         return ;
     }
+
+    index = FindDoorBtnInfo(btn);
     if(index >=0 )
     {
         g_iNextSingleVideoIdx = m_aiDoorIdx[index];
-
     }
+    UpdateCamStatefunc();
+
 }
 
-void cctv::GroupButtonDoorclipSlot(int index)
+void cctv::GroupButtonDoorclipSlot(QAbstractButton *btn)
 {
+    int index = 0;
+
     if(g_iWarnFreshed)
     {
         return ;
     }
+    index = FindDoorClipBtnInfo(btn);
+
     if(index >=0 )
     {
         g_iNextSingleVideoIdx = m_aiDoorClipIdx[index];
 
     }
+    UpdateCamStatefunc();
 
 }
 
-void cctv::GroupButtonPecuSlot(int index)
+void cctv::GroupButtonPecuSlot(QAbstractButton *btn)
 {
+    int index = 0;
     if(g_iWarnFreshed)
     {
         return ;
     }
+    index = FindBoxPecuBtnInfo(btn);
     if(index >=0 )
     {
         g_iNextSingleVideoIdx = m_aiPecuIdx[index];
 
     }
 
+    UpdateCamStatefunc();
 
 }
 
@@ -1478,10 +1550,10 @@ void cctv::setUi()
     }
 
     connect(g_videoNumbuttonGroup, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(GroupButtonVideoClickSlot(QAbstractButton *)));
-    connect(g_fileButtonGroup,SIGNAL(buttonClicked(int)),this,SLOT(GroupButtonFireSlot(int)));
-    connect(g_doorButtonGroup,SIGNAL(buttonClicked(int)),this,SLOT(GroupButtonDoorSlot(int)));
-    connect(g_doorclipButtonGroup,SIGNAL(buttonClicked(int)),this,SLOT(GroupButtonDoorclipSlot(int)));
-    connect(g_PecuButtonGroup,SIGNAL(buttonClicked(int)),this,SLOT(GroupButtonPecuSlot(int)));
+    connect(g_fileButtonGroup,SIGNAL(buttonClicked(QAbstractButton *)),this,SLOT(GroupButtonFireSlot(QAbstractButton *)));
+    connect(g_doorButtonGroup,SIGNAL(buttonClicked(QAbstractButton *)),this,SLOT(GroupButtonDoorSlot(QAbstractButton *)));
+    connect(g_doorclipButtonGroup,SIGNAL(buttonClicked(QAbstractButton *)),this,SLOT(GroupButtonDoorclipSlot(QAbstractButton *)));
+    connect(g_PecuButtonGroup,SIGNAL(buttonClicked(QAbstractButton *)),this,SLOT(GroupButtonPecuSlot(QAbstractButton *)));
 
 
 
