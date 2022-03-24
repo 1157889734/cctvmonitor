@@ -1557,7 +1557,7 @@ void recordManage::hideRecPageSlots()
 {
     closePlayWin();   //先关闭之前的
     this->hide();
-    emit hideRecSysPage();
+    emit hideRecSysPage(RECORMANAGEDPAGE);
 }
 
 void recordManage::openStartTimeSetWidgetSlot()

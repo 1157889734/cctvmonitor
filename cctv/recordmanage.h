@@ -105,7 +105,7 @@ public slots:
     void manualSwitchVideoEndSlot();
     void manualtableSwitchVideoEndSlot();
 signals:
-    void hideRecSysPage();
+    void hideRecSysPage(int index);
     void recordTableWidgetFillSignal();
     void setSliderValueSignal(int iValue);
     void setRangeLabelSignal();

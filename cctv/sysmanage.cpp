@@ -560,7 +560,7 @@ void sysManage::hideSysPageSlots()
 {
 
     this->hide();
-    emit hideSysPage();
+    emit hideSysPage(SYSMANAGEPAGE);
 }
 
 void sysManage::setYear(int iYear)

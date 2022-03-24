@@ -16,6 +16,8 @@
 #define  VIDEO_CH_MAX_SIZE 32
 
 
+int g_iPageNumber = 0;
+
 typedef struct _T_CARRIAGE_WARN_INFO_
 {
     u8int cFireWarn;

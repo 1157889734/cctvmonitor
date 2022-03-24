@@ -21,7 +21,7 @@ public:
 public slots:
     void showMainfornPage();
     void menuButtonClick();
-    void hidePageSlots();
+    void hidePageSlots(int index);
     void pmsgTimerFunc();
     void getDevStateSlot();
 

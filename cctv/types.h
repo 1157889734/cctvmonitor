@@ -39,6 +39,8 @@ enum CMP_VDEC_TYPE
 };
 #endif
 
+
+
 typedef unsigned char           BYTE;
 typedef unsigned short		WORD;
 typedef int                     BOOL;

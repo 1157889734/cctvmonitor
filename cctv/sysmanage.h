@@ -51,7 +51,7 @@ public slots:
     void rebootSlot();
 
 signals:
-    void hideSysPage();
+    void hideSysPage(int index);
 
 private:
     Ui::sysManage *ui;

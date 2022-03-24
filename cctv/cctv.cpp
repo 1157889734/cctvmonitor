@@ -649,19 +649,19 @@ void cctv::PlayCtrlFunSlot()
     if(E_FOUR_VPLAY == g_eCurPlayStyle)
     {
         FourPlayStylefunc();
-
     }
     else
     {
         SinglePlayStylefunc();
-
     }
-
 
     if(g_iNeedUpdateWarnIcon)  //界面切换时,有可能将报警图标给挡住，所以最好是重新显示一次
     {
-        g_iNeedUpdateWarnIcon =0;
-        UpdateWarnBtnfunc();
+        if(g_iPageNumber == 0)
+        {
+            g_iNeedUpdateWarnIcon =0;
+            UpdateWarnBtnfunc();
+        }
     }
     if(g_iWarnFreshed == 1)
     {
@@ -669,9 +669,7 @@ void cctv::PlayCtrlFunSlot()
     }
     g_iWarnFreshed = 0;
 
-
     getPLayStrameState();
-
 
     playTimer->start();
 
@@ -1300,7 +1298,6 @@ void cctv::GroupButtonDoorclipSlot(QAbstractButton *btn)
     if(index >=0 )
     {
         g_iNextSingleVideoIdx = m_aiDoorClipIdx[index];
-
     }
     UpdateCamStatefunc();
 
@@ -1317,7 +1314,6 @@ void cctv::GroupButtonPecuSlot(QAbstractButton *btn)
     if(index >=0 )
     {
         g_iNextSingleVideoIdx = m_aiPecuIdx[index];
-
     }
 
     UpdateCamStatefunc();
@@ -1639,7 +1635,10 @@ void cctv::updateWarnInfoSLot()
                     aiWarnVideoIdx[iWarnNum] = iVideoIdx;
                     iWarnNum ++;
                     m_pBoxPecu[iCount]->setText(QString(acBuf));
-                    m_pBoxPecu[iCount]->show();
+                    if(g_iPageNumber == 0)
+                    {
+                        m_pBoxPecu[iCount]->show();
+                    }
                     iCount ++; //pecu报警数加1
 
                 }
@@ -1648,7 +1647,10 @@ void cctv::updateWarnInfoSLot()
                 {
                     m_aiPecuIdx[iCount] = iVideoIdx;
                     m_pBoxPecu[iCount]->setText(QString(acBuf));
-                    m_pBoxPecu[iCount]->show();
+                    if(g_iPageNumber == 0)
+                    {
+                        m_pBoxPecu[iCount]->show();
+                    }
                     iCount ++;
                     iFirst = 0;
                 }
@@ -1670,7 +1672,10 @@ void cctv::updateWarnInfoSLot()
 
                 GetVideoName(iVideoIdx, acBuf, sizeof(acBuf));
                 m_pBoxFire[iCount]->setText(QString(acBuf));
-                m_pBoxFire[iCount]->show();
+                if(g_iPageNumber == 0)
+                {
+                    m_pBoxFire[iCount]->show();
+                }
                 m_aiFireIdx[iCount] = iVideoIdx;
                 iCount ++;
 
@@ -1715,7 +1720,10 @@ void cctv::updateWarnInfoSLot()
                 {
                     GetVideoName(iVideoIdx, acBuf, sizeof(acBuf));
                     m_pBoxDoor[iCount]->setText(QString(acBuf));
-                    m_pBoxDoor[iCount]->show();
+                    if(g_iPageNumber == 0)
+                    {
+                        m_pBoxDoor[iCount]->show();
+                    }
                     aiDoorWarnVideoIdx[iCount] = iVideoIdx;
                     m_aiDoorIdx[iCount] = iVideoIdx;
                     iCount ++;
@@ -1756,7 +1764,10 @@ void cctv::updateWarnInfoSLot()
                 {
                     GetVideoName(iVideoIdx, acBuf, sizeof(acBuf));
                     m_pBoxDoorClip[iDoorClipCount]->setText(QString(acBuf));
-                    m_pBoxDoorClip[iDoorClipCount]->show();
+                    if(g_iPageNumber == 0)
+                    {
+                        m_pBoxDoorClip[iDoorClipCount]->show();
+                    }
                     aiDoorClipWarnVideoIdx[iDoorClipCount] = iVideoIdx;
                     m_aiDoorClipIdx[iDoorClipCount] = iVideoIdx;
                     iDoorClipCount ++;

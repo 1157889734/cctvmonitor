@@ -6,6 +6,8 @@
 #include "./pmsg/pmsgcli.h"
 #include <QDebug>
 
+static int g_ipageValue = 0;
+
 menuwidget::menuwidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::menuwidget)
@@ -28,8 +30,8 @@ menuwidget::menuwidget(QWidget *parent) :
 
     connect(ui->sysyPushButton,SIGNAL(clicked()),this,SLOT(menuButtonClick()));
     connect(ui->recpushButton,SIGNAL(clicked()),this,SLOT(menuButtonClick()));
-    connect(g_recordManage,SIGNAL(hideRecSysPage()),this,SLOT(hidePageSlots()));
-    connect(g_sysManage,SIGNAL(hideSysPage()),this,SLOT(hidePageSlots()));
+    connect(g_recordManage,SIGNAL(hideRecSysPage(int)),this,SLOT(hidePageSlots(int)));
+    connect(g_sysManage,SIGNAL(hideSysPage(int )),this,SLOT(hidePageSlots(int)));
     connect(this,SIGNAL(sendDeviceSignal()),g_sysManage,SLOT(getDevStateSignalCtrl()));
 
 
@@ -64,8 +66,10 @@ menuwidget::~menuwidget()
     delete ui;
 }
 
-void menuwidget::hidePageSlots()
+void menuwidget::hidePageSlots(int index)
 {
+    g_iPageNumber = 0;
+    g_ipageValue = index;
     this->hide();
     emit  sendhidesignal();
 }
@@ -73,9 +77,19 @@ void menuwidget::hidePageSlots()
 
 void menuwidget::showMainfornPage()
 {
-    ui->sysyPushButton->setStyleSheet("background-color: rgb(252, 233, 79)");
-    ui->recpushButton->setStyleSheet("background-color: rgb(23, 119, 244)");
-    g_sysManage->show();
+    g_iPageNumber = 1;
+    if(g_ipageValue == 0)
+    {
+        ui->sysyPushButton->setStyleSheet("background-color: rgb(252, 233, 79)");
+        ui->recpushButton->setStyleSheet("background-color: rgb(23, 119, 244)");
+        g_sysManage->show();
+    }
+    else
+    {
+        ui->recpushButton->setStyleSheet("background-color: rgb(252, 233, 79)");
+        ui->sysyPushButton->setStyleSheet("background-color: rgb(23, 119, 244)");
+        g_recordManage->show();
+    }
     this->show();
 }
 
@@ -101,10 +115,6 @@ void menuwidget::menuButtonClick()
         g_recordManage->closePlayWin();
         g_recordManage->hide();
         g_sysManage->show();
-
-
-
-
     }
     else
     {
