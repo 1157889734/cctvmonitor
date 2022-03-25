@@ -1333,9 +1333,9 @@ void cctv::setUi()
 
     for(int i=0;i<32;i++)
     {
-        snprintf(acImageData[0],sizeof(acImageData[0])-1,":/res/%d_noact.png",i+1);  //在线播放中
+        snprintf(acImageData[0],sizeof(acImageData[0])-1,":/res/%d_act.png",i+1);  //在线播放中
         snprintf(acImageData[1],sizeof(acImageData[0])-1,":/res/%d_act_nocon.png",i+1); //不在线播放中
-        snprintf(acImageData[2],sizeof(acImageData[0])-1,":/res/%d_act.png",i+1); //在线未播放
+        snprintf(acImageData[2],sizeof(acImageData[0])-1,":/res/%d_noact.png",i+1); //在线未播放
         snprintf(acImageData[3],sizeof(acImageData[0])-1,":/res/%d_no.png",i+1); //不在线未播放
         snprintf(acImageData[4],sizeof(acImageData[0])-1,":/res/%d_dis.png",i+1); //不在线未播放
 
@@ -1402,7 +1402,7 @@ void cctv::setUi()
             int iImgIndex = GetVideoImgIdx(iIndex);
             if(iIndex >= 0 && iImgIndex <=32 && iImgIndex >=1)
             {
-                videoGroupBtn[i][j]->setIcon(pImageBtn[iImgIndex -1][0]);
+                videoGroupBtn[i][j]->setIcon(pImageBtn[iImgIndex -1][3]);
                 videoGroupBtn[i][j]->setIconSize(QSize(60,50));
                 videoGroupBtn[i][j]->show();
             }
