@@ -10,13 +10,13 @@ CONFIG += c++11
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-TARGET = cctvtest
+TARGET = cctv
 
 #QMAKE_CFLAGS += $(STRIP) $(TAR_FILE)
 #QMAKE_CXXFLAGS += $(STRIP) $(TAR_FILE)
 
-QMAKE_CFLAGS += -g
-QMAKE_CXXFLAGS += -g
+#QMAKE_CFLAGS += -g
+#QMAKE_CXXFLAGS += -g
 
 INCLUDEPATH += $$PWD/include
 INCLUDEPATH += $$PWD/includeVdecc

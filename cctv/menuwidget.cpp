@@ -68,7 +68,10 @@ menuwidget::~menuwidget()
 
 void menuwidget::hidePageSlots(int index)
 {
-    g_iPageNumber = 0;
+    if(g_iPageNumber == 1)
+    {
+        g_iPageNumber = 0;
+    }
     g_ipageValue = index;
     this->hide();
     emit  sendhidesignal();
@@ -77,7 +80,10 @@ void menuwidget::hidePageSlots(int index)
 
 void menuwidget::showMainfornPage()
 {
-    g_iPageNumber = 1;
+    if(g_iPageNumber == 0)
+    {
+        g_iPageNumber = 1;
+    }
     if(g_ipageValue == 0)
     {
         ui->sysyPushButton->setStyleSheet("background-color: rgb(252, 233, 79)");

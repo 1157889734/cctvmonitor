@@ -35,7 +35,7 @@ public:
     pthread_t m_GetDevStatethreadId;      //
 
     T_NVR_STATE m_atNVRState[6];
-    int  rows_per_page = 10;
+    int  rows_per_page = 8;
     int cur_pages_index = 1 ; //当前所在页
     int total_pages = 1; //表格总页数
     int main_pages = 1; //主页页数

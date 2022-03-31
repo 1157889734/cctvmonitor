@@ -180,8 +180,15 @@ background-color: rgb(70, 173, 223);</string>
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <family>Ubuntu</family>
+     <pointsize>13</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 13pt &quot;Ubuntu&quot;;</string>
    </property>
   </widget>
   <widget class="QComboBox" name="cameraSelectionComboBox">
@@ -195,8 +202,18 @@ background-color: rgb(70, 173, 223);</string>
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <family>Ubuntu</family>
+     <pointsize>13</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 13pt &quot;Ubuntu&quot;;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">
@@ -231,8 +248,15 @@ background-color: rgb(70, 173, 223);</string>
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <family>Ubuntu</family>
+     <pointsize>13</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 13pt &quot;Ubuntu&quot;;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_9">

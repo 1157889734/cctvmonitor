@@ -637,7 +637,7 @@ void cctv::FourPlayStylefunc()
 void cctv::PlayCtrlFunSlot()
 {
 
-    playTimer->stop();
+//    playTimer->stop();
 
     if(g_eCurPlayStyle != g_eNextPlayStyle)
     {
@@ -671,7 +671,8 @@ void cctv::PlayCtrlFunSlot()
 
     getPLayStrameState();
 
-    playTimer->start();
+
+//    playTimer->start();
 
     return;
 
@@ -806,7 +807,8 @@ cctv::cctv(QWidget *parent)
     connect(playTimer,SIGNAL(timeout()),this,SLOT(PlayCtrlFunSlot()));
 
     updateWarnTimer = new QTimer(this);
-    updateWarnTimer->start(1000);
+    updateWarnTimer->setInterval(500);
+    updateWarnTimer->start();
     connect(updateWarnTimer,SIGNAL(timeout()),this,SLOT(updateWarnInfoSLot()));
 
 
@@ -1164,6 +1166,8 @@ void cctv::PlayWidCicked(int index)
 
             }
         }
+
+        UpdateCamStatefunc();
 
     }
     m_tPrevClickTime = tNow;
@@ -1579,7 +1583,7 @@ void cctv::updateWarnInfoSLot()
     iPecuWarnInfo = GetPecuWarnInfo();
     iPecuFirstWarnVideoIdx = GetPecuFirstWarnVideoIdx();
 
-    memset(aiWarnVideoIdx,0,sizeof(aiWarnVideoIdx));
+//    memset(aiWarnVideoIdx,0,sizeof(aiWarnVideoIdx));
     memset(aiDoorWarnVideoIdx,0xff,sizeof(aiDoorWarnVideoIdx));
     memset(aiDoorClipWarnVideoIdx,0xff,sizeof(aiDoorClipWarnVideoIdx));
 
@@ -1697,6 +1701,7 @@ void cctv::updateWarnInfoSLot()
 
         m_iFireCount = iCount;
 
+        qDebug()<<"************m_iFireCount="<<m_iFireCount<<"*****iWarnNum="<<iWarnNum<<__LINE__;
         iCount = 0;
         for(int i=0;i<6;i++)
             for(int j=0;j<8;j++)
@@ -1911,6 +1916,7 @@ void cctv::updateWarnInfoSLot()
         g_iWarnNum = iWarnNum;
         g_iWarn = iWarnNum >0?1:0;
 
+//        UpdateCamStatefunc();
     }
     return;
 }
@@ -2035,6 +2041,8 @@ void cctv::showcctvPage()
 
     usleep(1*1000);
     pollTimer->start();
+    updateWarnTimer->start();
+
 
 
 }
@@ -2044,7 +2052,7 @@ void cctv::showMonitorManagePage()
 {
 
     pollTimer->stop();
-
+    updateWarnTimer->stop();
     if(E_FOUR_VPLAY == g_eCurPlayStyle)
     {
         for(int i =0;i<4;i++)

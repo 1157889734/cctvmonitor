@@ -212,6 +212,21 @@ recordManage::recordManage(QWidget *parent) :
     ui->fastForwardPushButton->setFocusPolicy(Qt::NoFocus);
     ui->slowForwardPushButton->setFocusPolicy(Qt::NoFocus);
 
+    ui->carSeletionComboBox->setEditable(true);
+    ui->cameraSelectionComboBox->setEditable(true);
+    ui->videoComboBox->setEditable(true);
+
+    ui->carSeletionComboBox->setStyleSheet("QComboBox { min-height: 30px; min-width: 40px; }"
+            "QComboBox QAbstractItemView::item { min-height: 30px; min-width: 40px; }");
+
+    ui->cameraSelectionComboBox->setStyleSheet("QComboBox { min-height: 30px; min-width: 40px; }"
+            "QComboBox QAbstractItemView::item { min-height: 30px; min-width: 40px; }");
+
+
+    ui->videoComboBox->setStyleSheet("QComboBox { min-height: 30px; min-width: 40px; }"
+            "QComboBox QAbstractItemView::item { min-height: 30px; min-width: 40px; }");
+
+
     g_recordPlayThis = this;
 
 }
