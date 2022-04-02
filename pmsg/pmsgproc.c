@@ -293,6 +293,8 @@ int ParseBroadcastSysData(char *pcBuf, int iLen)
            GetDeviceCarriageNo(),pcBuf[2]);
 		} 
 	}
+    return 0;
+
 }
 
 int ParseVideoSourceData(char *pcBuf, int iLen)

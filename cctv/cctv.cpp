@@ -637,8 +637,6 @@ void cctv::FourPlayStylefunc()
 void cctv::PlayCtrlFunSlot()
 {
 
-//    playTimer->stop();
-
     if(g_eCurPlayStyle != g_eNextPlayStyle)
     {
         PlayStyleChangedfunc();
@@ -671,8 +669,6 @@ void cctv::PlayCtrlFunSlot()
 
     getPLayStrameState();
 
-
-//    playTimer->start();
 
     return;
 

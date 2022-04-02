@@ -187,6 +187,9 @@ background-color: rgb(70, 173, 223);</string>
      <bold>false</bold>
     </font>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">font: 13pt &quot;Ubuntu&quot;;</string>
    </property>
@@ -213,7 +216,7 @@ background-color: rgb(70, 173, 223);</string>
     <enum>Qt::NoFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 13pt &quot;Ubuntu&quot;;</string>
+    <string notr="true"/>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">
@@ -254,6 +257,9 @@ background-color: rgb(70, 173, 223);</string>
      <italic>false</italic>
      <bold>false</bold>
     </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 13pt &quot;Ubuntu&quot;;</string>

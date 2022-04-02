@@ -13,6 +13,7 @@
 #include <arpa/inet.h>
 #include <QCheckBox>
 #include <QHBoxLayout>
+#include <QDateTime>
 
 
 #define FTP_SERVER_PORT  21   //FTP服务器默认通信端?
@@ -216,15 +217,15 @@ recordManage::recordManage(QWidget *parent) :
     ui->cameraSelectionComboBox->setEditable(true);
     ui->videoComboBox->setEditable(true);
 
-    ui->carSeletionComboBox->setStyleSheet("QComboBox { min-height: 30px; min-width: 40px; }"
-            "QComboBox QAbstractItemView::item { min-height: 30px; min-width: 40px; }");
+    ui->carSeletionComboBox->setStyleSheet("QComboBox { min-height: 30px; min-width: 40px;font: normal normal 15px;}"
+            "QComboBox QAbstractItemView::item { min-height: 30px; min-width: 40px;font: normal normal 15px; }");
 
-    ui->cameraSelectionComboBox->setStyleSheet("QComboBox { min-height: 30px; min-width: 40px; }"
-            "QComboBox QAbstractItemView::item { min-height: 30px; min-width: 40px; }");
+    ui->cameraSelectionComboBox->setStyleSheet("QComboBox { min-height: 30px; min-width: 40px;font: normal normal 15px; }"
+            "QComboBox QAbstractItemView::item { min-height: 30px; min-width: 40px;font: normal normal 15px; }");
 
 
-    ui->videoComboBox->setStyleSheet("QComboBox { min-height: 30px; min-width: 40px; }"
-            "QComboBox QAbstractItemView::item { min-height: 30px; min-width: 40px; }");
+    ui->videoComboBox->setStyleSheet("QComboBox { min-height: 30px; min-width: 40px; font: normal normal 15px;}"
+            "QComboBox QAbstractItemView::item { min-height: 30px; min-width: 40px;font: normal normal 15px; }");
 
 
     g_recordPlayThis = this;
@@ -1370,6 +1371,13 @@ void recordManage::SearchBtnClicked()
 //    memset(m_pcRecordFileBuf, 0, MAX_RECORD_SEACH_NUM*MAX_RECFILE_PATH_LEN);
 //    m_iTotalLen = 0;
 
+    int startyear = 0, startmon = 0, startday = 0, starthour = 0, startmin = 0, startsec = 0;
+    short startyr = 0;
+
+    int endyear = 0, endmon = 0, endday = 0, endhour = 0, endmin = 0, endsec = 0;
+    short endyr = 0;
+
+
     for (i = 0; i < MAX_RECORD_SEACH_NUM; i++)
     {
         memset(m_acFilePath[i], 0, MAX_RECFILE_PATH_LEN);
@@ -1391,22 +1399,25 @@ void recordManage::SearchBtnClicked()
 
     int iDiscTime = 0;
 
-    sscanf(ui->startTimeLabel->text().toLatin1().data(), "%4d-%2d-%2d %2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec);
-    m_tStartTime.year = year;
-    m_tStartTime.mon = mon;
-    m_tStartTime.day = day;
-    m_tStartTime.hour = hour;
-    m_tStartTime.min = min;
-    m_tStartTime.sec = sec;
+    sscanf(ui->startTimeLabel->text().toLatin1().data(), "%4d-%2d-%2d %2d:%2d:%2d", &startyear, &startmon, &startday, &starthour, &startmin, &startsec);
+
+    startyr = startyear;
+    m_tStartTime.year = htons(startyr);
+    m_tStartTime.mon = startmon;
+    m_tStartTime.day = startday;
+    m_tStartTime.hour = starthour;
+    m_tStartTime.min = startmin;
+    m_tStartTime.sec = startsec;
 
 
-    sscanf(ui->endTimeLabel->text().toLatin1().data(), "%4d-%2d-%2d %2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec);
-    m_tEndTime.year = year;
-    m_tEndTime.mon = mon;
-    m_tEndTime.day = day;
-    m_tEndTime.hour = hour;
-    m_tEndTime.min = min;
-    m_tEndTime.sec = sec;
+    sscanf(ui->endTimeLabel->text().toLatin1().data(), "%4d-%2d-%2d %2d:%2d:%2d", &endyear, &endmon, &endday, &endhour, &endmin, &endsec);
+    endyr = endyear;
+    m_tEndTime.year = htons(endyr);
+    m_tEndTime.mon = endmon;
+    m_tEndTime.day = endday;
+    m_tEndTime.hour = endhour;
+    m_tEndTime.min = endmin;
+    m_tEndTime.sec = endsec;
 
     iDiscTime = (m_tEndTime.year - m_tStartTime.year)*366*24*3600
         +(m_tEndTime.mon - m_tStartTime.mon)*30*24*3600
@@ -1415,6 +1426,10 @@ void recordManage::SearchBtnClicked()
         +(m_tEndTime.min - m_tStartTime.min)*60
         +(m_tEndTime.sec - m_tStartTime.sec);
 
+    QDateTime startDate(QDate(startyr, startmon, startday), QTime(starthour, startmin, startsec));
+    QDateTime endDate(QDate(endyear, endmon, endday), QTime(endhour, endmin, endsec));
+
+    iDiscTime = startDate.daysTo(endDate);
 
 
     if(iDiscTime <= 0)
@@ -1427,7 +1442,7 @@ void recordManage::SearchBtnClicked()
         return;
     }
 
-    if(iDiscTime > 345600)
+    if(iDiscTime > 3)
     {
         messageLable->setText("搜索时间不能超过三天!");
         messageLable->setFont(QFont("宋体",16));
