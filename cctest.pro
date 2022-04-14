@@ -46,7 +46,7 @@ SOURCES += \
     cctv/recordmanage.cpp \
     cctv/sysmanage.cpp \
     cctv/timeset.cpp \
-    debugout/debug.c \
+#    debugout/debug.c \
     ftp/ftpApi.c \
     ftp/gb2312_utf8.c \
     log/log.c \
@@ -67,11 +67,12 @@ HEADERS += \
     cctv/sysmanage.h \
     cctv/timeset.h \
     cctv/types.h \
-    debugout/debug.h \
+#    debugout/debug.h \
+#    debugout/debug.h \
     ftp/ftpApi.h \
     ftp/gb2312_utf8.h \
     include/CMPlayerInterface.h \
-    include/debug.h \
+#    include/debug.h \
     include/mutex.h \
     include/rtspApi.h \
     include/rtspComm.h \

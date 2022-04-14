@@ -15,6 +15,14 @@
 #include "./log/log.h"
 #define  VIDEO_CH_MAX_SIZE 32
 
+#define USB_MOUNT_FLAG  1
+#define USB_UMOUNT_FLAG  0
+
+#define PROC_MOUNTS          "/proc/mounts"
+#define USB_MOUNT_PATH   "/mnt/ramfs/u"
+
+#define MAX_SIZE 32
+
 
 int g_iPageNumber = 0;
 
@@ -1090,6 +1098,36 @@ int STATE_FindUsbDev()
 
     fclose(pFile);
     return 0;
+}
+
+
+
+int MonitorUsbMount(void)
+{
+    FILE *fp = NULL;
+    char acBuf[MAX_SIZE];
+
+    fp = fopen(PROC_MOUNTS, "rb");
+    if (NULL == fp)
+    {
+        perror("open proc mounts");
+        return(-1);
+    }
+
+    while (fgets(acBuf, sizeof(acBuf), fp))
+    {
+        if (strstr(acBuf, USB_MOUNT_PATH) != NULL)
+        {
+            fclose(fp);
+            usleep(100000);
+            return USB_MOUNT_FLAG;
+        }
+    }
+
+    fclose(fp);
+    usleep(10000);
+
+    return USB_UMOUNT_FLAG;
 }
 
 

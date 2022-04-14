@@ -919,13 +919,16 @@ void *FTP_DownloadDataRecvThread(void *param)
 		return NULL;
 	}
 
+    memset(tFtpPkt.acSrcFileName, 0, sizeof(tFtpPkt.acSrcFileName));
+    memset(tFtpPkt.acDstFileName, 0, sizeof(tFtpPkt.acDstFileName));
+
     while (1 == ptFtpConnectionInfo->threadRunFlag)
     {		
     	if (0 == find_usbDev())
 		{
-            if (0 == access("/home/data/u/", F_OK))
+            if (0 == access("/mnt/ramfs/u/", F_OK))
             {
-                system("rm -r /home/data/u/");
+                system("rm -r /mnt/ramfs/u/");
             }
 			iPos = -1;  //暂定回调进度-1，表示告知U盘已拔出
 			goto FAIL;
@@ -1048,9 +1051,9 @@ void *FTP_DownloadDataRecvThread(void *param)
 			{	
 				if (0 == find_usbDev())
 				{
-                    if (0 == access("/home/data/u/", F_OK))
+                    if (0 == access("/mnt/ramfs/u/", F_OK))
                     {
-                        system("rm -r /home/data/u/");
+                        system("rm -r /mnt/ramfs/u/");
                     }
 					iPos = -1;  //暂定回调进度-1，表示告知U盘已拔出
 					break;
@@ -1079,9 +1082,9 @@ void *FTP_DownloadDataRecvThread(void *param)
 								}
 								else
 								{
-                                    if (0 == access("/home/data/u/", F_OK))
+                                    if (0 == access("/mnt/ramfs/u/", F_OK))
                                     {
-                                        system("rm -r /home/data/u/");
+                                        system("rm -r /mnt/ramfs/u/");
                                     }
 									iPos = -1;  //暂定回调进度-1，表示告知U盘已拔出
 								}
@@ -1122,7 +1125,6 @@ void *FTP_DownloadDataRecvThread(void *param)
 						    	FD_CLR(ptFtpConnectionInfo->data_socket, &ptFtpConnectionInfo->readSet);
 						    	FTP_CloseClientDataSocket(ptFtpConnectionInfo);
                                 DebugPrint(DEBUG_ERROR_PRINT, "11recv err,iRecvLen=%d\n",iRecvLen);
-                                iPos = -3; //暂定回调进度-3，表示告知数据接收失败
 						    }
 
 					        break;
@@ -1163,20 +1165,28 @@ void *FTP_DownloadDataRecvThread(void *param)
 			fclose(fp);
 		    fp = NULL;
             system("sync");
-		FAIL:
-		    if ((100 == iPos) || (-1 == iPos) || (-2 == iPos) || (-3 == iPos))
-		    {
-				ptFtpConnectionInfo->pFtpProcFunc((PFTP_HANDLE)ptFtpConnectionInfo, iPos);
-				if ((-1 == iPos) || (-2 == iPos) || (-3 == iPos))
-				{
-					memset(&tLogInfo, 0, sizeof(T_LOG_INFO));
-					tLogInfo.iLogType = 0;
-					snprintf(tLogInfo.acLogDesc, sizeof(tLogInfo.acLogDesc), "Download: %s of nvr server %s failed", sendfilename, ip_str);
-					LOG_WriteLog(&tLogInfo);
-				}
-		    }
+            if(iPos < 0 || iPos == 100)
+            {
+                goto FAIL;
+            }
+
 	    }
 	    usleep(100*1000);
+    }
+
+FAIL:
+    if ((100 == iPos) || (-1 == iPos) || (-2 == iPos) || (-3 == iPos))
+    {
+        printf("***************%s----------%d\n",__FUNCTION__,__LINE__);
+        ptFtpConnectionInfo->pFtpProcFunc((PFTP_HANDLE)ptFtpConnectionInfo, iPos);
+        if ((-1 == iPos) || (-2 == iPos) || (-3 == iPos))
+        {
+            printf("***************%s----------%d\n",__FUNCTION__,__LINE__);
+            memset(&tLogInfo, 0, sizeof(T_LOG_INFO));
+            tLogInfo.iLogType = 0;
+            snprintf(tLogInfo.acLogDesc, sizeof(tLogInfo.acLogDesc), "Download: %s of nvr server %s failed", sendfilename, ip_str);
+            LOG_WriteLog(&tLogInfo);
+        }
     }
     
     return NULL;
@@ -1449,7 +1459,7 @@ int FTP_FileDownLoad(PFTP_HANDLE pFtpHandle)
 {
 	int iRet = 0;
 	PT_FTP_CONNECTION_INFO ptFtpConnectionInfo = (PT_FTP_CONNECTION_INFO)pFtpHandle;
-//    pthread_detach(pthread_self());
+    pthread_detach(pthread_self());
 
     if (NULL == ptFtpConnectionInfo)
     {

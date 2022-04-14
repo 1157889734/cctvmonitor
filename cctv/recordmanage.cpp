@@ -962,13 +962,13 @@ void recordManage::DownBtnClicked()
 {
     int iRet = 0, idex = 0, row = 0;
     QString filename = "";
-    QString fileSavePath = "/mnt/usb/u/";
+    QString fileSavePath = "/mnt/ramfs/u/";
     char acIpAddr[32] = {0};
     char acSaveFileName[128] = {0};
 
 
 
-    if (access("/home/data/u/", F_OK) < 0)
+    if (access("/mnt/ramfs/u/", F_OK) < 0)
     {
         DebugPrint(DEBUG_UI_MESSAGE_PRINT, "recordPlayWidget not get USB device!\n");
 
@@ -981,7 +981,7 @@ void recordManage::DownBtnClicked()
     }
     else
     {
-        if (0 == STATE_FindUsbDev())   //这里处理一个特殊情况:U盘拔掉是umount失败，/mnt/usb/u/路径还存在，但是实际U盘是没有再插上的
+        if (0 == MonitorUsbMount())   //这里处理一个特殊情况:U盘拔掉是umount失败，/mnt/usb/u/路径还存在，但是实际U盘是没有再插上的
         {
             DebugPrint(DEBUG_UI_MESSAGE_PRINT, "recordPlayWidget not get USB device!\n");
 
@@ -992,6 +992,18 @@ void recordManage::DownBtnClicked()
 
             return;
         }
+    }
+
+    if (ui->recordFileTableWidget->rowCount() <= 0)
+    {
+
+        messageLable->setText("没有录像文件!");
+        messageLable->setFont(QFont("宋体",12));
+        messageLable->setStyleSheet("color:red;");
+        messageLable->show();
+
+        return;
+
     }
 
 
@@ -1073,7 +1085,7 @@ void recordManage::DownBtnClicked()
                {
                    if (parseFileName(m_acFilePath[row]) != NULL)
                    {
-                       snprintf(acSaveFileName, sizeof(acSaveFileName), "%s%s", "/home/data/u/", parseFileName(m_acFilePath[row]));
+                       snprintf(acSaveFileName, sizeof(acSaveFileName), "%s%s", "/mnt/ramfs/u/", parseFileName(m_acFilePath[row]));
                    }
 
                    DebugPrint(DEBUG_UI_NOMAL_PRINT, "[%s] add download file:%s!\n", __FUNCTION__, m_acFilePath[row]);

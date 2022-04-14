@@ -6,7 +6,7 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include "state/fileConfig.h"
-#include "./debugout/debug.h"
+#include "debugout/debug.h"
 
 static int strstrim(char *psrc,char *pdst)
 {	

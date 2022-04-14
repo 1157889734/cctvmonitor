@@ -381,7 +381,6 @@ void sysManage::searchSystermLog()
                 }
 
                 strtime.replace(QRegExp("s"),"");
-
             }
             else
             {
@@ -395,8 +394,6 @@ void sysManage::searchSystermLog()
                 }
 
                 strtime.replace(QRegExp("o"),"");
-
-
             }
 
 
